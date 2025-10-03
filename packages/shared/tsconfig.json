@@ -1,0 +1,8 @@
+{
+  "extends": "@vencord-companion/tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+  },
+  "include": ["src"]
+}

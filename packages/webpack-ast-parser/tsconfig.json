@@ -1,0 +1,17 @@
+{
+  "extends": "@vencord-companion/tsconfig",
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+  },
+  "references": [
+    {
+      "path": "../ast-parser"
+    },
+    {
+      "path": "../shared"
+    }
+  ],
+  "include": ["src"]
+}

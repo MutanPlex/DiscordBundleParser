@@ -1,0 +1,19 @@
+{
+    "references": [
+        {
+            "path": "packages/ast-parser",
+        },
+        {
+            "path": "packages/shared",
+        },
+        {
+            "path": "packages/vencord-ast-parser",
+        },
+        {
+            "path": "packages/webpack-ast-parser",
+        },
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}

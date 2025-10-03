@@ -1,0 +1,27 @@
+{
+  "name": "@vencord-companion/ast-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "LGPL-3.0-or-later",
+  "packageManager": "pnpm@10.15.0",
+  "dependencies": {
+    "@vencord-companion/shared": "workspace:*"
+  },
+  "exports": {
+    "./*": "./dist/*.js"
+  },
+  "peerDependencies": {
+    "@sadan4/devtools-pretty-printer": "catalog:",
+    "ts-api-utils": "catalog:",
+    "typescript": "catalog:"
+  },
+  "devDependencies": {
+    "vitest": "catalog:"
+  }
+}
