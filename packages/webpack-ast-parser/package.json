@@ -6,7 +6,8 @@
   "scripts": {
     "preversion": "mkdir .git || :",
     "bump": "npm version",
-    "postversion": "rmdir .git"
+    "postversion": "rmdir .git",
+    "build": "tsc -b"
   },
   "keywords": [],
   "author": {

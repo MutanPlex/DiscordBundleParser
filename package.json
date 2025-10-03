@@ -1,13 +1,14 @@
 {
   "name": "ast-parser",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
-    "build": "tsc -b"
+    "pack-all": "pnpm -r build && pnpm -r --filter !. pack"
   },
   "keywords": [],
   "author": "",
