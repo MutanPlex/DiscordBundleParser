@@ -38,19 +38,6 @@ export function allKeys<T extends object>(obj: T): (keyof T)[] {
         .map(([k]) => k);
 }
 
-export function mapEntries<
-    T extends object,
-    K extends keyof T = keyof T,
->(obj: T, fn: (key: K, value: T[K]) => T[K]): T {
-    const newObj = { ...obj };
-
-    for (const key in allKeys(newObj)) {
-        newObj[key] = fn(key as K, newObj[key]);
-    }
-
-    return newObj;
-}
-
 export function containsPosition(range: ExportMap<Range> | Range[], pos: Position): boolean {
     if (Array.isArray(range)) {
         return range.some((r) => r.contains(pos));

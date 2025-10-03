@@ -17,7 +17,6 @@
         "resolveJsonModule": true,
         "experimentalDecorators": true,
         // TODO: remove
-        "noImplicitAny": false,
         "preserveSymlinks": false,
         "types": [],
         "incremental": true,

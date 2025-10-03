@@ -1,8 +1,8 @@
+import { ConstructorDeclaration, FunctionLikeDeclaration, Identifier, Node, PropertyAssignment } from "typescript";
+
 import { IRange, Range } from "@vencord-companion/shared/Range";
 
 import { WebpackAstParser } from "./WebpackAstParser";
-
-import { ConstructorDeclaration, FunctionLikeDeclaration, Identifier, Node, PropertyAssignment } from "typescript";
 
 export type ExportMap<T> = {
     [WebpackAstParser.SYM_CJS_DEFAULT]?: T[] | ExportMap<T>;

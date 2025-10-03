@@ -1805,11 +1805,13 @@ export class WebpackAstParser extends AstParser {
         let i = 0;
 
 
-        while ((cur = cur[exportNames[i++]])) {
-            if (cur[WebpackAstParser.SYM_HOVER]) {
+        while ((cur = (cur as any)[exportNames[i++]])) {
+            if (Array.isArray(cur) || typeof cur === "string") {
+                break;
+            } else if (cur[WebpackAstParser.SYM_HOVER]) {
                 lastHover = cur[WebpackAstParser.SYM_HOVER];
-            } else if (cur[WebpackAstParser.SYM_CJS_DEFAULT]?.[WebpackAstParser.SYM_HOVER]) {
-                lastHover = cur[WebpackAstParser.SYM_CJS_DEFAULT]?.[WebpackAstParser.SYM_HOVER];
+            } else if ((cur[WebpackAstParser.SYM_CJS_DEFAULT] as RangeExportMap)?.[WebpackAstParser.SYM_HOVER]) {
+                lastHover = (cur[WebpackAstParser.SYM_CJS_DEFAULT] as RangeExportMap)?.[WebpackAstParser.SYM_HOVER];
             } else {
                 lastHover = undefined;
             }

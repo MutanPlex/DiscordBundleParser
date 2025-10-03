@@ -1,5 +1,9 @@
 const SYM_UNCACHED = Symbol("uncached");
 
+type CacheTarget = {
+    [key: symbol]: typeof SYM_UNCACHED | any;
+};
+
 /**
  * Caches the result of a function and provides an option to invalidate the cache.
  *
@@ -21,7 +25,7 @@ export function Cache(invalidate?: (() => void)[]) {
         TypedPropertyDescriptor<_<P>> | void {
         const sym = Symbol(`cache-${propertyKey.toString()}`);
 
-        target[sym] = SYM_UNCACHED;
+        (target as CacheTarget)[sym] = SYM_UNCACHED;
 
         type A = Parameters<P>;
 
@@ -36,13 +40,15 @@ export function Cache(invalidate?: (() => void)[]) {
             throw new Error("Function has parameters");
         }
         descriptor.value = function (...args: A): R {
-            if (this[sym] === SYM_UNCACHED) {
+            const t = this as CacheTarget;
+
+            if (t[sym] === SYM_UNCACHED) {
                 invalidate?.push(() => {
-                    this[sym] = SYM_UNCACHED;
+                    t[sym] = SYM_UNCACHED;
                 });
-                this[sym] = orig.apply(this, args);
+                t[sym] = orig.apply(t, args);
             }
-            return this[sym];
+            return t[sym];
         };
     };
 }
@@ -58,7 +64,7 @@ export function CacheGetter(invalidate?: (() => void)[]) {
         TypedPropertyDescriptor<T> | void {
         const sym = Symbol(`cache-${propertyKey.toString()}`);
 
-        target[sym] = SYM_UNCACHED;
+        (target as CacheTarget)[sym] = SYM_UNCACHED;
 
         const orig = descriptor?.get;
 
@@ -66,13 +72,15 @@ export function CacheGetter(invalidate?: (() => void)[]) {
             throw new Error("Not a getter");
         }
         descriptor.get = function (): T {
-            if (this[sym] === SYM_UNCACHED) {
+            const t = this as CacheTarget;
+
+            if (t[sym] === SYM_UNCACHED) {
                 invalidate?.push(() => {
-                    this[sym] = SYM_UNCACHED;
+                    t[sym] = SYM_UNCACHED;
                 });
-                this[sym] = orig.apply(this);
+                t[sym] = orig.apply(t);
             }
-            return this[sym];
+            return t[sym];
         };
         return descriptor;
     };
