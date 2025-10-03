@@ -14,8 +14,15 @@
   "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.15.1",
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^5.4.0",
+    "@types/node": "catalog:",
+    "@typescript-eslint/eslint-plugin": "^8.45.0",
     "@vencord-companion/tsconfig": "workspace:*",
+    "eslint": "^9.36.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.2.0",
     "typescript": "catalog:",
+    "typescript-eslint": "^8.45.0",
     "vitest": "catalog:"
   }
 }

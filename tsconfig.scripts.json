@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "emitDeclarationOnly": true,
+        "outDir": "node_modules/.noEmit",
+        "lib": [
+            "ESNext",
+        ],
+    },
+    "files": [
+        "eslint.config.mts"
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}

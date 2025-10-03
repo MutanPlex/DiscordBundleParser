@@ -12,6 +12,9 @@
         {
             "path": "packages/webpack-ast-parser",
         },
+        {
+            "path": "./tsconfig.scripts.json"
+        }
     ],
     "exclude": [
         "node_modules",
