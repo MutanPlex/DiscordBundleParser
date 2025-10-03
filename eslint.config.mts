@@ -1,11 +1,10 @@
 import stylistic, { type RuleOptions } from "@stylistic/eslint-plugin";
-
 import { Linter } from "eslint";
+import { defineConfig } from "eslint/config";
 import { type ESLintRules as IESLintRules } from "eslint/rules";
-import {defineConfig} from "eslint/config";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import unusedImports from "eslint-plugin-unused-imports";
-import TSEslint, { type ConfigArray } from "typescript-eslint";
+import TSEslint from "typescript-eslint";
 
 // cursed
 
@@ -620,7 +619,6 @@ export default defineConfig({ ignores: ["dist", "node_modules", "**/__test__/**"
             "error",
             {
                 groups: [
-                    ["^@.+$"],
                     ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$", "^\\.\\.(?!/?$)", "^\\.\\./?$"],
                     ["^(assert|buffer|child_process|cluster|console|constants|crypto|dgram|dns|domain|events|fs|http|https|module|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|sys|timers|tls|tty|url|util|vm|zlib|freelist|v8|process|async_hooks|http2|perf_hooks)(/.*|$)"],
                 ],
