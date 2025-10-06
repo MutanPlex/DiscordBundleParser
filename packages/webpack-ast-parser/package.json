@@ -19,10 +19,12 @@
   },
   "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.15.0",
-  "peerDependencies": {
+  "dependencies": {
     "@sadan4/devtools-pretty-printer": "catalog:",
     "@vencord-companion/ast-parser": "workspace:*",
-    "@vencord-companion/shared": "workspace:*",
+    "@vencord-companion/shared": "workspace:*"
+  },
+  "peerDependencies": {
     "ts-api-utils": "catalog:",
     "typescript": "catalog:"
   },

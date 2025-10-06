@@ -1,11 +1,12 @@
 import { Format } from "@sadan4/devtools-pretty-printer";
-import { isAccessorDeclaration, type VariableInfo } from "ts-api-utils";
+import { type VariableInfo } from "ts-api-utils";
 import {
     type CallExpression,
     type ClassDeclaration,
     createSourceFile,
     type Expression,
     type Identifier,
+    isAccessor,
     isArrowFunction,
     isBinaryExpression,
     isBlock,
@@ -1584,7 +1585,7 @@ export class WebpackAstParser extends AstParser {
                     continue;
                 }
                 ret.props[member.name.getText()] = member.initializer;
-            } else if (isAccessorDeclaration(member)) {
+            } else if (isAccessor(member)) {
                 if (!member.body)
                     continue;
                 ret.methods[member.name.getText()] = member;
@@ -1710,7 +1711,7 @@ export class WebpackAstParser extends AstParser {
                 arr.push(member.getChildAt(0));
             } else if (isPropertyDeclaration(member)) {
                 ret[member.name.getText()] = [member.name];
-            } else if (isAccessorDeclaration(member)) {
+            } else if (isAccessor(member)) {
                 if (!member.body)
                     continue;
                 ret[member.name.getText()] = [member.name];

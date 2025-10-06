@@ -16,7 +16,7 @@ catalogs:
       specifier: ^2.1.0
       version: 2.1.0
     typescript:
-      specifier: ^5.9.3
+      specifier: ^5.0.0
       version: 5.9.3
     vitest:
       specifier: ^3.2.4
@@ -101,13 +101,13 @@ importers:
       ts-api-utils:
         specifier: 'catalog:'
         version: 2.1.0(patch_hash=345aaf95fe62bd3fbc109183d2d43f9319d340cd32cc554d31dae15f9887dd67)(typescript@5.9.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
         version: 24.6.2
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
       vitest:
         specifier: 'catalog:'
         version: 3.2.4(@types/node@24.6.2)(@vitest/ui@3.2.4)
@@ -126,10 +126,10 @@ importers:
       ts-api-utils:
         specifier: 'catalog:'
         version: 2.1.0(patch_hash=345aaf95fe62bd3fbc109183d2d43f9319d340cd32cc554d31dae15f9887dd67)(typescript@5.9.3)
-    devDependencies:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+    devDependencies:
       vitest:
         specifier: 'catalog:'
         version: 3.2.4(@types/node@24.6.2)(@vitest/ui@3.2.4)

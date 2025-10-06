@@ -17,14 +17,14 @@
   "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
-    "@vencord-companion/shared": "workspace:*"
+    "@vencord-companion/shared": "workspace:*",
+    "@sadan4/devtools-pretty-printer": "catalog:"
   },
   "exports": {
     "./*": "./dist/*.js",
     ".": "./dist/index.js"
   },
   "peerDependencies": {
-    "@sadan4/devtools-pretty-printer": "catalog:",
     "ts-api-utils": "catalog:",
     "typescript": "catalog:"
   },
