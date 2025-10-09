@@ -5,14 +5,14 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "pre_test": "pnpm build-all",
+    "pretest": "pnpm build-all",
     "_test": "vitest",
     "test": "pnpm _test run",
     "test:watch": "pnpm _test",
     "test:ui": "pnpm _test --ui",
-    "build-all": "tsc -b",
-    "pack-all": "pnpm build-all && pnpm -r --filter !. pack",
-    "pub-all": "pnpm -r publish --access public"
+    "build-all": "pnpm -r --parallel build",
+    "pack-all": "pnpm build-all && pnpm --parallel -r --filter !. pack",
+    "pub-all": "pnpm -r --parallel publish --access public"
   },
   "keywords": [],
   "author": "",
