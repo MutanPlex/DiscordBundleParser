@@ -36,4 +36,8 @@ function(e, t, n) {
             })
         });
     }
+    function func_3() {
+        const foo = n(333333).U;
+        return foo;
+    }
 }

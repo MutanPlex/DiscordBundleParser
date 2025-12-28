@@ -17,6 +17,7 @@ import {
     isGetAccessorDeclaration,
     isIdentifier,
     isJsxText,
+    isLeftHandSideExpression,
     isMethodDeclaration,
     isNumericLiteral,
     isPropertyAccessExpression,
@@ -277,7 +278,7 @@ export class AstParser {
 
         do {
             toRet.unshift(cur.name);
-            if (isIdentifier(cur.expression)) {
+            if (isLeftHandSideExpression(cur.expression)) {
                 toRet.unshift(cur.expression);
                 return toRet;
             }

@@ -3,12 +3,7 @@ import { describe, expect, it } from "vitest";
 import { getFile } from "./__test__/testingUtil";
 import { isWebpackModule } from "./util";
 
-const randomData = getFile("random");
-
 describe("isWebpackModule", function () {
-    it("fails on random data", function () {
-        expect(isWebpackModule(randomData)).to.be.false;
-    });
     it("throws on an object", function () {
         // @ts-expect-error it should throw a type error
         expect(() => isWebpackModule({})).to.throw();

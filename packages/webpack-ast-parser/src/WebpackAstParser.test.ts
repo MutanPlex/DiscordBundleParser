@@ -500,6 +500,11 @@ describe("WebpackAstParser", function () {
 
             expect(test).to.deep.equal([new Range(9, 22, 9, 25)]);
         });
+        it("parses a direct call properly", function () {
+            const parser = new WebpackAstParser(getFile("webpack/imports/directCall.js"));
+            const test = parser.getUsesOfImport("999003", "foo3");
+            expect(test).to.deep.equal([new Range(8, 29, 8, 33)]);
+        });
         it("throws when wreq is not used", function () {
             const parser = new WebpackAstParser(getFile("webpack/imports/noWreq.js"));
 
@@ -585,13 +590,14 @@ describe("WebpackAstParser", function () {
                 const locs = await parser.generateReferences(new Position(5, 8));
 
                 expect(locs).to.have.deep.members([
-                    makeLineRange(222222, 18, 29),
-                    makeLineRange(111111, 24, 34),
                     makeLineRange(444444, 5, 20),
-                    makeLineRange(555555, 39, 30),
-                    makeLineRange(555555, 44, 30),
                     makeLineRange(555555, 22, 34),
                     makeLineRange(555555, 27, 34),
+                    makeLineRange(555555, 39, 30),
+                    makeLineRange(555555, 44, 30),
+                    makeLineRange(222222, 18, 29),
+                    makeLineRange(111111, 24, 34),
+                    makeLineRange(111111, 39, 30),
                 ]);
             });
             it.todo("handles re-exports across wreq.t", async function () {
@@ -696,6 +702,14 @@ describe("WebpackAstParser", function () {
                     expect(def)
                         .toMatchSnapshot();
                 });
+                it("finds the module for a wreq call that has an export", async function () {
+                    const parser = new WebpackAstParser(getFile(".modules/111111.js"));
+
+                    const def = await parser.generateDefinitions(new Position(39, 30));
+
+                    expect(def)
+                        .toMatchSnapshot();
+                })
             });
         });
         describe("stores", function () {

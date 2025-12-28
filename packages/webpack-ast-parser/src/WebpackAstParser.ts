@@ -369,17 +369,26 @@ export class WebpackAstParser extends AstParser {
             return;
 
         let [requiredModule, ...names] = importChain;
+        let moduleId: number | undefined;
 
-        if (!this.isIdentifier(requiredModule))
-            return;
+        {
+            // TODO: should this check if requiredModule.expression is wreq
+            // i think probably not, no real need
+            if (isCallExpression(requiredModule) && requiredModule.arguments.length === 1) {
+                const [arg] = requiredModule.arguments;
+                if (isNumericLiteral(arg)) {
+                    moduleId = +arg.text;
+                }
+            } else if (isIdentifier(requiredModule)) {
+                const dec = this.getVarInfoFromUse(requiredModule);
 
-        const dec = this.getVarInfoFromUse(requiredModule);
+                if (!dec) {
+                    return;
+                }
 
-        if (!dec) {
-            return;
+                moduleId = this.getModuleIdForImport(dec);
+            }
         }
-
-        const moduleId = this.getModuleIdForImport(dec);
 
         if (!moduleId)
             return;
@@ -420,7 +429,6 @@ export class WebpackAstParser extends AstParser {
                 }
                 break;
             }
-
 
             const [importSourceId] = ret;
 
