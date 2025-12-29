@@ -12,8 +12,8 @@
     "test:ui": "pnpm _test --ui",
     "lint": "eslint",
     "build-all": "pnpm -r --parallel build",
-    "pack-all": "pnpm build-all && pnpm --parallel -r --filter !. pack",
-    "pub-all": "pnpm -r --parallel publish --access public"
+    "pack-all": "pnpm build-all && pnpm -r --filter !. pack",
+    "pub-all": "pnpm -r publish --access public"
   },
   "keywords": [],
   "author": "",
