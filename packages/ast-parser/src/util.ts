@@ -205,7 +205,7 @@ export function one<
 ): R | undefined {
     const filter = arr.filter<R>(func);
 
-    return (filter.length === 1 || undefined) && filter[0];
+    return filter.length === 1 ? filter[0] : undefined
 }
 
 export function isDefaultImport(x: Identifier): x is WithParent<typeof x, ImportClause> {
