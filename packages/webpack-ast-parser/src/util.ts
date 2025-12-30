@@ -69,9 +69,10 @@ export function isWebpackModule(text: string) {
  */
 
 export function formatModule(moduleContents: string, moduleId: string | number | undefined = "000000", isFind?: boolean): string {
-    if (isFind)
-        return `// Webpack Module ${moduleId} \n${isFind ? `//OPEN FULL MODULE: ${moduleId}\n` : ""}//EXTRACED WEPBACK MODULE ${moduleId}\n 0,\n${moduleContents}`;
-    return moduleContents;
+    if (isWebpackModule(moduleContents)) {
+        return moduleContents;
+    }
+    return `// Webpack Module ${moduleId} \n${isFind ? `//OPEN FULL MODULE: ${moduleId}\n` : ""}//EXTRACED WEPBACK MODULE ${moduleId}\n 0,\n${moduleContents}`;
 }
 
 export function TAssert<T>(thing: any): asserts thing is T {
