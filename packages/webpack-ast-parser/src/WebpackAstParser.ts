@@ -1204,6 +1204,7 @@ export class WebpackAstParser extends AstParser {
             const objRange = this.rawMakeExportMapRecursive(node.initializer);
 
             if (Array.isArray(objRange))
+                // FIXME: this seems... wrong
                 return [node.name, ...[objRange].flat()];
             return {
                 [node.name.getText()]: objRange,
@@ -1231,6 +1232,7 @@ export class WebpackAstParser extends AstParser {
                         return ret;
                 }
             }
+            // FIXME: return [node.name || node] is prob better
             if (node.name)
                 return [node.name];
             return [node];
