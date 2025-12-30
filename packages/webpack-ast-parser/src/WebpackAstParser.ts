@@ -130,6 +130,10 @@ export class WebpackAstParser extends AstParser {
         return new this(Format(text));
     }
 
+    public static withModule(text: string, moduleId: string | number): WebpackAstParser {
+        return new this(formatModule(text, moduleId));
+    }
+
     public static withFormattedModule(text: string, moduleId: string | number): WebpackAstParser {
         return this.withFormattedText(formatModule(text, moduleId));
     }
