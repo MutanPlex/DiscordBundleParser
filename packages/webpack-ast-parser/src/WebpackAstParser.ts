@@ -1360,6 +1360,8 @@ export class WebpackAstParser extends AstParser {
         if (!wreqD)
             return;
 
+        // function (module, exports, wreq)
+        // wreq.d(exports, {exportA: () => a, exportB: () => b});
         const [, exports] = wreqD.arguments;
 
         return Object.fromEntries(exports.properties
@@ -1427,7 +1429,7 @@ export class WebpackAstParser extends AstParser {
 
                 return lastNode != null ? [x.name.getText(), ret] : false;
             })
-            .filter((x) => x !== false) as any);
+            .filter((x) => x !== false));
     }
 
     tryParseStoreForExport(
