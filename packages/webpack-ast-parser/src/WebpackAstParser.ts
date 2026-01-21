@@ -1195,6 +1195,7 @@ export class WebpackAstParser extends AstParser {
             .filter((x) => x !== false) as any);
     }
 
+    // TODO: style3: see enums2.js
     private tryRawMakeExportMapForEnumIIFE(node: CallExpression): RawExportMap | undefined {
         // TODO: styles 1 and 2 are very similar, merge code for them?
 
