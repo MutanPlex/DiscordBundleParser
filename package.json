@@ -13,7 +13,8 @@
     "lint": "eslint",
     "build-all": "pnpm -r --parallel build",
     "pack-all": "pnpm build-all && pnpm -r --filter !. pack",
-    "pub-all": "pnpm build-all && pnpm -r publish --access public"
+    "pub-all": "pnpm build-all && pnpm -r publish --access public",
+    "watch": "tsc -b -w"
   },
   "keywords": [],
   "author": "",
@@ -23,8 +24,8 @@
     "@stylistic/eslint-plugin": "^5.4.0",
     "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "^8.45.0",
-    "@vitest/coverage-v8": "^4.0.16",
-    "@vitest/ui": "3.2.4",
+    "@vitest/coverage-v8": "catalog:",
+    "@vitest/ui": "catalog:",
     "eslint": "^9.36.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unicorn": "^61.0.2",

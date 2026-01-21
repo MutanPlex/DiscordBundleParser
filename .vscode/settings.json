@@ -1,6 +1,12 @@
 {
     "cSpell.words": [
         "Functionish",
-        "Literalish"
-    ]
+        "Literalish",
+        "NITROWEEN",
+        "SNOWGLOBE",
+        "vitest"
+    ],
+    "coverage-gutters.coverageFileNames": [
+        "coverage/clover.xml",
+    ],
 }

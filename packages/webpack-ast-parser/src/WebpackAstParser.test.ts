@@ -22,6 +22,12 @@ describe("WebpackAstParser", function () {
         new WebpackAstParser(normalModule);
     });
 
+    it("getImportedVar returns undefined when wreq is not used", function () {
+        const parser = new WebpackAstParser(getFile("webpack/badModule/noWreq.js"));
+
+        expect(parser.getImportedVar("123456")).to.be.undefined;
+    });
+
     describe("module id", function () {
         it("parses the module ID", function () {
             const parser = new WebpackAstParser(normalModule);
@@ -166,6 +172,125 @@ describe("WebpackAstParser", function () {
                             new Range(5, 8, 5, 9),
                             new Range(34, 10, 34, 11),
                             new Range(153, 8, 153, 19),
+                        ],
+                    },
+                });
+            });
+            it("parses a module with enum exports", function () {
+                const parser = new WebpackAstParser(getFile("webpack/wreq.d/enums.js"));
+                const map = parser.getExportMap();
+                // $e is an Object.freeze literal
+                const { $7, $X, $e: _todo_$e, $n, C, Cj, Si, ..._ } = map;
+
+                const picked = {
+                    $7,
+                    $X,
+                    $n,
+                    C,
+                    Cj,
+                    Si,
+                };
+
+                expect(picked).to.deep.equal({
+                    $7: [
+                        new Range(5, 8, 5, 10),
+                        new Range(385, 12, 385, 14),
+                    ],
+                    $X: [
+                        new Range(7, 8, 7, 10),
+                        new Range(421, 13, 421, 34),
+                    ],
+                    $n: [
+                        new Range(9, 8, 9, 10),
+                        new Range(739, 13, 739, 16),
+                    ],
+                    C: {
+                        [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(116, 8, 116, 9)],
+                        PREMIUM_TRIAL: [
+                            new Range(117, 19, 117, 32),
+                            new Range(117, 35, 117, 36),
+                        ],
+                        PREMIUM_DISCOUNT: [
+                            new Range(118, 12, 118, 28),
+                            new Range(118, 31, 118, 32),
+                        ],
+                    },
+                    Cj: {
+                        [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(699, 8, 699, 10)],
+                        SNOWGLOBE: [
+                            new Range(700, 19, 700, 28),
+                            new Range(700, 31, 700, 32),
+                        ],
+                        BOX: [
+                            new Range(701, 12, 701, 15),
+                            new Range(701, 18, 701, 19),
+                        ],
+                        CUP: [
+                            new Range(702, 12, 702, 15),
+                            new Range(702, 18, 702, 19),
+                        ],
+                        STANDARD_BOX: [
+                            new Range(703, 12, 703, 24),
+                            new Range(703, 27, 703, 28),
+                        ],
+                        CAKE: [
+                            new Range(704, 12, 704, 16),
+                            new Range(704, 19, 704, 20),
+                        ],
+                        CHEST: [
+                            new Range(705, 12, 705, 17),
+                            new Range(705, 20, 705, 21),
+                        ],
+                        COFFEE: [
+                            new Range(706, 12, 706, 18),
+                            new Range(706, 21, 706, 22),
+                        ],
+                        SEASONAL_STANDARD_BOX: [
+                            new Range(707, 12, 707, 33),
+                            new Range(707, 36, 707, 37),
+                        ],
+                        SEASONAL_CAKE: [
+                            new Range(708, 12, 708, 25),
+                            new Range(708, 28, 708, 29),
+                        ],
+                        SEASONAL_CHEST: [
+                            new Range(709, 12, 709, 26),
+                            new Range(709, 29, 709, 31),
+                        ],
+                        SEASONAL_COFFEE: [
+                            new Range(710, 12, 710, 27),
+                            new Range(710, 30, 710, 32),
+                        ],
+                        NITROWEEN_STANDARD: [
+                            new Range(711, 12, 711, 30),
+                            new Range(711, 33, 711, 35),
+                        ],
+                    },
+                    Si: {
+                        [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(148, 8, 148, 9)],
+                        NONE: [
+                            new Range(149, 17, 149, 21),
+                            new Range(149, 24, 149, 44),
+                        ],
+                        TIER_0: [
+                            new Range(150, 10, 150, 16),
+                            new Range(150, 19, 150, 39),
+                        ],
+                        TIER_1: [
+                            new Range(151, 10, 151, 16),
+                            new Range(151, 19, 151, 39),
+                        ],
+                        TIER_2: [
+                            new Range(152, 10, 152, 16),
+                            new Range(152, 19, 152, 39),
+                        ],
+                        GUILD: [
+                            new Range(153, 10, 153, 15),
+                            new Range(153, 18, 153, 38),
+                        ],
+                        LEGACY: [
+                            new Range(154, 10, 154, 16),
+                            new Range(154, 19, 154, 39),
                         ],
                     },
                 });
@@ -596,9 +721,9 @@ describe("WebpackAstParser", function () {
                     makeLineRange(555555, 27, 34),
                     makeLineRange(555555, 39, 30),
                     makeLineRange(555555, 44, 30),
-                    makeLineRange(222222, 18, 29),
-                    makeLineRange(111111, 24, 34),
-                    makeLineRange(111111, 39, 30),
+                    makeLineRange(222222, 21, 29),
+                    makeLineRange(111111, 25, 34),
+                    makeLineRange(111111, 40, 30),
                 ]);
             });
             it.todo("handles re-exports across wreq.t", async function () {
@@ -639,19 +764,19 @@ describe("WebpackAstParser", function () {
             const parser = new WebpackAstParser(getFile(".modules/111113.js"));
             const locs = await parser.generateReferences(new Position(5, 8));
 
-            expect(locs).to.deep.equal([makeLineRange(111111, 31, 28, 3)]);
+            expect(locs).to.deep.equal([makeLineRange(111111, 32, 28, 3)]);
         });
         it("finds all uses of a default e.exports where the exports are assigned to the default export first 2", async function () {
             const parser = new WebpackAstParser(getFile(".modules/111113.js"));
             const locs = await parser.generateReferences(new Position(8, 8));
 
-            expect(locs).to.deep.equal([makeLineRange(111111, 32, 28, 3)]);
+            expect(locs).to.deep.equal([makeLineRange(111111, 33, 28, 3)]);
         });
         it("finds all uses of a default e.exports where the exports are assigned to the default export first 3", async function () {
             const parser = new WebpackAstParser(getFile(".modules/111113.js"));
             const locs = await parser.generateReferences(new Position(11, 8));
 
-            expect(locs).to.deep.equal([makeLineRange(111111, 33, 28, 3)]);
+            expect(locs).to.deep.equal([makeLineRange(111111, 34, 28, 3)]);
         });
         it("finds uses of a class export as a component (class itself, not a method or instance)", async function () {
             const parser = new WebpackAstParser(getFile(".modules/555555.js"));
@@ -663,36 +788,126 @@ describe("WebpackAstParser", function () {
             TAssert<Location[]>(locs);
             TAssert<Location[]>(locs2);
             expect(locs).to.have.deep.members(locs2);
-            expect(locs).to.have.deep.members([makeLineRange(333333, 12, 52)]);
+            expect(locs).to.have.deep.members([makeLineRange(333333, 14, 52)]);
+        });
+        describe("enum uses", function () {
+            describe("style 1", function () {
+                it("finds all uses of an enum member", async function () {
+                    const parser = new WebpackAstParser(getFile(".modules/333333.js"));
+                    const locs = await parser.generateReferences(new Position(22, 27));
+
+                    expect(locs).to.have.deep.members([
+                        makeLineRange(111111, 19, 25, 4),
+                        makeLineRange(111111, 44, 17, 4),
+                    ]);
+                });
+                it("finds all uses of an enum object", async function () {
+                    const parser = new WebpackAstParser(getFile(".modules/333333.js"));
+                    const locs = await parser.generateReferences(new Position(21, 12));
+
+                    expect(locs).to.have.deep.members([
+                        makeLineRange(111111, 19, 23),
+                        makeLineRange(111111, 42, 23),
+                        makeLineRange(111111, 44, 15),
+                        makeLineRange(111111, 44, 26),
+                        makeLineRange(222222, 20, 23),
+                    ]);
+                });
+            });
+            describe("style 2", function () {
+                it("finds all uses of an enum member", async function () {
+                    const parser = new WebpackAstParser(getFile(".modules/333333.js"));
+                    const locs = await parser.generateReferences(new Position(28, 14));
+
+                    expect(locs).to.have.deep.members([
+                        makeLineRange(111111, 19, 36, 4),
+                        makeLineRange(111111, 45, 28, 4),
+                    ]);
+                });
+                it("finds all uses of an enum object", async function () {
+                    const parser = new WebpackAstParser(getFile(".modules/333333.js"));
+                    const locs = await parser.generateReferences(new Position(26, 14));
+
+                    expect(locs).to.have.deep.members([
+                        makeLineRange(111111, 19, 34),
+                        makeLineRange(111111, 42, 29),
+                        makeLineRange(111111, 45, 15),
+                        makeLineRange(111111, 45, 26),
+                        makeLineRange(222222, 20, 32),
+                    ]);
+                });
+            });
         });
         describe("definitions", function () {
             describe("wreq.d", function () {
                 it("finds the use of a simple import", async function () {
                     const parser = new WebpackAstParser(getFile(".modules/111111.js"));
-                    const defs = await parser.generateDefinitions(new Position(21, 29));
+                    const defs = await parser.generateDefinitions(new Position(22, 29));
 
                     expect(defs)
                         .toMatchSnapshot();
                 });
                 it("finds the use of a simple import 2", async function () {
                     const parser = new WebpackAstParser(getFile(".modules/111111.js"));
-                    const defs = await parser.generateDefinitions(new Position(24, 34));
+                    const defs = await parser.generateDefinitions(new Position(25, 34));
 
                     expect(defs)
                         .toMatchSnapshot();
+                });
+                describe("enums", function () {
+                    describe("style 1", function () {
+                        it("finds the object def from obj use", async function () {
+                            const parser = new WebpackAstParser(getFile(".modules/111111.js"));
+                            const def = await parser.generateDefinitions(new Position(19, 23));
+
+                            expect(def).toMatchSnapshot();
+                        });
+                        it("finds the object def when used in a computed access", async function () {
+                            const parser = new WebpackAstParser(getFile(".modules/222222.js"));
+                            const def = await parser.generateDefinitions(new Position(20, 23));
+
+                            expect(def).toMatchSnapshot();
+                        });
+                        it("finds the member def when used normally", async function () {
+                            const parser = new WebpackAstParser(getFile(".modules/111111.js"));
+                            const def = await parser.generateDefinitions(new Position(19, 27));
+
+                            expect(def).toMatchSnapshot();
+                        });
+                    });
+                    describe("style 2", function () {
+                        it("finds the object def from obj use", async function () {
+                            const parser = new WebpackAstParser(getFile(".modules/111111.js"));
+                            const def = await parser.generateDefinitions(new Position(19, 34));
+
+                            expect(def).toMatchSnapshot();
+                        });
+                        it("finds the object def when used in a computed access", async function () {
+                            const parser = new WebpackAstParser(getFile(".modules/222222.js"));
+                            const def = await parser.generateDefinitions(new Position(20, 32));
+
+                            expect(def).toMatchSnapshot();
+                        });
+                        it("finds the member def when used normally", async function () {
+                            const parser = new WebpackAstParser(getFile(".modules/111111.js"));
+                            const def = await parser.generateDefinitions(new Position(19, 38));
+
+                            expect(def).toMatchSnapshot();
+                        });
+                    });
                 });
             });
             describe("from wreq(number)", function () {
                 it("finds the module for a simple wreq call", async function () {
                     const parser = new WebpackAstParser(getFile(".modules/333333.js"));
-                    const def = await parser.generateDefinitions(new Position(9, 18));
+                    const def = await parser.generateDefinitions(new Position(11, 18));
 
                     expect(def)
                         .toMatchSnapshot();
                 });
                 it("returns undefined for a module that doesn't exist", async function () {
                     const parser = new WebpackAstParser(getFile(".modules/333333.js"));
-                    const def = await parser.generateDefinitions(new Position(8, 18));
+                    const def = await parser.generateDefinitions(new Position(10, 18));
 
                     expect(def).to.be.undefined;
                 });
@@ -705,7 +920,7 @@ describe("WebpackAstParser", function () {
                 });
                 it("finds the module for a wreq call that has an export", async function () {
                     const parser = new WebpackAstParser(getFile(".modules/111111.js"));
-                    const def = await parser.generateDefinitions(new Position(39, 30));
+                    const def = await parser.generateDefinitions(new Position(40, 30));
 
                     expect(def)
                         .toMatchSnapshot();
