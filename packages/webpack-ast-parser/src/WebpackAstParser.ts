@@ -38,6 +38,7 @@ import {
     type NumericLiteral,
     type ObjectLiteralExpression,
     type PropertyAccessExpression,
+    type PropertyAssignment,
     ScriptKind,
     ScriptTarget,
     type SourceFile,
@@ -60,6 +61,7 @@ import {
     isVariableAssignmentLike,
     lastParent,
     nonNull,
+    type Functionish,
 } from "@vencord-companion/ast-parser";
 import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
 import { type Logger, NoopLogger } from "@vencord-companion/shared/Logger";
@@ -1336,53 +1338,52 @@ export class WebpackAstParser extends AstParser {
         return undefined;
     }
 
-    rawMakeExportMapRecursive(node: Node): RawExportMap | RawExportRange {
-        if (!node)
-            throw new Error("node should not be undefined");
-        if (isObjectLiteralExpression(node)) {
-            const props = node.properties
-                .map((x): false | [AnyExportKey, RawExportMap[AnyExportKey]][] => {
-                    if (isSpreadAssignment(x)) {
-                        if (!isIdentifier(x.expression)) {
-                            logger.error("Spread assignment is not an identifier, this should be handled");
-                        }
-
-                        const spread = this.rawMakeExportMapRecursive(x.expression);
-
-                        if (Array.isArray(spread)) {
-                            logger.warn("Identifier in object spread is not an object, this should be handled");
-                            return false;
-                        }
-
-                        const {
-                            [WebpackAstParser.SYM_CJS_DEFAULT]: _default,
-                            [WebpackAstParser.SYM_HOVER]: _,
-                            ...rest
-                        } = spread;
-
-                        return Object.entries(rest);
+    private rawMakeExportMapObjectLiteral(node: ObjectLiteralExpression): RawExportMap {
+        const props = node.properties
+            .map((x): false | [AnyExportKey, RawExportMap[AnyExportKey]][] => {
+                if (isSpreadAssignment(x)) {
+                    if (!isIdentifier(x.expression)) {
+                        logger.error("Spread assignment is not an identifier, this should be handled");
                     }
-                    return [[x.name.getText(), this.rawMakeExportMapRecursive(x)]];
-                })
-                .filter((x) => x !== false)
-                .flat();
 
-            if (props.length !== 0)
-                props.push([WebpackAstParser.SYM_CJS_DEFAULT, [node.getChildAt(0)]]);
+                    const spread = this.rawMakeExportMapRecursive(x.expression);
 
-            return fromEntries<RawExportMap>(props);
-        } else if (isLiteralish(node)) {
-            return [node];
-        } else if (isPropertyAssignment(node)) {
-            const objRange = this.rawMakeExportMapRecursive(node.initializer);
+                    if (Array.isArray(spread)) {
+                        logger.warn("Identifier in object spread is not an object, this should be handled");
+                        return false;
+                    }
 
-            if (Array.isArray(objRange))
-                // FIXME: this seems... wrong
-                return [node.name, ...[objRange].flat()];
-            return {
-                [node.name.getText()]: objRange,
-            };
-        } else if (isFunctionish(node)) {
+                    const {
+                        [WebpackAstParser.SYM_CJS_DEFAULT]: _default,
+                        [WebpackAstParser.SYM_HOVER]: _,
+                        ...rest
+                    } = spread;
+
+                    return Object.entries(rest);
+                }
+                return [[x.name.getText(), this.rawMakeExportMapRecursive(x)]];
+            })
+            .filter((x) => x !== false)
+            .flat();
+
+        if (props.length !== 0)
+            props.push([WebpackAstParser.SYM_CJS_DEFAULT, [node.getChildAt(0)]]);
+
+        return fromEntries<RawExportMap>(props);
+    }
+
+    private rawMakeExportMapPropertyAssignment(node: PropertyAssignment): RawExportMap | RawExportRange {
+        const objRange = this.rawMakeExportMapRecursive(node.initializer);
+
+        if (Array.isArray(objRange))
+            // FIXME: this seems... wrong
+            return [node.name, ...[objRange].flat()];
+        return {
+            [node.name.getText()]: objRange,
+        };
+    }
+
+    private rawMakeExportMapFunctionish(node: Functionish) {
             wrapperFuncCheck: {
                 if (!node.body)
                     break wrapperFuncCheck;
@@ -1409,6 +1410,18 @@ export class WebpackAstParser extends AstParser {
             if (node.name)
                 return [node.name];
             return [node];
+    }
+
+    rawMakeExportMapRecursive(node: Node): RawExportMap | RawExportRange {
+        if (!node)
+            throw new Error("node should not be undefined");
+        if (isObjectLiteralExpression(node)) {
+            return this.rawMakeExportMapObjectLiteral(node);
+        } else if (isLiteralish(node)) {
+            return [node];
+        } else if (isPropertyAssignment(node)) {
+            return this.rawMakeExportMapPropertyAssignment(node);
+        } else if (isFunctionish(node)) {
         } else if (isCallExpression(node)) {
             const maybeEnumExport = this.tryRawMakeExportMapForEnumIIFE(node);
 
