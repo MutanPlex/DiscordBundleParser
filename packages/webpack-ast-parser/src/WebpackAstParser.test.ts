@@ -9,7 +9,7 @@ import { Range } from "@vencord-companion/shared/Range";
 
 import { getFile } from "./__test__/testingUtil";
 import { Location, MainDeps, RangeExportMap, Reference } from "./types";
-import { TAssert } from "./util";
+import { annotateExportRange, TAssert } from "./util";
 import { WebpackAstParser } from "./WebpackAstParser";
 
 const __dirname = import.meta.dirname;
@@ -180,119 +180,114 @@ describe("WebpackAstParser", function () {
                 const parser = new WebpackAstParser(getFile("webpack/wreq.d/enums.js"));
                 const map = parser.getExportMap();
                 // $e is an Object.freeze literal
-                const { $7, $X, $e: _todo_$e, $n, C, Cj, Si, ..._ } = map;
+                const { $e: _todo_$e, ..._ } = map;
+                const a = annotateExportRange;
 
-                const picked = {
-                    $7,
-                    $X,
-                    $n,
-                    C,
-                    Cj,
-                    Si,
-                };
+                expect(map.$7).to.deep.equal([
+                    new Range(5, 8, 5, 10),
+                    new Range(385, 12, 385, 14),
+                ]);
 
-                expect(picked).to.deep.equal({
-                    $7: [
-                        new Range(5, 8, 5, 10),
-                        new Range(385, 12, 385, 14),
-                    ],
-                    $X: [
-                        new Range(7, 8, 7, 10),
-                        new Range(421, 13, 421, 34),
-                    ],
-                    $n: [
-                        new Range(9, 8, 9, 10),
-                        new Range(739, 13, 739, 16),
-                    ],
-                    C: {
-                        [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(116, 8, 116, 9)],
-                        PREMIUM_TRIAL: [
-                            new Range(117, 19, 117, 32),
-                            new Range(117, 35, 117, 36),
-                        ],
-                        PREMIUM_DISCOUNT: [
-                            new Range(118, 12, 118, 28),
-                            new Range(118, 31, 118, 32),
-                        ],
-                    },
-                    Cj: {
-                        [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(699, 8, 699, 10)],
-                        SNOWGLOBE: [
-                            new Range(700, 19, 700, 28),
-                            new Range(700, 31, 700, 32),
-                        ],
-                        BOX: [
-                            new Range(701, 12, 701, 15),
-                            new Range(701, 18, 701, 19),
-                        ],
-                        CUP: [
-                            new Range(702, 12, 702, 15),
-                            new Range(702, 18, 702, 19),
-                        ],
-                        STANDARD_BOX: [
-                            new Range(703, 12, 703, 24),
-                            new Range(703, 27, 703, 28),
-                        ],
-                        CAKE: [
-                            new Range(704, 12, 704, 16),
-                            new Range(704, 19, 704, 20),
-                        ],
-                        CHEST: [
-                            new Range(705, 12, 705, 17),
-                            new Range(705, 20, 705, 21),
-                        ],
-                        COFFEE: [
-                            new Range(706, 12, 706, 18),
-                            new Range(706, 21, 706, 22),
-                        ],
-                        SEASONAL_STANDARD_BOX: [
-                            new Range(707, 12, 707, 33),
-                            new Range(707, 36, 707, 37),
-                        ],
-                        SEASONAL_CAKE: [
-                            new Range(708, 12, 708, 25),
-                            new Range(708, 28, 708, 29),
-                        ],
-                        SEASONAL_CHEST: [
-                            new Range(709, 12, 709, 26),
-                            new Range(709, 29, 709, 31),
-                        ],
-                        SEASONAL_COFFEE: [
-                            new Range(710, 12, 710, 27),
-                            new Range(710, 30, 710, 32),
-                        ],
-                        NITROWEEN_STANDARD: [
-                            new Range(711, 12, 711, 30),
-                            new Range(711, 33, 711, 35),
-                        ],
-                    },
-                    Si: {
-                        [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(148, 8, 148, 9)],
-                        NONE: [
-                            new Range(149, 17, 149, 21),
-                            new Range(149, 24, 149, 44),
-                        ],
-                        TIER_0: [
-                            new Range(150, 10, 150, 16),
-                            new Range(150, 19, 150, 39),
-                        ],
-                        TIER_1: [
-                            new Range(151, 10, 151, 16),
-                            new Range(151, 19, 151, 39),
-                        ],
-                        TIER_2: [
-                            new Range(152, 10, 152, 16),
-                            new Range(152, 19, 152, 39),
-                        ],
-                        GUILD: [
-                            new Range(153, 10, 153, 15),
-                            new Range(153, 18, 153, 38),
-                        ],
-                        LEGACY: [
-                            new Range(154, 10, 154, 16),
-                            new Range(154, 19, 154, 39),
-                        ],
-                    },
+                expect(map.$X).to.deep.equal([
+                    new Range(7, 8, 7, 10),
+                    new Range(421, 13, 421, 34),
+                ]);
+
+                expect(map.$n).to.deep.equal([
+                    new Range(9, 8, 9, 10),
+                    new Range(739, 13, 739, 16),
+                ]);
+
+                expect(map.C).to.deep.equal({
+                    [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(116, 8, 116, 9)],
+                    PREMIUM_TRIAL: a("0", [
+                        new Range(117, 19, 117, 32),
+                        new Range(117, 35, 117, 36),
+                    ]),
+                    PREMIUM_DISCOUNT: a("1", [
+                        new Range(118, 12, 118, 28),
+                        new Range(118, 31, 118, 32),
+                    ]),
+                });
+
+                expect(map.Cj).to.deep.equal({
+                    [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(699, 8, 699, 10)],
+                    SNOWGLOBE: a("1", [
+                        new Range(700, 19, 700, 28),
+                        new Range(700, 31, 700, 32),
+                    ]),
+                    BOX: a("2", [
+                        new Range(701, 12, 701, 15),
+                        new Range(701, 18, 701, 19),
+                    ]),
+                    CUP: a("3", [
+                        new Range(702, 12, 702, 15),
+                        new Range(702, 18, 702, 19),
+                    ]),
+                    STANDARD_BOX: a("4", [
+                        new Range(703, 12, 703, 24),
+                        new Range(703, 27, 703, 28),
+                    ]),
+                    CAKE: a("5", [
+                        new Range(704, 12, 704, 16),
+                        new Range(704, 19, 704, 20),
+                    ]),
+                    CHEST: a("6", [
+                        new Range(705, 12, 705, 17),
+                        new Range(705, 20, 705, 21),
+                    ]),
+                    COFFEE: a("7", [
+                        new Range(706, 12, 706, 18),
+                        new Range(706, 21, 706, 22),
+                    ]),
+                    SEASONAL_STANDARD_BOX: a("8", [
+                        new Range(707, 12, 707, 33),
+                        new Range(707, 36, 707, 37),
+                    ]),
+                    SEASONAL_CAKE: a("9", [
+                        new Range(708, 12, 708, 25),
+                        new Range(708, 28, 708, 29),
+                    ]),
+                    SEASONAL_CHEST: a("10", [
+                        new Range(709, 12, 709, 26),
+                        new Range(709, 29, 709, 31),
+                    ]),
+                    SEASONAL_COFFEE: a("11", [
+                        new Range(710, 12, 710, 27),
+                        new Range(710, 30, 710, 32),
+                    ]),
+                    NITROWEEN_STANDARD: a("12", [
+                        new Range(711, 12, 711, 30),
+                        new Range(711, 33, 711, 35),
+                    ]),
+                });
+
+                expect(map.Si).to.deep.equal({
+                    [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(148, 8, 148, 9)],
+                    NONE: a('"628379670982688768"', [
+                        new Range(149, 17, 149, 21),
+                        new Range(149, 24, 149, 44),
+                    ]),
+                    TIER_0: a('"978380684370378762"', [
+                        new Range(150, 10, 150, 16),
+                        new Range(150, 19, 150, 39),
+                    ]),
+                    TIER_1: a('"521846918637420545"', [
+                        new Range(151, 10, 151, 16),
+                        new Range(151, 19, 151, 39),
+                    ]),
+                    TIER_2: a('"521847234246082599"', [
+                        new Range(152, 10, 152, 16),
+                        new Range(152, 19, 152, 39),
+                    ]),
+                    GUILD: a('"590663762298667008"', [
+                        new Range(153, 10, 153, 15),
+                        new Range(153, 18, 153, 38),
+                    ]),
+                    LEGACY: a('"521842865731534868"', [
+                        new Range(154, 10, 154, 16),
+                        new Range(154, 19, 154, 39),
+                    ]),
                 });
             });
         });

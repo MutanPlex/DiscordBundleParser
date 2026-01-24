@@ -51,6 +51,7 @@ import {
     findParentLimited,
     findReturnIdentifier,
     findReturnPropertyAccessExpression,
+    type Functionish,
     getLeadingIdentifier,
     isAssignmentExpression,
     isCommaExpression,
@@ -61,7 +62,6 @@ import {
     isVariableAssignmentLike,
     lastParent,
     nonNull,
-    type Functionish,
 } from "@vencord-companion/ast-parser";
 import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
 import { type Logger, NoopLogger } from "@vencord-companion/shared/Logger";
@@ -84,6 +84,7 @@ import type {
 } from "./types";
 import {
     allEntries,
+    annotateExportRange,
     assertNotHover,
     flattenFilteredExportMap,
     formatModule,
@@ -1264,11 +1265,18 @@ export class WebpackAstParser extends AstParser {
                       || !this.isUseOf(paramUse, enumParam)) {
                         return;
                     }
-                    // TODO: debug assert no entry exists
-                    ret[entryName.getText()] = [
+
+                    const exportRange = [
                         ...this.rawMakeExportMapRecursive(entryName) as RawExportRange,
                         ...this.rawMakeExportMapRecursive(right) as RawExportRange,
                     ];
+
+                    // TODO: debug assert no entry exists
+                    if (isLiteralish(right)) {
+                        ret[entryName.getText()] = annotateExportRange(right.getText(), exportRange);
+                    } else {
+                        ret[entryName.getText()] = exportRange;
+                    }
                     return true;
                 };
 
@@ -1384,32 +1392,59 @@ export class WebpackAstParser extends AstParser {
     }
 
     private rawMakeExportMapFunctionish(node: Functionish) {
-            wrapperFuncCheck: {
-                if (!node.body)
-                    break wrapperFuncCheck;
+        wrapperFuncCheck: {
+            if (!node.body)
+                break wrapperFuncCheck;
                 // if the arrow function returns a simple identifier, use that
-                if (isIdentifier(node.body) || isPropertyAccessExpression(node.body)) {
-                    const ret = this.rawMakeExportMapRecursive(node.body);
+            if (isIdentifier(node.body) || isPropertyAccessExpression(node.body)) {
+                const ret = this.rawMakeExportMapRecursive(node.body);
 
-                    if (allEntries(ret).length > 0)
-                        return ret;
-                }
-                if (isBlock(node.body) && node.body.statements.length === 1) {
-                    const ident = findReturnIdentifier(node);
-
-                    if (!ident)
-                        break wrapperFuncCheck;
-
-                    const ret = this.rawMakeExportMapRecursive(ident);
-
-                    if (allEntries(ret).length > 0)
-                        return ret;
-                }
+                if (allEntries(ret).length > 0)
+                    return ret;
             }
-            // FIXME: return [node.name || node] is prob better
-            if (node.name)
-                return [node.name];
+            if (isBlock(node.body) && node.body.statements.length === 1) {
+                const ident = findReturnIdentifier(node);
+
+                if (!ident)
+                    break wrapperFuncCheck;
+
+                const ret = this.rawMakeExportMapRecursive(ident);
+
+                if (allEntries(ret).length > 0)
+                    return ret;
+            }
+        }
+        // FIXME: return [node.name || node] is prob better
+        if (node.name)
+            return [node.name];
+        return [node];
+    }
+
+    private rawMakeExportMapCallExpression(node: CallExpression) {
+        const maybeEnumExport = this.tryRawMakeExportMapForEnumIIFE(node);
+
+        if (maybeEnumExport) {
+            return maybeEnumExport;
+        }
+
+        return [node];
+    }
+
+    private rawMakeExportMapIdentifier(node: Identifier) {
+        const trail = this.unwrapVariableDeclaration(node);
+
+        // FIXME: !trail?.length
+        if (!trail || trail.length === 0) {
             return [node];
+        }
+
+        const last = this.getVariableInitializer(trail.at(-1)!);
+
+        if (!last) {
+            logger.trace("[WebpackAstParser] Could not find initializer of identifier");
+            return [trail.at(-1)!];
+        }
+        return this.rawMakeExportMapRecursive(last);
     }
 
     rawMakeExportMapRecursive(node: Node): RawExportMap | RawExportRange {
@@ -1422,29 +1457,11 @@ export class WebpackAstParser extends AstParser {
         } else if (isPropertyAssignment(node)) {
             return this.rawMakeExportMapPropertyAssignment(node);
         } else if (isFunctionish(node)) {
+            return this.rawMakeExportMapFunctionish(node);
         } else if (isCallExpression(node)) {
-            const maybeEnumExport = this.tryRawMakeExportMapForEnumIIFE(node);
-
-            if (maybeEnumExport) {
-                return maybeEnumExport;
-            }
-
-            return [node];
+            return this.rawMakeExportMapCallExpression(node);
         } else if (isIdentifier(node)) {
-            const trail = this.unwrapVariableDeclaration(node);
-
-            // FIXME: !trail?.length
-            if (!trail || trail.length === 0) {
-                return [node];
-            }
-
-            const last = this.getVariableInitializer(trail.at(-1)!);
-
-            if (!last) {
-                logger.trace("[WebpackAstParser] Could not find initializer of identifier");
-                return [trail.at(-1)!];
-            }
-            return this.rawMakeExportMapRecursive(last);
+            return this.rawMakeExportMapIdentifier(node);
         }
         return [node];
     }

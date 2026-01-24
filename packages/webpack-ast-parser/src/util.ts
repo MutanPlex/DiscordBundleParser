@@ -157,3 +157,10 @@ export function matchExportChain(
 
     return cur ?? false;
 }
+
+export function annotateExportRange<T>(note: string, range: T[]): ExportMap<T> {
+    return {
+        [WebpackAstParser.SYM_HOVER]: note,
+        [WebpackAstParser.SYM_CJS_DEFAULT]: range,
+    };
+}
