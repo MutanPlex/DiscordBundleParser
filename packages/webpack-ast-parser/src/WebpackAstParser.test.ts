@@ -9,11 +9,10 @@ import { Range } from "@vencord-companion/shared/Range";
 
 import { getFile } from "./__test__/testingUtil";
 import { Location, MainDeps, RangeExportMap, Reference } from "./types";
-import { annotateExportRange, TAssert } from "./util";
+import { allEntries, annotateExportRange as a, TAssert } from "./util";
 import { WebpackAstParser } from "./WebpackAstParser";
 
 const __dirname = import.meta.dirname;
-
 
 describe("WebpackAstParser", function () {
     const normalModule: string = getFile("webpack/module.js");
@@ -79,7 +78,7 @@ describe("WebpackAstParser", function () {
 
                 expect(map).to.have.keys("STRING_EXPORT");
 
-                expect(map.STRING_EXPORT).to.deep.equal([new Range(5, 8, 5, 21), new Range(7, 12, 7, 31)]);
+                expect(map.STRING_EXPORT).to.deep.equal(a('"47835198259242069"', [new Range(5, 8, 5, 21), new Range(7, 12, 7, 31)]));
             });
             it("parses a module with an object literal export", function () {
                 const parser = new WebpackAstParser(getFile("webpack/wreq.d/objectExport.js"));
@@ -181,22 +180,21 @@ describe("WebpackAstParser", function () {
                 const map = parser.getExportMap();
                 // $e is an Object.freeze literal
                 const { $e: _todo_$e, ..._ } = map;
-                const a = annotateExportRange;
 
-                expect(map.$7).to.deep.equal([
+                expect(map.$7).to.deep.equal(a("28", [
                     new Range(5, 8, 5, 10),
                     new Range(385, 12, 385, 14),
-                ]);
+                ]));
 
-                expect(map.$X).to.deep.equal([
+                expect(map.$X).to.deep.equal(a('"1397626558063050855"', [
                     new Range(7, 8, 7, 10),
                     new Range(421, 13, 421, 34),
-                ]);
+                ]));
 
-                expect(map.$n).to.deep.equal([
+                expect(map.$n).to.deep.equal(a("190", [
                     new Range(9, 8, 9, 10),
                     new Range(739, 13, 739, 16),
-                ]);
+                ]));
 
                 expect(map.C).to.deep.equal({
                     [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(116, 8, 116, 9)],
@@ -296,33 +294,13 @@ describe("WebpackAstParser", function () {
                 const parser = new WebpackAstParser(getFile("webpack/e.exports/objLiteral.js"));
                 const map = parser.getExportMap();
 
-                expect(map).to.deep.equal({
-                    productListingsHeader: [
-                        new Range(5, 8, 5, 29),
-                        new Range(5, 31, 5, 61),
-                    ],
-                    productListings: [
-                        new Range(6, 8, 6, 23),
-                        new Range(6, 25, 6, 49),
-                    ],
-                    addButton: [
-                        new Range(7, 8, 7, 17),
-                        new Range(7, 19, 7, 37),
-                    ],
-                    addButtonInner: [
-                        new Range(8, 8, 8, 22),
-                        new Range(8, 24, 8, 47),
-                    ],
-                    [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(4, 16, 4, 17)],
-                });
+                expect(map).toMatchSnapshot();
             });
             it("parses a single string export", function () {
                 const parser = new WebpackAstParser(getFile("webpack/e.exports/string.js"));
                 const map = parser.getExportMap();
 
-                expect(map).to.deep.equal({
-                    [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(4, 16, 4, 46)],
-                });
+                expect(map).to.deep.equal(a('"/assets/b8deed70d3e4a9bd.svg"', [new Range(4, 16, 4, 46)]));
             });
             it("parses a re-export", function () {
                 const parser = new WebpackAstParser(getFile("webpack/e.exports/identReExport.js"));
@@ -336,7 +314,8 @@ describe("WebpackAstParser", function () {
                 const parser = new WebpackAstParser(getFile("webpack/e.exports/ident.js"));
                 const map = parser.getExportMap();
 
-                expect(map).to.deep.equal({
+
+                const exp2 = Object.fromEntries(allEntries({
                     headerContainer: [
                         new Range(5, 8, 5, 23),
                         new Range(5, 25, 5, 49),
@@ -361,10 +340,10 @@ describe("WebpackAstParser", function () {
                         new Range(10, 8, 10, 29),
                         new Range(10, 31, 10, 61),
                     ],
-                    purchaseConfirmation: [
+                    purchaseConfirmation: a('"purchaseConfirmation__2dea3 confirmationContainer__2dea3"', [
                         new Range(11, 8, 11, 28),
                         new Range(11, 30, 11, 88),
-                    ],
+                    ]),
                     confirmationTitle: [
                         new Range(12, 8, 12, 25),
                         new Range(12, 27, 12, 53),
@@ -374,7 +353,14 @@ describe("WebpackAstParser", function () {
                         new Range(13, 30, 13, 59),
                     ],
                     [WebpackAstParser.SYM_CJS_DEFAULT]: [new Range(4, 12, 4, 13)],
-                });
+                }).map(([k, v]) => {
+                    if (typeof k !== "string" || !Array.isArray(v)) {
+                        return [k, v] as const;
+                    }
+                    return [k, a(`"${k}__2dea3"`, v)] as const;
+                }));
+
+                expect(map).to.deep.equal(exp2);
             });
             it("parses a function expression", function () {
                 const parser = new WebpackAstParser(getFile("webpack/e.exports/function.js"));
@@ -475,7 +461,7 @@ describe("WebpackAstParser", function () {
                     initialize: [new Range(212, 8, 212, 18)],
                     takeSnapshot: [new Range(215, 8, 215, 20)],
                     handleLoadCache: [new Range(224, 8, 224, 23)],
-                    getUserStoreVersion: [new Range(38, 12, 38, 13)],
+                    getUserStoreVersion: a("0", [new Range(38, 12, 38, 13)]),
                     getUser: [new Range(241, 8, 241, 15)],
                     getUsers: [new Range(245, 8, 245, 16)],
                     forEach: [new Range(248, 8, 248, 15)],
@@ -490,10 +476,10 @@ describe("WebpackAstParser", function () {
                     ],
                     [WebpackAstParser.SYM_HOVER]: "UserStore",
                 });
-                expect(map.ASSISTANT_WUMPUS_VOICE_USER).to.deep.equal([
+                expect(map.ASSISTANT_WUMPUS_VOICE_USER).to.deep.equal(a('"47835198259242069"', [
                     new Range(6, 8, 6, 35),
                     new Range(39, 12, 39, 31),
-                ]);
+                ]));
                 expect(map.mergeUser).to.deep.equal([
                     new Range(8, 8, 8, 17),
                     new Range(118, 13, 118, 14),

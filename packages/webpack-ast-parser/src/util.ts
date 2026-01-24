@@ -164,3 +164,33 @@ export function annotateExportRange<T>(note: string, range: T[]): ExportMap<T> {
         [WebpackAstParser.SYM_CJS_DEFAULT]: range,
     };
 }
+
+// TODO: below should tag the types
+
+export function isExportRange<T>(entry: ExportEntry<T>): boolean {
+    return Array.isArray(entry) || (
+        WebpackAstParser.SYM_CJS_DEFAULT in entry
+        && WebpackAstParser.SYM_HOVER in entry
+        && allEntries(entry).length === 2
+    );
+}
+
+export function prependToExportRange<T>(entry: ExportEntry<T>, ...items: T[]): ExportEntry<T> {
+    if (Array.isArray(entry)) {
+        return [...items, ...entry];
+    }
+    return {
+        ...entry,
+        [WebpackAstParser.SYM_CJS_DEFAULT]: [...items, ...entry[WebpackAstParser.SYM_CJS_DEFAULT] as T[]],
+    };
+}
+
+export function appendToExportRange<T>(entry: ExportEntry<T>, ...items: T[]): ExportEntry<T> {
+    if (Array.isArray(entry)) {
+        return [...entry, ...items];
+    }
+    return {
+        ...entry,
+        [WebpackAstParser.SYM_CJS_DEFAULT]: [...entry[WebpackAstParser.SYM_CJS_DEFAULT] as T[], ...items],
+    };
+}

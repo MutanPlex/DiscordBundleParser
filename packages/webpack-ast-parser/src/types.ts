@@ -10,7 +10,6 @@ export type ExportMap<T> = {
     [exportedName: string]: T[] | ExportMap<T>;
 };
 
-
 export type RawExportRange = Node[];
 
 export type RawExportMap = ExportMap<Node>;

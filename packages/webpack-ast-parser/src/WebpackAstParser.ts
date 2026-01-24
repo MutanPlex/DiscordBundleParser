@@ -32,6 +32,7 @@ import {
     isSpreadAssignment,
     isStringLiteralLike,
     isVariableDeclaration,
+    type LiteralToken,
     type MemberName,
     type NewExpression,
     type Node,
@@ -89,8 +90,10 @@ import {
     flattenFilteredExportMap,
     formatModule,
     fromEntries,
+    isExportRange,
     makeFilteredExportMap,
     matchExportChain,
+    prependToExportRange,
 } from "./util";
 
 let logger: Logger = NoopLogger;
@@ -1268,7 +1271,7 @@ export class WebpackAstParser extends AstParser {
 
                     const exportRange = [
                         ...this.rawMakeExportMapRecursive(entryName) as RawExportRange,
-                        ...this.rawMakeExportMapRecursive(right) as RawExportRange,
+                        right,
                     ];
 
                     // TODO: debug assert no entry exists
@@ -1383,9 +1386,9 @@ export class WebpackAstParser extends AstParser {
     private rawMakeExportMapPropertyAssignment(node: PropertyAssignment): RawExportMap | RawExportRange {
         const objRange = this.rawMakeExportMapRecursive(node.initializer);
 
-        if (Array.isArray(objRange))
+        if (isExportRange(objRange))
             // FIXME: this seems... wrong
-            return [node.name, ...[objRange].flat()];
+            return prependToExportRange(objRange, node.name);
         return {
             [node.name.getText()]: objRange,
         };
@@ -1447,13 +1450,17 @@ export class WebpackAstParser extends AstParser {
         return this.rawMakeExportMapRecursive(last);
     }
 
+    private rawMakeExportMapLiteralish(node: LiteralToken) {
+        return annotateExportRange(node.getText(), [node]);
+    }
+
     rawMakeExportMapRecursive(node: Node): RawExportMap | RawExportRange {
         if (!node)
             throw new Error("node should not be undefined");
         if (isObjectLiteralExpression(node)) {
             return this.rawMakeExportMapObjectLiteral(node);
         } else if (isLiteralish(node)) {
-            return [node];
+            return this.rawMakeExportMapLiteralish(node);
         } else if (isPropertyAssignment(node)) {
             return this.rawMakeExportMapPropertyAssignment(node);
         } else if (isFunctionish(node)) {
