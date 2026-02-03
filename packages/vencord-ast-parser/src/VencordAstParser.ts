@@ -38,13 +38,13 @@ import {
 import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
 import { type Logger, NoopLogger } from "@vencord-companion/shared/Logger";
 
-import type { FindUse, FunctionNode, IFindType, IReplacement, PatchData, SourcePatch, StringNode, TestFind } from "./types";
+import type { FindUse, FunctionNode, IFindType, IReplacement, PatchData, RegexNode, SourcePatch, StringNode, TestFind } from "./types";
 import { tryParseRegularExpressionLiteral } from "./util";
 
 
 let logger: Logger = NoopLogger;
 
-export function setLogger(newLogger: Logger) {
+export function setLogger(newLogger: Logger): void {
     logger = newLogger;
 }
 
@@ -255,11 +255,11 @@ export class VencordAstParser extends AstParser {
         };
     }
 
-    parseReplace(node: Expression) {
+    parseReplace(node: Expression): StringNode | FunctionNode | null {
         return this.tryParseStringLiteralToStringNode(node) ?? this.tryParseFunction(node);
     }
 
-    parseMatch(node: Expression) {
+    parseMatch(node: Expression): StringNode | RegexNode | null {
         return this.tryParseStringLiteralToStringNode(node) ?? tryParseRegularExpressionLiteral(node);
     }
 

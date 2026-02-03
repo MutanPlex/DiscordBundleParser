@@ -4,6 +4,8 @@ type CacheTarget = {
     [key: symbol]: typeof SYM_UNCACHED | any;
 };
 
+type F<P extends () => any> = (...args: Parameters<P>) => ReturnType<P>;
+
 /**
  * Caches the result of a function and provides an option to invalidate the cache.
  *
@@ -13,16 +15,14 @@ type CacheTarget = {
  * @returns A decorator function that can be used to cache the result of a method.
  */
 export function Cache(invalidate?: (() => void)[]) {
-    type _<P extends () => any> = (...args: Parameters<P>) => ReturnType<P>;
-
     return function <
         P extends () => any,
     >(
         target: Object,
         propertyKey: string | symbol,
-        descriptor: TypedPropertyDescriptor<_<P>>,
+        descriptor: TypedPropertyDescriptor<F<P>>,
     ):
-        TypedPropertyDescriptor<_<P>> | void {
+        TypedPropertyDescriptor<F<P>> | void {
         const sym = Symbol(`cache-${propertyKey.toString()}`);
 
         (target as CacheTarget)[sym] = SYM_UNCACHED;

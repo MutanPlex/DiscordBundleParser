@@ -19,8 +19,8 @@ import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
 import type { EnvBuildVars, JsonType, MaybeLiteralJsonType, NonLiteral } from "./types";
 
 export class GlobalEnvParser extends AstParser {
-    static readonly SYM_UNSERIALIZABLE = Symbol("GlobalEnvParser.unserializable");
-    static readonly SYM_UNREADABLE_KEYS = Symbol("GlobalEnvParser.unreadableKeys");
+    static readonly SYM_UNSERIALIZABLE: unique symbol = Symbol("GlobalEnvParser.unserializable");
+    static readonly SYM_UNREADABLE_KEYS: unique symbol = Symbol("GlobalEnvParser.unreadableKeys");
 
     public static isLiteral(value: MaybeLiteralJsonType): value is Exclude<JsonType, NonLiteral> {
         if (value === null || typeof value !== "object") {

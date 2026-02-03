@@ -31,12 +31,12 @@ import { CharCode, findParent, getTokenAtPosition, isAssignmentExpression, isEOL
 
 let logger: Logger = NoopLogger;
 
-export function setLogger(newLogger: Logger) {
+export function setLogger(newLogger: Logger): void {
     logger = newLogger;
 }
 
 export class AstParser {
-    public static withFormattedText(text: string) {
+    public static withFormattedText(text: string): AstParser {
         return new this(Format(text));
     }
 
@@ -296,7 +296,7 @@ export class AstParser {
         return new Range(this.positionAt(pos), this.positionAt(end));
     }
 
-    public makeRangeFromAstNode(node: Node) {
+    public makeRangeFromAstNode(node: Node): Range {
         return new Range(this.positionAt(node.getStart(this.sourceFile)), this.positionAt(node.end));
     }
 
@@ -375,7 +375,7 @@ export class AstParser {
     /**
      * @CacheGetter
      */
-    public get lineCount() {
+    public get lineCount(): number {
         return this.lineOffsets.length;
     }
 

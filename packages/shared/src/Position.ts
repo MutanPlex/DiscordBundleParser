@@ -3,6 +3,7 @@ export interface IPosition {
     readonly character: number;
 }
 
+
 export class Position implements IPosition {
     static Min(...positions: Position[]): Position {
         if (positions.length === 0) {
@@ -192,7 +193,14 @@ export class Position implements IPosition {
         };
     }
 
+    /**
+     * @internal
+     */
     [Symbol.for("debug.description")]() {
-        return `(${this.line}:${this.character})`;
+        return getDebugDescriptionOfPosition(this);
     }
+}
+
+export function getDebugDescriptionOfPosition({ line, character }: IPosition): string {
+    return `(${line}:${character})`;
 }

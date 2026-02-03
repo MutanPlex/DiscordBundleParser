@@ -9,4 +9,5 @@
     "coverage-gutters.coverageFileNames": [
         "coverage/clover.xml",
     ],
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true,
 }

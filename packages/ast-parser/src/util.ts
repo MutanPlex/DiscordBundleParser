@@ -60,7 +60,7 @@ export const enum CharCode {
     CarriageReturn = 13,
 }
 
-export function isEOL(char: number) {
+export function isEOL(char: number): boolean {
     return char === CharCode.CarriageReturn || char === CharCode.LineFeed;
 }
 

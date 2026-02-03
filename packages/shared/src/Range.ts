@@ -155,6 +155,9 @@ export class Range implements IRange {
         return [this.start, this.end];
     }
 
+    /**
+     * @internal
+     */
     [Symbol.for("debug.description")]() {
         return getDebugDescriptionOfRange(this);
     }
