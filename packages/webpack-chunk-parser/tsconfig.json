@@ -17,6 +17,7 @@
   "include": ["src"],
   "exclude": [
     "src/__test__/*.js",
+    "src/__test__/testingUtil.ts",
     "src/**.test.ts",
     "src/WebpackMainChunkParser.test",
   ],

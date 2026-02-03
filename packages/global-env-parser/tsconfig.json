@@ -14,5 +14,5 @@
       "path": "../shared"
     }
   ],
-  "include": ["src"]
+  "include": ["src"],
 }
