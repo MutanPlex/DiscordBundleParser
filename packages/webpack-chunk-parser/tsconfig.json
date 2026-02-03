@@ -14,5 +14,10 @@
       "path": "../shared"
     }
   ],
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/__test__/*.js",
+    "src/**.test.ts",
+    "src/WebpackMainChunkParser.test",
+  ],
 }
