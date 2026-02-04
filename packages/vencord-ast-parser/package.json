@@ -15,7 +15,7 @@
     "preversion": "mkdir .git || :",
     "bump": "npm version",
     "postversion": "rmdir .git",
-    "build": "tsc -b"
+    "build": "tsc -b && tsc-alias -f"
   },
   "keywords": [],
   "license": "LGPL-3.0-or-later",

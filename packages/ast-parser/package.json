@@ -7,7 +7,7 @@
     "preversion": "mkdir .git || :",
     "bump": "npm version",
     "postversion": "rmdir .git",
-    "build": "tsc -b"
+    "build": "tsc -b && tsc-alias -f"
   },
   "keywords": [],
   "author": {
