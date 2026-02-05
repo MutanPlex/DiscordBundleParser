@@ -5,8 +5,11 @@ import { getFile } from "../__test__/testingUtil";
 import { WebpackMainChunkParser } from "..";
 
 describe("format 1", () => {
-    const fullParser = new WebpackMainChunkParser(getFile("fullWeb.js"));
     const partParser = new WebpackMainChunkParser(getFile("partWeb.js"));
+
+    const fullParser = SKIP_EXPENSIVE_TESTS
+        ? null!
+        : new WebpackMainChunkParser(getFile("fullWeb.js"));
 
     describe("partial file", () => {
         const parser = partParser;
@@ -14,14 +17,14 @@ describe("format 1", () => {
         mainChunkTests(parser);
     });
 
-    describe("full file", () => {
+    describe.skipIf(SKIP_EXPENSIVE_TESTS)("full file", () => {
         const parser = fullParser;
 
         mainChunkTests(parser, DELAY);
     });
 
     describe("fullFile results are the same as partFile results", function () {
-        it("js chunk hashes match", function () {
+        it.skipIf(SKIP_EXPENSIVE_TESTS)("js chunk hashes match", function () {
             const full = fullParser.getJsChunkHashes().toSorted();
             const part = partParser.getJsChunkHashes().toSorted();
 
