@@ -1,6 +1,4 @@
-import { expect, it } from "vitest";
-
-import { describe } from "node:test";
+import { describe, expect, it } from "vitest";
 
 import { DELAY, mainChunkTests } from "./util";
 import { getFile } from "../__test__/testingUtil";

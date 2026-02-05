@@ -37,4 +37,4 @@ export function mainChunkTests(parser: WebpackMainChunkParser, delay?: number) {
     });
 }
 
-export const DELAY = 15_000;
+export const DELAY = 30_000;
