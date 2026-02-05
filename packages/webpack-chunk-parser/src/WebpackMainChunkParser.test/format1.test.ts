@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DELAY, mainChunkTests } from "./util";
+import { DELAY, mainChunkTests, SKIP_EXPENSIVE_TESTS } from "./util";
 import { getFile } from "../__test__/testingUtil";
 import { WebpackMainChunkParser } from "..";
 

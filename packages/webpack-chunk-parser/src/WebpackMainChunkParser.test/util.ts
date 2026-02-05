@@ -38,3 +38,4 @@ export function mainChunkTests(parser: WebpackMainChunkParser, delay?: number) {
 }
 
 export const DELAY = 30_000;
+export const SKIP_EXPENSIVE_TESTS = !!(process.env.CI || process.env.SKIP_EXPENSIVE_TESTS);

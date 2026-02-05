@@ -11,6 +11,8 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "preserveSymlinks": false,
+        "strict": true,
+        "noImplicitAny": false,
     },
     "references": [
         {
@@ -36,7 +38,6 @@
         "packages/**/*.test.ts",
         "packages/**/__test__/testingUtil.ts",
         "packages/webpack-chunk-parser/src/WebpackMainChunkParser.test/**.ts",
-        "env.test.d.ts"
     ],
     "exclude": [
         "node_modules"
