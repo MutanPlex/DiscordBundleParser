@@ -1,6 +1,6 @@
 {
   "name": "@vencord-companion/ast-parser",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {
