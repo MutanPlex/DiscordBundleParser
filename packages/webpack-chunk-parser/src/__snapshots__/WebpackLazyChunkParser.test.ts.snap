@@ -2,7 +2,7 @@
 
 exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
 {
-  "18235": "18235(e, t, r) {
+  "18235": "function(e, t, r) {
         r.d(t, {
             A: () => l
         });
@@ -18,7 +18,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
             })
         }
     }",
-  "302223": "302223(e, t, r) {
+  "302223": "function(e, t, r) {
         r.d(t, {
             A: () => s
         });
@@ -53,7 +53,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
             })
         }
     }",
-  "348858": "348858(e, t, r) {
+  "348858": "function(e, t, r) {
         r.d(t, {
             I: () => u
         });
@@ -168,7 +168,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
             }
         }
     }",
-  "379078": "379078(e, t, r) {
+  "379078": "function(e, t, r) {
         r.d(t, {
             n: () => c,
             r: () => l
@@ -181,7 +181,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
         a.JARO_WINKLER = "jaro_winkler",
         a)
     }",
-  "617354": "617354(e, t, r) {
+  "617354": "function(e, t, r) {
         r.d(t, {
             A: () => a
         });
@@ -190,7 +190,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
             return r ? n.intl.string(n.t["2Ne/Y1"]) : t ? n.intl.string(n.t.QZ7WSS) : e ? n.intl.string(n.t["2US872"]) : n.intl.string(n.t.wjcRFX)
         }
     }",
-  "704554": "704554(e, t, r) {
+  "704554": "function(e, t, r) {
         r.d(t, {
             RT: () => o
         }),
@@ -331,7 +331,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
             g
         }
     }",
-  "706712": "706712(e, t, r) {
+  "706712": "function(e, t, r) {
         r.d(t, {
             Ay: () => O,
             DQ: () => w,
@@ -861,7 +861,7 @@ exports[`LazyChunkParser > new format > gets modules from a lazy chunk 1`] = `
 
 exports[`LazyChunkParser > new format > gets modules from an i18n chunk 1`] = `
 {
-  "244292": "244292(e,a,t){t.r(a),t.d(a,{default:()=>s});let s=JSON.parse('{"o/An3l":[[1,"username"]," asked you to stream ",[1,"applicationName"]],"DKHhec":["Ask to Stream"],"8qq+H7":["Ask to Stream ",[1,"applicationName"]],"s7bMT0":[[1,"username"]," is asking you to stream ",[1,"applicationName"]],"7pndSl":["You asked someone to stream ",[1,"applicationName"]],"P0wwmM":["Already streaming"],"u4QmWl":["Request expired"],"qRXats":["Not in voice channel"],"43zohO":["Not running game"],"fac+eE":["No permission"],"8HU1M2":["Request sent"],"5+172e":["Stream"],"nAyuPp":["Stream Request"],"d/qbC0":[[1,"username"]," asked you to stream"],"8B3U5O":["You asked someone to stream"],"UGbmBp":["Stream"],"jTbTAF":[[8,"$b",[[1,"username"]]]," wants to watch you play ",[8,"$b",[[1,"game"]]],"."]}')}",
+  "244292": "function(e,a,t){t.r(a),t.d(a,{default:()=>s});let s=JSON.parse('{"o/An3l":[[1,"username"]," asked you to stream ",[1,"applicationName"]],"DKHhec":["Ask to Stream"],"8qq+H7":["Ask to Stream ",[1,"applicationName"]],"s7bMT0":[[1,"username"]," is asking you to stream ",[1,"applicationName"]],"7pndSl":["You asked someone to stream ",[1,"applicationName"]],"P0wwmM":["Already streaming"],"u4QmWl":["Request expired"],"qRXats":["Not in voice channel"],"43zohO":["Not running game"],"fac+eE":["No permission"],"8HU1M2":["Request sent"],"5+172e":["Stream"],"nAyuPp":["Stream Request"],"d/qbC0":[[1,"username"]," asked you to stream"],"8B3U5O":["You asked someone to stream"],"UGbmBp":["Stream"],"jTbTAF":[[8,"$b",[[1,"username"]]]," wants to watch you play ",[8,"$b",[[1,"game"]]],"."]}')}",
 }
 `;
 

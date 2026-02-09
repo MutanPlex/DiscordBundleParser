@@ -58,7 +58,9 @@ export abstract class WebpackChunkParser extends AstParser {
         if (!moduleId) {
             return;
         }
-        return [moduleId, entry.getText()];
+
+
+        return [moduleId, `function${entry.getText().substring(entry.name.getText().length)}`];
     }
 
     private tryParseChunkEntry(entry: ObjectLiteralElementLike): ModuleEntry | undefined {
