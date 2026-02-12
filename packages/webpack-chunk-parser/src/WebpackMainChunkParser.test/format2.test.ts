@@ -33,5 +33,11 @@ describe("format 2", () => {
 
             expect(full).to.deep.equal(part);
         });
+        it.skipIf(SKIP_EXPENSIVE_TESTS)("entrypoint id matches", function () {
+            const full = fullParser.getEntrypointId();
+            const part = partParser.getEntrypointId();
+
+            expect(full).to.equal(part);
+        });
     });
 });

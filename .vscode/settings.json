@@ -4,7 +4,8 @@
         "Literalish",
         "NITROWEEN",
         "SNOWGLOBE",
-        "vitest"
+        "vitest",
+        "wreq"
     ],
     "coverage-gutters.coverageFileNames": [
         "coverage/clover.xml",

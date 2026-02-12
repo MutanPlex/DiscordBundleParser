@@ -1,5 +1,5 @@
 import type { VariableInfo } from "ts-api-utils";
-import { type Expression, isArrowFunction, isElementAccessExpression, isObjectLiteralExpression, isPropertyAccessExpression, isPropertyAssignment, isStringLiteralLike, isVariableDeclaration, type ObjectLiteralElementLike, type ObjectLiteralExpression, type PropertyName } from "typescript";
+import { type Expression, isArrowFunction, isCallExpression, isElementAccessExpression, isIdentifier, isNumericLiteral, isObjectLiteralExpression, isPropertyAccessExpression, isPropertyAssignment, isStringLiteralLike, isVariableDeclaration, type ObjectLiteralElementLike, type ObjectLiteralExpression, type PropertyName } from "typescript";
 
 import type { Functionish } from "@vencord-companion/ast-parser/types";
 import { findParent, isAssignmentExpression, isBinaryPlusExpression, isFunctionish, lastChild, nonNull, tryParseStringOrNumberLiteral } from "@vencord-companion/ast-parser/util";
@@ -11,6 +11,10 @@ import { WebpackChunkParser } from "./WebpackChunkParser";
 const BUILD_MODULE_REGEX = /Trying to open a changelog for an invalid build number/;
 const BUILD_NUMBER_REGEX = /(?:parseInt\("|"Trying to open a changelog for an invalid build number )(\d+?)"\)/;
 const KNOWN_BUILD_MODULE_IDS: ReadonlyArray<string> = Object.freeze(["128014", "446023"]);
+
+function isValidModuleId(id: Expression) {
+    return isStringLiteralLike(id) || isNumericLiteral(id);
+}
 
 export class WebpackMainChunkParser extends WebpackChunkParser {
     @CacheGetter()
@@ -120,6 +124,50 @@ export class WebpackMainChunkParser extends WebpackChunkParser {
 
                 return id;
             }
+        }
+    }
+
+    /**
+     * Get the id of the entrypoint module.
+     * @returns The id of the entrypoint module, if found
+     * @returns undefined if the id could not be found
+     */
+    @Cache()
+    public getEntrypointId(): string | undefined {
+        const wreq = this.__webpack_require__;
+
+        if (!wreq) {
+            return;
+        }
+
+        // var __webpack_exports__ = __webpack_require__(id);
+        for (const { location: { parent: call } } of wreq.uses) {
+            if (
+                !call
+                || !isCallExpression(call)
+                || call.arguments.length !== 1
+            ) {
+                continue;
+            }
+
+            const [maybeId] = call.arguments;
+
+            if (!isValidModuleId(maybeId)) {
+                continue;
+            }
+
+            const { parent: decl } = call;
+
+            if (
+                !decl
+                || !isVariableDeclaration(decl)
+                || !isIdentifier(decl.name)
+                || decl.name.text !== "__webpack_exports__"
+            ) {
+                continue;
+            }
+
+            return maybeId.text;
         }
     }
 

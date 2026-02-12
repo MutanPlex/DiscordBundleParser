@@ -1,5 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`format 2 > full file > finds the bundle entrypoint 1`] = `"329563"`;
+
 exports[`format 2 > full file > gets all initial module text 1`] = `
 [
   "4",
@@ -21677,6 +21679,8 @@ exports[`format 2 > full file > locates __webpack_require__ 1`] = `
   ],
 ]
 `;
+
+exports[`format 2 > partial file > finds the bundle entrypoint 1`] = `"329563"`;
 
 exports[`format 2 > partial file > gets all initial module text 1`] = `
 [

@@ -35,6 +35,11 @@ export function mainChunkTests(parser: WebpackMainChunkParser, delay?: number) {
         expect(keys.length, "An entry was missed").to.equal(numEntries);
         expect(keys).toMatchSnapshot();
     });
+    it("finds the bundle entrypoint", function () {
+        const entry = parser.getEntrypointId();
+
+        expect(entry).toMatchSnapshot();
+    });
 }
 
 export const DELAY = 30_000;
