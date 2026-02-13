@@ -1,3 +1,5 @@
-src
+src/__snapshots__
+src/**/*.test.ts
+src/__test__
 tsconfig.json
 tsconfig.tsbuildinfo

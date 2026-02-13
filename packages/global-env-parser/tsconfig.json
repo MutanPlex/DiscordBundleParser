@@ -4,7 +4,9 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
   "references": [
     {
@@ -14,5 +16,12 @@
       "path": "../shared"
     }
   ],
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/**.test.ts",
+    "src/__test__",
+  ]
 }
