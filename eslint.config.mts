@@ -396,7 +396,7 @@ const StyleRules: Partial<IStyleRules> = {
         {
             // things like (foo && bar) || baz || qux
             nestedBinaryExpressions: false,
-            enforceForArrowConditionals: false,
+            ignoredNodes: ["ArrowFunctionExpression"],
             returnAssign: false,
             conditionalAssign: false,
         },

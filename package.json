@@ -23,9 +23,12 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.4.0",
     "@types/node": "catalog:",
-    "@typescript-eslint/eslint-plugin": "^8.45.0",
+    "@types/ws": "^8.5.14",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
+    "baseline-browser-mapping": "^2.10.0",
+    "chokidar": "^3.6.0",
     "eslint": "^9.36.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unicorn": "^61.0.2",
@@ -33,7 +36,7 @@
     "jiti": "^2.6.1",
     "tsc-alias": "^1.8.16",
     "typescript": "catalog:",
-    "typescript-eslint": "^8.45.0",
+    "typescript-eslint": "^8.56.0",
     "vitest": "catalog:"
   }
 }

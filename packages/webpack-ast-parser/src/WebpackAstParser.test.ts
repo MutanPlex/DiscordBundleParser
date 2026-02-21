@@ -658,7 +658,7 @@ describe("WebpackAstParser", function () {
                     return fullPath && relative(__dirname, fullPath)
                         .replaceAll("\\", "/");
                 },
-                getModuleParser(requestor, id, latest) {
+                getModuleParser(requestor, id, _latest) {
                     if (!modulesOnDisk[String(id)]) {
                         throw new Error(`Module ${id} not found on disk`);
                     }
