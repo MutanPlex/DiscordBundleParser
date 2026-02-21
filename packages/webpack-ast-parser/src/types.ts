@@ -47,17 +47,15 @@ export interface IModuleDepManager {
 }
 
 export interface IModuleCache {
-    /**
-     * normally just query the client for the latest version of said module
-     * 
-     * Throw an error if the module is not found
-     */
-    getLatestModuleFromNum(id: string | number): Promise<string>;
+    getModuleFilepath(id: string): string | undefined;
     /**
      * throw if not found
+     * 
+     * @param requestor the parser that started this request
+     * @param id the module id to get the parser for
+     * @param latest if true, perfer a newer version over one that matches the same build as the current module
      */
-    getModuleFromNum(id: string): Promise<string>;
-    getModuleFilepath(id: string): string | undefined;
+    getModuleParser(requestor: WebpackAstParser, id: string, latest?: boolean): Promise<WebpackAstParser>;
 }
 
 /**

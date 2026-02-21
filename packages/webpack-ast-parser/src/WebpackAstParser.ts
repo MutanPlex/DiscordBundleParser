@@ -316,20 +316,12 @@ export class WebpackAstParser extends AstParser {
         };
     }
 
-    async tryGetFreshModuleFallbackToCache(moduleId: string | number): Promise<string | undefined> {
+    private async tryGetModuleParser(moduleId: string | number): Promise<WebpackAstParser | undefined> {
         try {
-            return await this.moduleCache.getLatestModuleFromNum(moduleId);
+            return await this.moduleCache.getModuleParser(this, String(moduleId), true);
         } catch (e) {
             logger.warn(e);
         }
-
-        try {
-            return await this.moduleCache.getModuleFromNum(String(moduleId));
-        } catch (e) {
-            logger.warn(e);
-        }
-
-        return;
     }
 
     /**
@@ -423,12 +415,11 @@ export class WebpackAstParser extends AstParser {
         if (!moduleId)
             return;
 
-        const res = await this.tryGetFreshModuleFallbackToCache(moduleId);
+        let cur = await this.tryGetModuleParser(moduleId);
 
-        if (res == null)
+        if (cur == null) {
             return;
-
-        let cur = WebpackAstParser.withFormattedModule(res, moduleId);
+        }
 
         if (names.length < 1) {
             return [
@@ -440,6 +431,9 @@ export class WebpackAstParser extends AstParser {
             ];
         }
 
+        cur;
+        // ^?
+
         while (true) {
             // check for an explicit re-export before falling back to checking for a whole module re-export
             const ret = cur.doesReExportFromExport(names.map((x) => x.text));
@@ -449,11 +443,11 @@ export class WebpackAstParser extends AstParser {
                 const wholeModuleExportId = cur.doesReExportWholeModule();
 
                 if (wholeModuleExportId) {
-                    const content = await this.tryGetFreshModuleFallbackToCache(wholeModuleExportId);
+                    const maybeModule = await this.tryGetModuleParser(wholeModuleExportId);
 
-                    if (content) {
-                        cur = WebpackAstParser.withFormattedModule(content, wholeModuleExportId);
+                    if (maybeModule) {
                         // go again with the new module
+                        cur = maybeModule;
                         continue;
                     }
                 }
@@ -464,16 +458,14 @@ export class WebpackAstParser extends AstParser {
 
             [, names] = ret;
 
-            const res = await this.tryGetFreshModuleFallbackToCache(importSourceId)
-                .catch(logger.error);
-
-            if (!res) {
+            if (!(cur = await this.tryGetModuleParser(importSourceId))) {
                 logger.error("Failed to get data from client");
                 return;
             }
-
-            cur = WebpackAstParser.withFormattedModule(res, importSourceId);
         }
+
+        cur;
+        // ^?
 
         const maybeRange: Range = cur
             .findExportLocation(names.map((x) => x.text));
@@ -522,12 +514,11 @@ export class WebpackAstParser extends AstParser {
         if (!moduleId)
             return;
 
-        const res = await this.tryGetFreshModuleFallbackToCache(moduleId);
+        let cur = await this.tryGetModuleParser(moduleId);
 
-        if (res == null)
+        if (!cur) {
             return;
-
-        let cur = WebpackAstParser.withFormattedModule(res, moduleId);
+        }
 
         while (true) {
             // check for an explicit re-export before falling back to checking for a whole module re-export
@@ -538,10 +529,10 @@ export class WebpackAstParser extends AstParser {
                 const wholeModuleExportId = cur.doesReExportWholeModule();
 
                 if (wholeModuleExportId) {
-                    const content = await this.tryGetFreshModuleFallbackToCache(wholeModuleExportId);
+                    const maybeParser = await this.tryGetModuleParser(wholeModuleExportId);
 
-                    if (content) {
-                        cur = WebpackAstParser.withFormattedModule(content, wholeModuleExportId);
+                    if (maybeParser) {
+                        cur = maybeParser;
                         // go again with the new module
                         continue;
                     }
@@ -554,14 +545,10 @@ export class WebpackAstParser extends AstParser {
 
             [, names] = ret;
 
-            const res = await this.tryGetFreshModuleFallbackToCache(importSourceId);
-
-            if (!res) {
+            if (!(cur = await this.tryGetModuleParser(importSourceId))) {
                 logger.error("Failed to get new module");
                 return;
             }
-
-            cur = WebpackAstParser.withFormattedModule(res, importSourceId);
         }
 
         const hoverText = cur.findHoverText(names.map((x) => x.text));
@@ -681,12 +668,15 @@ export class WebpackAstParser extends AstParser {
                 }
                 (seen[importedId] ||= new Set()).add(modId);
 
-                const modText = await this.moduleCache.getModuleFromNum(modId);
+                let parser: WebpackAstParser | undefined;
 
-                if (!modText)
+                try {
+                    parser = await this.moduleCache.getModuleParser(this, modId);
+                } catch {
+                    logger.warn(`Failed to get module parser for module ${modId}`);
                     continue;
+                }
 
-                const parser = new WebpackAstParser(modText);
                 const uses = parser.getUsesOfImport(importedId, exportedName);
                 // FIXME: this covers up a bug in {@link doesReExport}
                 // if (uses.length === 0)
@@ -2242,8 +2232,7 @@ export class WebpackAstParser extends AstParser {
 
         while ((cur = toSearch.pop())) {
             const [thisParser, moduleId, exportName] = cur;
-            const moduleText = await this.moduleCache.getModuleFromNum(moduleId);
-            const otherParser = WebpackAstParser.withModule(moduleText, moduleId);
+            const otherParser = await this.moduleCache.getModuleParser(this, moduleId);
 
             if (!(thisParser.moduleId && otherParser.moduleId)) {
                 throw new Error("Module is is not set, this should not happen");
@@ -2306,14 +2295,16 @@ export class WebpackAstParser extends AstParser {
      * checks if this module exports a flux dispatcher
      * 
      * @returns the string of the export name if this module exports a flux dispatcher
+     * @deprecated not really deprecated, but doesn't do anything, always returns null
      */
     exportsFluxDispatcherInstance(): string | null {
-        const moduleExports = this.getExportMapRaw();
+        // TODO: implement this
+        // const moduleExports = this.getExportMapRaw();
 
-        // no exports, cant be flux dispatcher
-        if (allEntries(moduleExports).length === 0) {
-            return null;
-        }
+        // // no exports, cant be flux dispatcher
+        // if (allEntries(moduleExports).length === 0) {
+        //     return null;
+        // }
 
         return null;
     }
