@@ -1,5 +1,5 @@
 {
-  "name": "@vencord-companion/shared",
+  "name": "@plexcord-companion/shared",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
@@ -15,8 +15,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "sadan",
-    "url": "https://sadan.zip"
+    "name": "MutanPlex",
+    "url": "https://mutanplex.com"
   },
   "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.15.0",

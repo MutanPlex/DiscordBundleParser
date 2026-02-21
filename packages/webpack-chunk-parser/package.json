@@ -1,10 +1,10 @@
 {
-  "name": "@vencord-companion/webpack-chunk-parser",
+  "name": "@plexcord-companion/webpack-chunk-parser",
   "version": "2.0.0",
   "description": "",
   "author": {
-    "name": "sadan",
-    "url": "https://sadan.zip"
+    "name": "MutanPlex",
+    "url": "https://mutanplex.com"
   },
   "main": "index.js",
   "exports": {
@@ -21,8 +21,8 @@
   "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
-    "@vencord-companion/ast-parser": "workspace:*",
-    "@vencord-companion/shared": "workspace:*"
+    "@plexcord-companion/ast-parser": "workspace:*",
+    "@plexcord-companion/shared": "workspace:*"
   },
   "peerDependencies": {
     "ts-api-utils": "catalog:",

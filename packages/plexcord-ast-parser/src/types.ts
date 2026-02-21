@@ -1,4 +1,4 @@
-import { Range } from "@vencord-companion/shared/Range";
+import { Range } from "@plexcord-companion/shared/Range";
 export type AnyFindType
     = `find${"Component" | "ByProps" | "Store" | "ByCode" | "ModuleId" | "ComponentByCode" | ""}${"Lazy" | ""}`;
 

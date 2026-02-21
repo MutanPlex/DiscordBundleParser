@@ -1,8 +1,9 @@
 // This file exists for quick and easy reference to discord's webpack types
 /* eslint-disable */
 /*!
- * @vencord/discord-types
+ * @plexcord/discord-types
  * Copyright (c) 2024 Vendicated, Nuckyz and contributors
+ * Copyright (c) 2025 MutanPlex
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 

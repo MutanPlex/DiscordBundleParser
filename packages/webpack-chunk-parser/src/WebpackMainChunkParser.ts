@@ -1,9 +1,9 @@
 import type { VariableInfo } from "ts-api-utils";
 import { type Expression, isArrowFunction, isCallExpression, isElementAccessExpression, isIdentifier, isNumericLiteral, isObjectLiteralExpression, isPropertyAccessExpression, isPropertyAssignment, isStringLiteralLike, isVariableDeclaration, type ObjectLiteralElementLike, type ObjectLiteralExpression, type PropertyName } from "typescript";
 
-import type { Functionish } from "@vencord-companion/ast-parser/types";
-import { findParent, isAssignmentExpression, isBinaryPlusExpression, isFunctionish, lastChild, nonNull, tryParseStringOrNumberLiteral } from "@vencord-companion/ast-parser/util";
-import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
+import type { Functionish } from "@plexcord-companion/ast-parser/types";
+import { findParent, isAssignmentExpression, isBinaryPlusExpression, isFunctionish, lastChild, nonNull, tryParseStringOrNumberLiteral } from "@plexcord-companion/ast-parser/util";
+import { Cache, CacheGetter } from "@plexcord-companion/shared/decorators";
 
 import type { JSHashEntry } from "./types";
 import { WebpackChunkParser } from "./WebpackChunkParser";

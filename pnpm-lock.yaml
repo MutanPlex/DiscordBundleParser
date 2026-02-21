@@ -22,7 +22,7 @@ catalogs:
       specifier: ^2.1.0
       version: 2.1.0
     typescript:
-      specifier: ^5.0.0
+      specifier: ^5.9.0
       version: 5.9.3
     vitest:
       specifier: ^3.2.4
@@ -82,12 +82,12 @@ importers:
 
   packages/ast-parser:
     dependencies:
+      '@plexcord-companion/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@sadan4/devtools-pretty-printer':
         specifier: 'catalog:'
         version: 1.0.4
-      '@vencord-companion/shared':
-        specifier: workspace:*
-        version: link:../shared
       ts-api-utils:
         specifier: 'catalog:'
         version: 2.1.0(patch_hash=345aaf95fe62bd3fbc109183d2d43f9319d340cd32cc554d31dae15f9887dd67)(typescript@5.9.3)
@@ -101,10 +101,32 @@ importers:
 
   packages/global-env-parser:
     dependencies:
-      '@vencord-companion/ast-parser':
+      '@plexcord-companion/ast-parser':
         specifier: workspace:*
         version: link:../ast-parser
-      '@vencord-companion/shared':
+      '@plexcord-companion/shared':
+        specifier: workspace:*
+        version: link:../shared
+      ts-api-utils:
+        specifier: 'catalog:'
+        version: 2.1.0(patch_hash=345aaf95fe62bd3fbc109183d2d43f9319d340cd32cc554d31dae15f9887dd67)(typescript@5.9.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.6.2
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.4(@types/node@24.6.2)(@vitest/ui@3.2.4)(jiti@2.6.1)
+
+  packages/plexcord-ast-parser:
+    dependencies:
+      '@plexcord-companion/ast-parser':
+        specifier: workspace:*
+        version: link:../ast-parser
+      '@plexcord-companion/shared':
         specifier: workspace:*
         version: link:../shared
       ts-api-utils:
@@ -127,39 +149,17 @@ importers:
         specifier: 'catalog:'
         version: 3.2.4(@types/node@24.6.2)(@vitest/ui@3.2.4)(jiti@2.6.1)
 
-  packages/vencord-ast-parser:
-    dependencies:
-      '@vencord-companion/ast-parser':
-        specifier: workspace:*
-        version: link:../ast-parser
-      '@vencord-companion/shared':
-        specifier: workspace:*
-        version: link:../shared
-      ts-api-utils:
-        specifier: 'catalog:'
-        version: 2.1.0(patch_hash=345aaf95fe62bd3fbc109183d2d43f9319d340cd32cc554d31dae15f9887dd67)(typescript@5.9.3)
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
-    devDependencies:
-      '@types/node':
-        specifier: 'catalog:'
-        version: 24.6.2
-      vitest:
-        specifier: 'catalog:'
-        version: 3.2.4(@types/node@24.6.2)(@vitest/ui@3.2.4)(jiti@2.6.1)
-
   packages/webpack-ast-parser:
     dependencies:
+      '@plexcord-companion/ast-parser':
+        specifier: workspace:*
+        version: link:../ast-parser
+      '@plexcord-companion/shared':
+        specifier: workspace:*
+        version: link:../shared
       '@sadan4/devtools-pretty-printer':
         specifier: 'catalog:'
         version: 1.0.4
-      '@vencord-companion/ast-parser':
-        specifier: workspace:*
-        version: link:../ast-parser
-      '@vencord-companion/shared':
-        specifier: workspace:*
-        version: link:../shared
       ts-api-utils:
         specifier: 'catalog:'
         version: 2.1.0(patch_hash=345aaf95fe62bd3fbc109183d2d43f9319d340cd32cc554d31dae15f9887dd67)(typescript@5.9.3)
@@ -173,10 +173,10 @@ importers:
 
   packages/webpack-chunk-parser:
     dependencies:
-      '@vencord-companion/ast-parser':
+      '@plexcord-companion/ast-parser':
         specifier: workspace:*
         version: link:../ast-parser
-      '@vencord-companion/shared':
+      '@plexcord-companion/shared':
         specifier: workspace:*
         version: link:../shared
       ts-api-utils:
@@ -1396,9 +1396,6 @@ packages:
 
   std-env@3.10.0:
     resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
-
-  std-env@3.9.0:
-    resolution: {integrity: sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==}
 
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
@@ -2742,8 +2739,6 @@ snapshots:
 
   std-env@3.10.0: {}
 
-  std-env@3.9.0: {}
-
   string-width@4.2.3:
     dependencies:
       emoji-regex: 8.0.0
@@ -2896,7 +2891,7 @@ snapshots:
       magic-string: 0.30.19
       pathe: 2.0.3
       picomatch: 4.0.3
-      std-env: 3.9.0
+      std-env: 3.10.0
       tinybench: 2.9.0
       tinyexec: 0.3.2
       tinyglobby: 0.2.15

@@ -34,9 +34,9 @@ import {
     isDefaultImport,
     isInImportStatment,
     type WithParent,
-} from "@vencord-companion/ast-parser";
-import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
-import { type Logger, NoopLogger } from "@vencord-companion/shared/Logger";
+} from "@plexcord-companion/ast-parser";
+import { Cache, CacheGetter } from "@plexcord-companion/shared/decorators";
+import { type Logger, NoopLogger } from "@plexcord-companion/shared/Logger";
 
 import type { FindUse, FunctionNode, IFindType, IReplacement, PatchData, RegexNode, SourcePatch, StringNode, TestFind } from "./types";
 import { tryParseRegularExpressionLiteral } from "./util";
@@ -48,7 +48,7 @@ export function setLogger(newLogger: Logger): void {
     logger = newLogger;
 }
 
-export class VencordAstParser extends AstParser {
+export class PlexcordAstParser extends AstParser {
     private readonly _path: string;
 
     public get path(): string {
@@ -174,7 +174,7 @@ export class VencordAstParser extends AstParser {
                 const spanExpr = span.expression;
 
                 if (!isIdentifier(spanExpr)) {
-                    logger.debug(`[VencordAstParser] Trying to parse template literal with non-identifier span: ${span.getText()}, FileName: ${span.getSourceFile().fileName}`);
+                    logger.debug(`[PlexcordAstParser] Trying to parse template literal with non-identifier span: ${span.getText()}, FileName: ${span.getSourceFile().fileName}`);
                     break tryParse;
                 }
 
@@ -183,7 +183,7 @@ export class VencordAstParser extends AstParser {
                 if (!usageInfo) {
                     break tryParse;
                 } else if (usageInfo.declarations.length === 0) {
-                    logger.trace(`[VencordAstParser] Could not resolve identifier ${spanExpr.text} to a variable declaration. Is it a global?`);
+                    logger.trace(`[PlexcordAstParser] Could not resolve identifier ${spanExpr.text} to a variable declaration. Is it a global?`);
                     break tryParse;
                 }
 

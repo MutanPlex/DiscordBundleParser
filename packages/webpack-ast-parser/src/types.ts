@@ -1,6 +1,6 @@
 import type { ConstructorDeclaration, FunctionLikeDeclaration, Identifier, Node, PropertyAssignment } from "typescript";
 
-import { type IRange, Range } from "@vencord-companion/shared/Range";
+import { type IRange, Range } from "@plexcord-companion/shared/Range";
 
 import { WebpackAstParser } from "./WebpackAstParser";
 

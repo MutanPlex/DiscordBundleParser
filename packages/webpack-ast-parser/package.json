@@ -1,5 +1,5 @@
 {
-  "name": "@vencord-companion/webpack-ast-parser",
+  "name": "@plexcord-companion/webpack-ast-parser",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
@@ -12,8 +12,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "sadan",
-    "url": "https://sadan.zip"
+    "name": "MutanPlex",
+    "url": "https://mutanplex.com"
   },
   "exports": {
     "./*": "./dist/*.js",
@@ -23,8 +23,8 @@
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
     "@sadan4/devtools-pretty-printer": "catalog:",
-    "@vencord-companion/ast-parser": "workspace:*",
-    "@vencord-companion/shared": "workspace:*"
+    "@plexcord-companion/ast-parser": "workspace:*",
+    "@plexcord-companion/shared": "workspace:*"
   },
   "peerDependencies": {
     "ts-api-utils": "catalog:",

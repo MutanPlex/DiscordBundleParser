@@ -5,24 +5,24 @@ import { Dirent, PathLike, readFileSync } from "node:fs";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 
-import { VencordAstParser } from "./VencordAstParser";
+import { PlexcordAstParser } from "./PlexcordAstParser";
 
 const __dirname = import.meta.dirname;
-const VENCORD_DIR = join(__dirname, "__test__", ".vencord-source");
-const VENCORD_REV = "8807564053c7b4cc05c763e2dc7171f5d61e39c7";
+const PLEXCORD_DIR = join(__dirname, "__test__", ".plexcord-source");
+const PLEXCORD_REV = "3605b272b4b56ad9925f62e8b990671b3054e813";
 
-function parserFor(path: string): VencordAstParser {
+function parserFor(path: string): PlexcordAstParser {
     path = join(__dirname, "__test__", path);
-    return new VencordAstParser(readFileSync(path, "utf-8"), path);
+    return new PlexcordAstParser(readFileSync(path, "utf-8"), path);
 }
 
 const IS_WINDOWS = process.platform === "win32";
 
-describe("VencordAstParser", async function () {
-    await ensureVencordDownloaded();
+describe("PlexcordAstParser", async function () {
+    await ensurePlexcordDownloaded();
 
     // collect all plugin paths
-    const pluginParsers = await Promise.all((await collectPluginPaths()).map(async (path) => new VencordAstParser(await readFile(path, "utf-8"), path)));
+    const pluginParsers = await Promise.all((await collectPluginPaths()).map(async (path) => new PlexcordAstParser(await readFile(path, "utf-8"), path)));
 
     describe("getPluginName", function () {
         it("parses all plugin names to non-null values", function () {
@@ -67,15 +67,15 @@ function waitForProcess(process: ChildProcess): Promise<void> {
     });
 }
 
-async function ensureVencordDownloaded() {
-    if (await exists(VENCORD_DIR) && await isDirectory(VENCORD_DIR)) {
+async function ensurePlexcordDownloaded() {
+    if (await exists(PLEXCORD_DIR) && await isDirectory(PLEXCORD_DIR)) {
         return;
     }
 
 
-    await waitForProcess(exec(`git clone https://github.com/vendicated/vencord.git ${VENCORD_DIR}`));
-    await waitForProcess(exec(`git checkout --detach ${VENCORD_REV}`, {
-        cwd: VENCORD_DIR,
+    await waitForProcess(exec(`git clone https://github.com/MutanPlex/Plexcord.git ${PLEXCORD_DIR}`));
+    await waitForProcess(exec(`git checkout --detach ${PLEXCORD_REV}`, {
+        cwd: PLEXCORD_DIR,
     }));
 }
 
@@ -97,7 +97,7 @@ async function resolvePluginEntrypoint(pluginEntry: Dirent): Promise<string> {
 }
 
 async function collectPluginPaths(): Promise<string[]> {
-    const basePluginDir = join(VENCORD_DIR, "src", "plugins");
+    const basePluginDir = join(PLEXCORD_DIR, "src", "plugins");
     const pluginDirs = [basePluginDir, join(basePluginDir, "_api"), join(basePluginDir, "_core")];
 
     for (const dir of pluginDirs) {

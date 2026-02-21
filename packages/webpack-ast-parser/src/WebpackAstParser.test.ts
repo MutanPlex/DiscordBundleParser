@@ -4,8 +4,8 @@ import { readdir, readFile } from "node:fs/promises";
 import { basename, join, relative } from "node:path";
 import * as posix from "node:path/posix";
 
-import { Position } from "@vencord-companion/shared/Position";
-import { Range } from "@vencord-companion/shared/Range";
+import { Position } from "@plexcord-companion/shared/Position";
+import { Range } from "@plexcord-companion/shared/Range";
 
 import { getFile } from "./__test__/testingUtil";
 import { Location, MainDeps, RangeExportMap, Reference } from "./types";

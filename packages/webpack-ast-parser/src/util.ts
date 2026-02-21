@@ -1,7 +1,7 @@
 import { isIdentifier, type LeftHandSideExpression, type MemberName } from "typescript";
 
-import { Position } from "@vencord-companion/shared/Position";
-import { Range } from "@vencord-companion/shared/Range";
+import { Position } from "@plexcord-companion/shared/Position";
+import { Range } from "@plexcord-companion/shared/Range";
 
 import type { AnyExportKey, ExportMap } from "./types";
 import { WebpackAstParser } from "./WebpackAstParser";

@@ -587,7 +587,7 @@ const extensions = "{js,mjs,cjs,jsx,mjsx,cjsx,ts,mts,cts,tsx,mtsx,ctsx}";
 
 export default defineConfig(
     {
-        ignores: ["**/dist", "node_modules", "**/__test__/**", "packages/vencord-ast-parser/src/__test__/.vencord-source/**"],
+        ignores: ["**/dist", "node_modules", "**/__test__/**", "packages/plexcord-ast-parser/src/__test__/.plexcord-source/**"],
     },
     {
         files: [`eslint.config.${extensions}`, `packages/**/*.${extensions}`],
@@ -626,7 +626,7 @@ export default defineConfig(
                     groups: [
                         ["^"],
                         ["^node:.*$"],
-                        ["^@vencord-companion/"],
+                        ["^@plexcord-companion/"],
                         ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$", "^\\.\\.(?!/?$)", "^\\.\\./?$"],
                     ],
                 },

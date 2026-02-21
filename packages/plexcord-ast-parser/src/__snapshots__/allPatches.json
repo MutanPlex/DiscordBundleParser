@@ -1109,7 +1109,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&case 'VencordPlugins':return $self.PluginsSubmenu();"
+                        "value": "$&case 'PlexcordPlugins':return $self.PluginsSubmenu();"
                     }
                 }
             ],
@@ -7804,7 +7804,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(m, channel, permCheck) => `${m}!Vencord.Webpack.Common.PermissionStore.can(${CONNECT}n,${channel})?${permCheck}CONNECT):`;\n"
+                        "value": "\"use strict\";\n(m, channel, permCheck) => `${m}!Plexcord.Webpack.Common.PermissionStore.can(${CONNECT}n,${channel})?${permCheck}CONNECT):`;\n"
                     }
                 },
                 {
@@ -8685,7 +8685,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$self.PanelWrapper,{VencordOriginal:$1,"
+                        "value": "$self.PanelWrapper,{PlexcordOriginal:$1,"
                     }
                 }
             ],
@@ -9276,7 +9276,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(_, content) => `,content:Vencord.Plugins.plugins.Unindent.unindent(${content}),inQuote`;\n"
+                        "value": "\"use strict\";\n(_, content) => `,content:Plexcord.Plugins.plugins.Unindent.unindent(${content}),inQuote`;\n"
                     }
                 }
             ],
@@ -9669,7 +9669,7 @@
         }
     ],
     "VcNarrator": [],
-    "VencordToolbox": [
+    "PlexcordToolbox": [
         {
             "findType": "string",
             "find": "\"M9 3v18\"",
@@ -9684,7 +9684,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$& $self.renderVencordPopoutButton($1),"
+                        "value": "$& $self.renderPlexcordPopoutButton($1),"
                     }
                 }
             ],
@@ -10059,7 +10059,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "Vencord.Util.copyToClipboard"
+                        "value": "Plexcord.Util.copyToClipboard"
                     }
                 }
             ],
@@ -10424,7 +10424,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "Vencord.Util.copyToClipboard"
+                        "value": "Plexcord.Util.copyToClipboard"
                     }
                 }
             ],
@@ -10724,7 +10724,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&(Vencord.Api.ChatButtons._injectButtons($1,arguments[0]),false)||"
+                        "value": "$&(Plexcord.Api.ChatButtons._injectButtons($1,arguments[0]),false)||"
                     }
                 }
             ],
@@ -10756,7 +10756,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "Vencord.Api.Commands._init($1)$2"
+                        "value": "Plexcord.Api.Commands._init($1)$2"
                     }
                 }
             ],
@@ -10786,7 +10786,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(_, cmd, args, ctx) => `,Vencord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`;\n"
+                        "value": "\"use strict\";\n(_, cmd, args, ctx) => `,Plexcord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`;\n"
                     }
                 }
             ],
@@ -10848,7 +10848,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1=Vencord.Api.ContextMenu._usePatchContextMenu($1);"
+                        "value": "$1=Plexcord.Api.ContextMenu._usePatchContextMenu($1);"
                     }
                 }
             ],
@@ -10942,7 +10942,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "children:[Vencord.Api.MemberListDecorators.__getDecorators(arguments[0],'guild'),"
+                        "value": "children:[Plexcord.Api.MemberListDecorators.__getDecorators(arguments[0],'guild'),"
                     }
                 }
             ],
@@ -10972,7 +10972,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "decorators:[Vencord.Api.MemberListDecorators.__getDecorators(arguments[0],'dm'),$1]"
+                        "value": "decorators:[Plexcord.Api.MemberListDecorators.__getDecorators(arguments[0],'dm'),$1]"
                     }
                 }
             ],
@@ -11036,7 +11036,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "Vencord.Api.MessageAccessories._modifyAccessories($1,this.props)"
+                        "value": "Plexcord.Api.MessageAccessories._modifyAccessories($1,this.props)"
                     }
                 }
             ],
@@ -11068,7 +11068,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&,Vencord.Api.MessageDecorations.__addDecorationsToMessage(arguments[0])"
+                        "value": "$&,Plexcord.Api.MessageDecorations.__addDecorationsToMessage(arguments[0])"
                     }
                 }
             ],
@@ -11100,7 +11100,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(match, args) => \"\" +\n    `async ${match}` +\n    `if(await Vencord.Api.MessageEvents._handlePreEdit(${args}))` +\n    \"return Promise.resolve({shouldClear:false,shouldRefocus:true});\";\n"
+                        "value": "\"use strict\";\n(match, args) => \"\" +\n    `async ${match}` +\n    `if(await Plexcord.Api.MessageEvents._handlePreEdit(${args}))` +\n    \"return Promise.resolve({shouldClear:false,shouldRefocus:true});\";\n"
                     }
                 }
             ],
@@ -11130,7 +11130,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(m, parsedMessage, channel, replyOptions, extra) => m +\n    `if(await Vencord.Api.MessageEvents._handlePreSend(${channel}.id,${parsedMessage},${extra},${replyOptions}))` +\n    \"return{shouldClear:false,shouldRefocus:true};\";\n"
+                        "value": "\"use strict\";\n(m, parsedMessage, channel, replyOptions, extra) => m +\n    `if(await Plexcord.Api.MessageEvents._handlePreSend(${channel}.id,${parsedMessage},${extra},${replyOptions}))` +\n    \"return{shouldClear:false,shouldRefocus:true};\";\n"
                     }
                 }
             ],
@@ -11160,7 +11160,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(m, message, channel, event) => `const vcMsg=${message},vcChan=${channel};${m}Vencord.Api.MessageEvents._handleClick(vcMsg,vcChan,${event});`;\n"
+                        "value": "\"use strict\";\n(m, message, channel, event) => `const vcMsg=${message},vcChan=${channel};${m}Plexcord.Api.MessageEvents._handleClick(vcMsg,vcChan,${event});`;\n"
                     }
                 }
             ],
@@ -11192,7 +11192,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(_, ReactButton, PotionButton, ButtonComponent, showReactButton, message) => \"\" +\n    `]}):null,Vencord.Api.MessagePopover._buildPopoverElements(${ButtonComponent},${message}),${showReactButton}?${ReactButton}:null,${showReactButton}&&${PotionButton},`;\n"
+                        "value": "\"use strict\";\n(_, ReactButton, PotionButton, ButtonComponent, showReactButton, message) => \"\" +\n    `]}):null,Plexcord.Api.MessagePopover._buildPopoverElements(${ButtonComponent},${message}),${showReactButton}?${ReactButton}:null,${showReactButton}&&${PotionButton},`;\n"
                     }
                 }
             ],
@@ -11256,7 +11256,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "if(Vencord.Api.Notices.currentNotice)return false;$&"
+                        "value": "if(Plexcord.Api.Notices.currentNotice)return false;$&"
                     }
                 },
                 {
@@ -11269,7 +11269,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(m, notice) => `if(${notice}?.id==\"VencordNotice\")return(${notice}=null,Vencord.Api.Notices.nextNotice(),true);${m}`;\n"
+                        "value": "\"use strict\";\n(m, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
                     }
                 },
                 {
@@ -11282,7 +11282,7 @@
                     },
                     "replace": {
                         "type": "function",
-                        "value": "\"use strict\";\n(m, _, notice) => `if(${notice}?.id==\"VencordNotice\")return(${notice}=null,Vencord.Api.Notices.nextNotice(),true);${m}`;\n"
+                        "value": "\"use strict\";\n(m, _, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
                     }
                 }
             ],
@@ -11314,7 +11314,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "[$1].concat(Vencord.Api.ServerList.renderAll(Vencord.Api.ServerList.ServerListRenderPosition.Above))"
+                        "value": "[$1].concat(Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.Above))"
                     }
                 }
             ],
@@ -11344,7 +11344,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "Vencord.Api.ServerList.renderAll(Vencord.Api.ServerList.ServerListRenderPosition.In).concat($&)"
+                        "value": "Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.In).concat($&)"
                     }
                 }
             ],

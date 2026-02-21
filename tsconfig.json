@@ -7,7 +7,7 @@
             "path": "packages/shared",
         },
         {
-            "path": "packages/vencord-ast-parser",
+            "path": "packages/plexcord-ast-parser",
         },
         {
             "path": "packages/webpack-ast-parser",

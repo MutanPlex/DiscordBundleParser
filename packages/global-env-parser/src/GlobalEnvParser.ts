@@ -12,9 +12,9 @@ import {
     SyntaxKind,
 } from "typescript";
 
-import { AstParser } from "@vencord-companion/ast-parser/AstParser";
-import { isLiteralish } from "@vencord-companion/ast-parser/util";
-import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
+import { AstParser } from "@plexcord-companion/ast-parser/AstParser";
+import { isLiteralish } from "@plexcord-companion/ast-parser/util";
+import { Cache, CacheGetter } from "@plexcord-companion/shared/decorators";
 
 import type { EnvBuildVars, JsonType, MaybeLiteralJsonType, NonLiteral } from "./types";
 

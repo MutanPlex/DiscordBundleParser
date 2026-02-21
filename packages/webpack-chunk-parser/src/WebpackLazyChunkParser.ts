@@ -1,7 +1,7 @@
 import { type CallExpression, type Expression, isArrayLiteralExpression, isCallExpression, isExpressionStatement, isObjectLiteralExpression, isPropertyAccessExpression, type ObjectLiteralExpression } from "typescript";
 
-import { isDirective, tryParseStringOrNumberLiteral } from "@vencord-companion/ast-parser/util";
-import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
+import { isDirective, tryParseStringOrNumberLiteral } from "@plexcord-companion/ast-parser/util";
+import { Cache, CacheGetter } from "@plexcord-companion/shared/decorators";
 
 import { WebpackChunkParser } from "./WebpackChunkParser";
 

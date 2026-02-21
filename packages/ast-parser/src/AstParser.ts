@@ -20,10 +20,10 @@ import {
     SyntaxKind,
 } from "typescript";
 
-import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
-import { type Logger, NoopLogger } from "@vencord-companion/shared/Logger";
-import { type IPosition, Position } from "@vencord-companion/shared/Position";
-import { Range } from "@vencord-companion/shared/Range";
+import { Cache, CacheGetter } from "@plexcord-companion/shared/decorators";
+import { type Logger, NoopLogger } from "@plexcord-companion/shared/Logger";
+import { type IPosition, Position } from "@plexcord-companion/shared/Position";
+import { Range } from "@plexcord-companion/shared/Range";
 
 import type { StringifiedModule } from "./StringifiedModule";
 import type { Functionish } from "./types";

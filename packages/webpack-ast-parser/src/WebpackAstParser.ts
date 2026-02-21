@@ -64,11 +64,11 @@ import {
     isVariableAssignmentLike,
     lastParent,
     nonNull,
-} from "@vencord-companion/ast-parser";
-import { Cache, CacheGetter } from "@vencord-companion/shared/decorators";
-import { type Logger, NoopLogger } from "@vencord-companion/shared/Logger";
-import { Position } from "@vencord-companion/shared/Position";
-import { Range, zeroRange } from "@vencord-companion/shared/Range";
+} from "@plexcord-companion/ast-parser";
+import { Cache, CacheGetter } from "@plexcord-companion/shared/decorators";
+import { type Logger, NoopLogger } from "@plexcord-companion/shared/Logger";
+import { Position } from "@plexcord-companion/shared/Position";
+import { Range, zeroRange } from "@plexcord-companion/shared/Range";
 
 import type {
     AnyExportKey,

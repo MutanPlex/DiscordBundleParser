@@ -1,7 +1,7 @@
 import { isMethodDeclaration, isPropertyAssignment, type MethodDeclaration, type ObjectLiteralElementLike, type ObjectLiteralExpression, type PropertyAssignment } from "typescript";
 
-import { AstParser, isFunctionish, nonNull, tryParseStringOrNumberLiteral } from "@vencord-companion/ast-parser";
-import { Cache } from "@vencord-companion/shared/decorators";
+import { AstParser, isFunctionish, nonNull, tryParseStringOrNumberLiteral } from "@plexcord-companion/ast-parser";
+import { Cache } from "@plexcord-companion/shared/decorators";
 
 import type { ModuleEntry } from "./types";
 

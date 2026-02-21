@@ -1,5 +1,5 @@
 {
-  "name": "@vencord-companion/ast-parser",
+  "name": "@plexcord-companion/ast-parser",
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
@@ -11,13 +11,13 @@
   },
   "keywords": [],
   "author": {
-    "name": "sadan",
-    "url": "https://sadan.zip"
+    "name": "MutanPlex",
+    "url": "https://mutanplex.com"
   },
   "license": "LGPL-3.0-or-later",
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
-    "@vencord-companion/shared": "workspace:*",
+    "@plexcord-companion/shared": "workspace:*",
     "@sadan4/devtools-pretty-printer": "catalog:"
   },
   "exports": {
