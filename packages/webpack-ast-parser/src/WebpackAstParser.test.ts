@@ -649,18 +649,23 @@ describe("WebpackAstParser", function () {
                 .filter((x) => x.endsWith(".js"))
                 .map((fullPath) => [basename(fullPath, ".js"), join(__dirname, "__test__", ".modules", fullPath)]));
 
+            const parserCache = new Map<string, WebpackAstParser>();
+
             WebpackAstParser.setDefaultModuleCache({
-                getLatestModuleFromNum(_id) {
-                    return Promise.reject(new Error("Not implemented"));
-                },
                 getModuleFilepath(id) {
                     const fullPath: string | undefined = modulesOnDisk[String(id)];
 
                     return fullPath && relative(__dirname, fullPath)
                         .replaceAll("\\", "/");
                 },
-                async getModuleFromNum(id) {
-                    return await readFile(join(__dirname, "__test__", ".modules", `${id}.js`), "utf-8");
+                getModuleParser(requestor, id, latest) {
+                    if (!modulesOnDisk[String(id)]) {
+                        throw new Error(`Module ${id} not found on disk`);
+                    }
+                    if (!parserCache.has(String(id))) {
+                        parserCache.set(String(id), new WebpackAstParser(getFile(`.modules/${id}.js`)));
+                    }
+                    return Promise.resolve(parserCache.get(String(id))!);
                 },
             });
             async function generateModDeps(): Promise<[MainDeps]> {
