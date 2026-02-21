@@ -50,7 +50,7 @@ describe("PlexcordAstParser", async function () {
             const patches = Object.fromEntries(
                 pluginParsers
                     .map((parser) => [parser.getPluginName() ?? assert.fail("Plugin name is missing"), parser.getPatches()] as const)
-                    .sort(([a], [b]) => a.localeCompare(b))
+                    .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
             );
 
             await expect(JSON.stringify(patches, null, 4))

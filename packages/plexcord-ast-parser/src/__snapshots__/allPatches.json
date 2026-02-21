@@ -487,7 +487,6 @@
         }
     ],
     "AppleMusicRichPresence": [],
-    "WebRichPresence (arRPC)": [],
     "AtSomeone": [
         {
             "findType": "string",
@@ -550,8 +549,262 @@
             "origIndex": 1
         }
     ],
+    "AudioPlayerAPI": [
+        {
+            "findType": "string",
+            "find": "could not play audio",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(let \\i=class.{0,900}?new Audio;\\i.src=)((\\i\\(\\d+\\))(?:\\(`\\.\\/\\$\\{|.{0,50}concat\\())this.name((?:\\}\\.mp3`|,\".mp3\"\\))\\))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$3;$1this.type!==$self.AudioType.DISCORD?this.audio:$2this.audio$4"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=constructor\\((\\i,\\i,\\i,\\i)).{0,200}outputChannel=\\i",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ",options){$self.buildPlayer(this,$1,options);"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(\\i.pause\\(\\),(\\i).src=\"\".{0,20}?null)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$2.onerror=()=>{},$1"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=(\\i).onloadeddata=\\(\\)=>{)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1.playbackRate=this._speed,"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(onerror=\\()(\\)=>)(\\i\\(Error\\(\"[^\"]+\"\\)\\)),",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1error$2{this.onError?.(error);$3;},"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=onended=\\(\\)=>)(.{0,40}?),",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "{$self.stopAudio(this);this.onEnded?.();},"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(stop\\()(\\){)this.destroyAudio\\(\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1restart$2$self.stopAudio(this,restart);"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "let \\i=new Audio\\((\\(0,\\i.\\i\\)\\(\\i\\)).{0,35}?play\\(\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.playAudio($1)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 21,
+                    "character": 12
+                },
+                {
+                    "line": 68,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "UPDATE_OPEN_ON_STARTUP",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=discodo\",\\i)(\\);return )\\i.volume=1,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ",1$1"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": ",(this._connectedSound.volume)=1",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ";"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 76,
+                    "character": 12
+                },
+                {
+                    "line": 89,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "AutoDNDWhilePlaying": [],
     "AutoZipper": [],
+    "BadgeAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::PROFILE_USER_BADGES}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "alt:\" \",\"aria-hidden\":!0,src:.{0,50}(\\i).iconSrc",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "...$1.props,$&"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=forceOpen:.{0,40}?\\i\\((\\i)\\.id\\).{0,100}?)children:",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:$1.component?$self.renderBadgeComponent({...$1}) :"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "href:(\\i)\\.link",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "...$self.getBadgeMouseEventHandlers($1),$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 144,
+                    "character": 12
+                },
+                {
+                    "line": 159,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "getLegacyUsername(){",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "getBadges\\(\\)\\{.{0,100}?return\\[",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&...$self.getBadges(this),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 162,
+                    "character": 12
+                },
+                {
+                    "line": 166,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "BannersEverywhere": [
         {
             "findType": "string",
@@ -2687,6 +2940,38 @@
             "origIndex": 1
         }
     ],
+    "ChatInputButtonAPI": [
+        {
+            "findType": "string",
+            "find": "\"sticker\")",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "0===(\\i)\\.length(?=.{0,25}?\\(0,\\i\\.jsxs?\\)\\(.{0,75}?children:\\1)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "(Plexcord.Api.ChatButtons._injectButtons($1,arguments[0]),$&)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 18,
+                    "character": 12
+                },
+                {
+                    "line": 22,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "CleanChannelGroups": [
         {
             "findType": "string",
@@ -3314,6 +3599,98 @@
             "origIndex": 0
         }
     ],
+    "CommandsAPI": [
+        {
+            "findType": "string",
+            "find": ",\"tenor\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\w=)(\\w)(\\.filter\\(.{0,60}tenor)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "Plexcord.Api.Commands._init($1)$2"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 31,
+                    "character": 12
+                },
+                {
+                    "line": 42,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "Unexpected value for option",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": ",(\\i)\\.execute\\((\\i),(\\i)\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(_, cmd, args, ctx) => `,Plexcord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`;\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 46,
+                    "character": 12
+                },
+                {
+                    "line": 51,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "#{intl::COMMANDS_OPTIONAL_COUNT}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "children:(?=\\i\\?\\?\\i\\?\\.name)(?<=command:(\\i),.+?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:$1.plugin??"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 55,
+                    "character": 12
+                },
+                {
+                    "line": 61,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        }
+    ],
     "ConsoleJanitor": [
         {
             "findType": "string",
@@ -3738,6 +4115,68 @@
                 }
             ],
             "origIndex": 0
+        }
+    ],
+    "ContextMenuAPI": [
+        {
+            "findType": "string",
+            "find": "♫ (つ｡◕‿‿◕｡)つ ♪",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?=let{navId:)(?<=function \\i\\((\\i)\\).+?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1=Plexcord.Api.ContextMenu._usePatchContextMenu($1);"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 31,
+                    "character": 12
+                },
+                {
+                    "line": 35,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "navId:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "navId:(?=.+?([,}].*?\\)))",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, rest, ...args) => {\n    if (rest.match(/}=.+/))\n        return m;\n    const src = args[1]?.slice(Math.max(0, +args[0] - 2000), +args[0]);\n    if (src && Math.max(src.lastIndexOf(\"PureComponent{\"), src.lastIndexOf(\"Component{\")) > src.lastIndexOf(\"function\"))\n        return m;\n    return `contextMenuAPIArguments:typeof arguments!=='undefined'?arguments:[],${m}`;\n};\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 38,
+                    "character": 12
+                },
+                {
+                    "line": 51,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
         }
     ],
     "CopyEmojiMarkdown": [],
@@ -4532,97 +4971,6 @@
     ],
     "Demonstration": [],
     "DevCompanion": [],
-    "DisableCallIdle": [
-        {
-            "findType": "string",
-            "find": "this.idleTimeout.start(",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "this\\.idleTimeout\\.(start|stop)",
-                            "flags": "g"
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.noop"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 34,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "handleIdleUpdate(){",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "string",
-                        "value": "handleIdleUpdate(){"
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "handleIdleUpdate(){return;"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 37,
-                    "character": 12
-                },
-                {
-                    "line": 41,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
-    "DisableCameras": [
-        {
-            "findType": "string",
-            "find": ".identifyStartTime));",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\\i\\.self_video\\|\\|!1",
-                            "flags": "g"
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "false"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 18,
-                    "character": 12
-                },
-                {
-                    "line": 22,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
     "DisCleaner": [
         {
             "findType": "string",
@@ -4874,8 +5222,163 @@
             "origIndex": 6
         }
     ],
+    "DisableCallIdle": [
+        {
+            "findType": "string",
+            "find": "this.idleTimeout.start(",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "this\\.idleTimeout\\.(start|stop)",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.noop"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 34,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "handleIdleUpdate(){",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "string",
+                        "value": "handleIdleUpdate(){"
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "handleIdleUpdate(){return;"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 37,
+                    "character": 12
+                },
+                {
+                    "line": 41,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
+    "DisableCameras": [
+        {
+            "findType": "string",
+            "find": ".identifyStartTime));",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i\\.self_video\\|\\|!1",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "false"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 18,
+                    "character": 12
+                },
+                {
+                    "line": 22,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "DisableDeepLinks": [
+        {
+            "findType": "regex",
+            "find": "/\\.openNativeAppModal\\(.{0,50}?\\.DEEP_LINK/",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i\\.\\i\\.openNativeAppModal",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.noop"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 21,
+                    "character": 12
+                },
+                {
+                    "line": 25,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "DontFilterMe": [],
     "DontRoundMyTimestamps": [],
+    "DynamicImageModalAPI": [
+        {
+            "findType": "string",
+            "find": ".renderLinkComponent",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\i=)(null!=\\i&&0!==\\i)&&(null!=\\i&&0!==\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "($1)||($2)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 19,
+                    "character": 12
+                },
+                {
+                    "line": 24,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "ExpandedUserTags": [
         {
             "findType": "string",
@@ -6290,7 +6793,6 @@
         }
     ],
     "FriendInvites": [],
-    "FriendshipRanks": [],
     "FriendsSince": [
         {
             "findType": "string",
@@ -6383,6 +6885,7 @@
             "origIndex": 2
         }
     ],
+    "FriendshipRanks": [],
     "FullSearchContext": [
         {
             "findType": "string",
@@ -6833,6 +7336,68 @@
         }
     ],
     "GuildPickerDumper": [],
+    "HeaderBarAPI": [
+        {
+            "findType": "string",
+            "find": "?\"BACK_FORWARD_NAVIGATION\":",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "canShowReminder:.+?className:(\\i).*?\\}\\),",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$& Plexcord.Api.HeaderBar._addHeaderBarButtons(),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 17,
+                    "character": 12
+                },
+                {
+                    "line": 21,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "Missing channel in Channel.renderHeaderToolbar",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=renderHeaderToolbar\"\\);let (\\i)=\\[\\];)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "Plexcord.Api.HeaderBar._addChannelToolbarButtons($1);"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 24,
+                    "character": 12
+                },
+                {
+                    "line": 28,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "HideChatButtons": [
         {
             "findType": "string",
@@ -7018,6 +7583,39 @@
             "origIndex": 0
         }
     ],
+    "ILoveSpam": [
+        {
+            "findType": "string",
+            "find": "hasFlag:{writable",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "if\\((\\i)<=(?:0x40000000|(?:1<<30|1073741824))\\)return",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if($1===(1<<20))return false;$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 34,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "IRememberYou": [],
     "IgnoreActivities": [
         {
             "findType": "string",
@@ -7167,38 +7765,6 @@
                 {
                     "line": 97,
                     "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "ILoveSpam": [
-        {
-            "findType": "string",
-            "find": "hasFlag:{writable",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "if\\((\\i)<=(?:0x40000000|(?:1<<30|1073741824))\\)return",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "if($1===(1<<20))return false;$&"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 34,
-                    "character": 14
                 }
             ],
             "origIndex": 0
@@ -7887,7 +8453,6 @@
             "origIndex": 1
         }
     ],
-    "IRememberYou": [],
     "JumpTo": [],
     "KeepCurrentChannel": [
         {
@@ -8426,6 +8991,111 @@
             "origIndex": 1
         }
     ],
+    "MemberListDecoratorsAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::GUILD_OWNER}),children:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "children:\\[(?=.{0,300},lostPermissionTooltipText:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:[Plexcord.Api.MemberListDecorators.__getDecorators(arguments[0],'guild'),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 33,
+                    "character": 12
+                },
+                {
+                    "line": 39,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "PrivateChannel.renderAvatar",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "decorators:(\\i\\.isSystemDM\\(\\)\\?.{0,100}:null)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "decorators:[Plexcord.Api.MemberListDecorators.__getDecorators(arguments[0],'dm'),$1]"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 42,
+                    "character": 12
+                },
+                {
+                    "line": 46,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "\"AvatarWithText\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=className:.{0,10}),\\{.{0,10}\\}\\)(?=,children:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ")+\" pc-member-list-decorators-display-names\""
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=className:\\i\\.\\i)(?=,children:\\i\\}\\))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "+\" pc-member-list-decorators-display-names\""
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 50,
+                    "character": 12
+                },
+                {
+                    "line": 60,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        }
+    ],
     "MentionAvatars": [
         {
             "findType": "string",
@@ -8518,7 +9188,71 @@
             "origIndex": 2
         }
     ],
+    "MenuItemDemanglerAPI": [
+        {
+            "findType": "string",
+            "find": "Menu API only allows Items",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "function.{0,80}type===(\\i\\.\\i)\\).{0,50}navigable:.+?Menu API",
+                            "flags": "s"
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, mod) => {\n    const nameAssignments = [];\n    // if (t.type === m.MenuItem)\n    const typeCheckRe = canonicalizeMatch(/\\(\\i\\.type===(\\i\\.\\i)\\)/g);\n    // push({type:\"item\"})\n    const pushTypeRe = /type:\"(\\w+)\"/g;\n    let typeMatch;\n    // for each if (t.type === ...)\n    while ((typeMatch = typeCheckRe.exec(m)) !== null) {\n        // extract the current menu item\n        const item = typeMatch[1];\n        // Set the starting index of the second regex to that of the first to start\n        // matching from after the if\n        pushTypeRe.lastIndex = typeCheckRe.lastIndex;\n        // extract the first type: \"...\"\n        const type = pushTypeRe.exec(m)?.[1];\n        if (type && type in nameMap) {\n            const name = nameMap[type];\n            nameAssignments.push(`Object.defineProperty(${item},\"name\",{value:\"${name}\"})`);\n        }\n    }\n    if (nameAssignments.length < 6) {\n        console.warn(\"[MenuItemDemanglerAPI] Expected to at least remap 6 items, only remapped\", nameAssignments.length);\n    }\n    // Merge all our redefines with the actual module\n    return `${nameAssignments.join(\";\")};${m}`;\n};\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 34,
+                    "character": 12
+                },
+                {
+                    "line": 67,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "Meow": [],
+    "MessageAccessoriesAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::REMOVE_ATTACHMENT_BODY}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "children:(\\[[^\\]]{0,100}?this.renderSuppressConfirmModal[^\\]]{0,100}?\\])",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:Plexcord.Api.MessageAccessories._modifyAccessories($1,this.props)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 34,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "MessageClickActions": [],
     "MessageColors": [
         {
@@ -8610,6 +9344,130 @@
                 }
             ],
             "origIndex": 3
+        }
+    ],
+    "MessageDecorationsAPI": [
+        {
+            "findType": "string",
+            "find": "\"Message Username\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "#{intl::GUILD_COMMUNICATION_DISABLED_BOTTOM_SHEET_TITLE}.+?renderPopout:.+?(?=\\])",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&,Plexcord.Api.MessageDecorations.__addDecorationsToMessage(arguments[0])"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 33,
+                    "character": 12
+                },
+                {
+                    "line": 37,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "MessageEventsAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::EDIT_TEXTAREA_HELP}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=,channel:\\i\\}\\)\\.then\\().+?(?=\\i\\.content!==this\\.props\\.message\\.content&&\\i\\((.+?)\\)\\})",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(match, args) => \"\" +\n    `async ${match}` +\n    `if(await Plexcord.Api.MessageEvents._handlePreEdit(${args}))` +\n    \"return Promise.resolve({shouldClear:false,shouldRefocus:true});\";\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 37,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": ".handleSendMessage,onResize:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "let (\\i)=\\i\\.\\i\\.parse\\((\\i),.+?\\.getSendMessageOptions\\(\\{.+?\\}\\)?;(?=.+?(\\i)\\.flags=)(?<=\\)\\(({.+?})\\)\\.then.+?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, parsedMessage, channel, replyOptions, extra) => m +\n    `if(await Plexcord.Api.MessageEvents._handlePreSend(${channel}.id,${parsedMessage},${extra},${replyOptions}))` +\n    \"return{shouldClear:false,shouldRefocus:true};\";\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 40,
+                    "character": 12
+                },
+                {
+                    "line": 47,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "(\"interactionUsernameProfile",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "let\\{id:\\i}=(\\i),{id:\\i}=(\\i);return \\i\\.useCallback\\((\\i)=>\\{",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, message, channel, event) => `const pcMsg=${message},pcChan=${channel};${m}Plexcord.Api.MessageEvents._handleClick(pcMsg,pcChan,${event});`;\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 50,
+                    "character": 12
+                },
+                {
+                    "line": 55,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
         }
     ],
     "MessageFetchTimer": [],
@@ -9231,7 +10089,71 @@
             "origIndex": 5
         }
     ],
+    "MessagePopoverAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::MESSAGE_UTILITIES_A11Y_LABEL}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\]\\}\\)),(.{0,40}togglePopout:.+?\\}\\))\\]\\}\\):null,(?<=\\((\\i\\.\\i),\\{label:.+?:null,(\\i)\\?\\(0,\\i\\.jsxs?\\)\\(\\i\\.Fragment.+?message:(\\i).+?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(_, ReactButton, ButtonComponent, showReactButton, message) => \"\" +\n    `]}):null,Plexcord.Api.MessagePopover._buildPopoverElements(${ButtonComponent},${message}),${showReactButton}?${ReactButton}:null,`;\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 35,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "MessageTags": [],
+    "MessageUpdaterAPI": [
+        {
+            "findType": "string",
+            "find": "}renderStickersAccessories(",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=this.props,\\i,\\[)\"message\",",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ""
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 31,
+                    "character": 12
+                },
+                {
+                    "line": 35,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "MoreCommands": [],
     "MoreKaomoji": [],
     "MoreQuickReactions": [
@@ -9735,6 +10657,38 @@
         }
     ],
     "NewPluginsManager": [],
+    "NicknameIconsAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::USER_PROFILE_PRONOUNS}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=shouldUnderlineOnHover:null.{0,150})children:(\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:[...Plexcord.Api.NicknameIcons._renderIcons({userId:arguments[0].user?.id}),$1]"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 18,
+                    "character": 12
+                },
+                {
+                    "line": 22,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "NoBlockedMessages": [
         {
             "findType": "string",
@@ -9768,38 +10722,6 @@
         }
     ],
     "NoBulletPoints": [],
-    "DisableDeepLinks": [
-        {
-            "findType": "regex",
-            "find": "/\\.openNativeAppModal\\(.{0,50}?\\.DEEP_LINK/",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\\i\\.\\i\\.openNativeAppModal",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.noop"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 21,
-                    "character": 12
-                },
-                {
-                    "line": 25,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
     "NoDeleteSafety": [
         {
             "findType": "string",
@@ -10447,70 +11369,6 @@
             "origIndex": 0
         }
     ],
-    "NoReplyMention": [
-        {
-            "findType": "string",
-            "find": ",\"Message\")}function",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": ":(\\i),shouldMention:!(\\i)\\.shiftKey",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ":$1,shouldMention:$self.shouldMention($1,$2.shiftKey)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 86,
-                    "character": 12
-                },
-                {
-                    "line": 90,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "NormalizeMessageLinks": [
-        {
-            "findType": "string",
-            "find": "#{intl::COPY_MESSAGE_LINK}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=\\/\\/\\$\\{)location\\.host",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.normalizeHost(location.host)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 18,
-                    "character": 12
-                },
-                {
-                    "line": 22,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
     "NoRPC": [
         {
             "findType": "string",
@@ -10538,6 +11396,38 @@
                 {
                     "line": 34,
                     "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "NoReplyMention": [
+        {
+            "findType": "string",
+            "find": ",\"Message\")}function",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": ":(\\i),shouldMention:!(\\i)\\.shiftKey",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ":$1,shouldMention:$self.shouldMention($1,$2.shiftKey)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 86,
+                    "character": 12
+                },
+                {
+                    "line": 90,
+                    "character": 13
                 }
             ],
             "origIndex": 0
@@ -10620,68 +11510,109 @@
             "origIndex": 0
         }
     ],
-    "NotificationTitle": [
+    "NoTrack": [
         {
             "findType": "string",
-            "find": "\"SystemMessageUtils.stringify(...) could not convert\"",
+            "find": "AnalyticsActionHandlers.handle",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "{icon:.{0,50}emoji:\\i}",
+                            "pattern": "^.+$",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "($self.makeTitle($&,...arguments))"
+                        "value": "()=>{}"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 28,
+                    "line": 45,
                     "character": 12
                 },
                 {
-                    "line": 32,
-                    "character": 13
+                    "line": 50,
+                    "character": 14
                 }
             ],
             "origIndex": 0
-        }
-    ],
-    "NotificationVolume": [
+        },
         {
             "findType": "string",
-            "find": "ensureAudio(){",
+            "find": ".METRICS_V2",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?=Math\\.min\\(\\i\\.\\i\\.getOutputVolume\\(\\)\\/100)",
+                            "pattern": "this\\._intervalId=",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "this._intervalId=void 0&&"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?:increment|distribution)\\(\\i(?:,\\i)?\\){",
                             "flags": "g"
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$self.settings.store.notificationVolume/100*"
+                        "value": "$&return;"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 31,
+                    "line": 53,
                     "character": 12
                 },
                 {
-                    "line": 35,
-                    "character": 14
+                    "line": 63,
+                    "character": 13
                 }
             ],
-            "origIndex": 0
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": ".BetterDiscord||null!=",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?=let \\i=window;)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "return false;"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 66,
+                    "character": 12
+                },
+                {
+                    "line": 71,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
         }
     ],
     "NoTypingAnimation": [
@@ -10743,6 +11674,160 @@
                 {
                     "line": 34,
                     "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "NormalizeMessageLinks": [
+        {
+            "findType": "string",
+            "find": "#{intl::COPY_MESSAGE_LINK}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\/\\/\\$\\{)location\\.host",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.normalizeHost(location.host)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 18,
+                    "character": 12
+                },
+                {
+                    "line": 22,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "NoticesAPI": [
+        {
+            "findType": "string",
+            "find": "\"NoticeStore\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=!1;)\\i=null;(?=.{0,80}getPremiumSubscription\\(\\))",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if(Plexcord.Api.Notices.currentNotice)return false;$&"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=,NOTICE_DISMISS:function\\(\\i\\){)return null!=(\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=function (\\i)\\(\\i\\){)return null!=(\\i)(?=.+?NOTICE_DISMISS:\\1)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, _, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 31,
+                    "character": 12
+                },
+                {
+                    "line": 47,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "NotificationTitle": [
+        {
+            "findType": "string",
+            "find": "\"SystemMessageUtils.stringify(...) could not convert\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "{icon:.{0,50}emoji:\\i}",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "($self.makeTitle($&,...arguments))"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 28,
+                    "character": 12
+                },
+                {
+                    "line": 32,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "NotificationVolume": [
+        {
+            "findType": "string",
+            "find": "ensureAudio(){",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?=Math\\.min\\(\\i\\.\\i\\.getOutputVolume\\(\\)\\/100)",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.settings.store.notificationVolume/100*"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 31,
+                    "character": 12
+                },
+                {
+                    "line": 35,
+                    "character": 14
                 }
             ],
             "origIndex": 0
@@ -11312,7 +12397,6 @@
             "origIndex": 3
         }
     ],
-    "PingNotifications": [],
     "PinIcon": [
         {
             "findType": "string",
@@ -11345,6 +12429,7 @@
             "origIndex": 0
         }
     ],
+    "PingNotifications": [],
     "PlainFolderIcon": [
         {
             "findType": "string",
@@ -13532,8 +14617,244 @@
     ],
     "SendTimestamps": [],
     "ServerInfo": [],
+    "ServerListAPI": [
+        {
+            "findType": "string",
+            "find": "#{intl::DISCODO_DISABLED}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=#{intl::DISCODO_DISABLED}.+?return)(\\(.{0,150}?tutorialId:\"friends-list\".+?}\\))(?=}function)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "[$1].concat(Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.Above))"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 34,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": ".setGuildsTree(",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=#{intl::SERVERS}\\),gap:\"xs\",children:)\\i\\.map\\(.{0,50}\\.length\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.In).concat($&)"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "lastTargetNode.{0,25}\\?null:\\i,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&...Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.Below),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 37,
+                    "character": 12
+                },
+                {
+                    "line": 47,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "ServerListIndicators": [],
     "ServerSearch": [],
+    "Settings": [
+        {
+            "findType": "string",
+            "find": "#{intl::COPY_VERSION}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\.RELEASE_CHANNEL",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&.replace(/^./, c => c.toUpperCase())"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\"text-xxs\\/normal\".{0,300}?(?=null!=(\\i)&&(.{0,20}\\i\\.Text.{0,200}?,children:).{0,15}?(\"span\"),({className:\\i\\.\\i,children:\\[\"Build Override: \",\\1\\.id\\]\\})\\)\\}\\))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, _buildOverride, makeRow, component, props) => {\n    props = props.replace(/children:\\[.+\\]/, \"\");\n    return `${m},$self.makeInfoElements(${component},${props}).map(e=>${makeRow}e})),`;\n};\n"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\"text-xs\\/normal\".{0,300}?\\[\\(0,\\i\\.jsxs?\\)\\((.{1,10}),(\\{[^{}}]+\\{.{0,20}className:\\i.\\i,.+?\\})\\),\" \"",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, component, props) => {\n    props = props.replace(/children:\\[.+\\]/, \"\");\n    return `${m},$self.makeInfoElements(${component},${props})`;\n};\n"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "copyValue:\\i\\.join\\(\" \"\\)",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$& + $self.getInfoString()"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 135,
+                    "character": 12
+                },
+                {
+                    "line": 159,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "#{intl::USER_SETTINGS_ACTIONS_MENU_LABEL}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "null!=\\(\\i=Object.values\\(\\i\\.\\i\\).{0,50}?&&(?=\\(0,\\i\\.openUserSettings\\)\\(\\i,\\{section:\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ""
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 162,
+                    "character": 12
+                },
+                {
+                    "line": 166,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": ".buildLayout().map",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(\\i)\\.buildLayout\\(\\)(?=\\.map)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.buildLayout($1)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 169,
+                    "character": 12
+                },
+                {
+                    "line": 173,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        },
+        {
+            "findType": "string",
+            "find": "getWebUserSettingFromSection",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "new Map\\(\\[(?=\\[.{0,10}\\.ACCOUNT,.{0,10}\\.ACCOUNT_PANEL)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "new Map([...$self.getSettingsSectionMappings(),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 176,
+                    "character": 12
+                },
+                {
+                    "line": 180,
+                    "character": 13
+                }
+            ],
+            "origIndex": 3
+        }
+    ],
     "ShikiCodeblocks": [
         {
             "findType": "string",
@@ -15011,38 +16332,6 @@
             "origIndex": 4
         }
     ],
-    "ShowMessageEmbeds": [
-        {
-            "findType": "string",
-            "find": "className:\"attachmentLink\",",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?:(\\i).noStyleAndInteraction.*?)attachmentName:\\i.attachmentName",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&,channelId:$1.channelId,messageId:$1.messageId"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 201,
-                    "character": 12
-                },
-                {
-                    "line": 205,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
     "ShowMeYourName": [
         {
             "findType": "string",
@@ -15545,6 +16834,38 @@
                 }
             ],
             "origIndex": 14
+        }
+    ],
+    "ShowMessageEmbeds": [
+        {
+            "findType": "string",
+            "find": "className:\"attachmentLink\",",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?:(\\i).noStyleAndInteraction.*?)attachmentName:\\i.attachmentName",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&,channelId:$1.channelId,messageId:$1.messageId"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 201,
+                    "character": 12
+                },
+                {
+                    "line": 205,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
         }
     ],
     "ShowTimeoutDuration": [
@@ -16275,6 +17596,38 @@
             "origIndex": 1
         }
     ],
+    "SupportHelper": [
+        {
+            "findType": "string",
+            "find": "#{intl::BEGINNING_DM}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "#{intl::BEGINNING_DM},{.+?}\\),(?=.{0,300}(\\i)\\.isMultiUserDM)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$& $self.renderContributorDmWarningCard({ channel: $1 }),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 294,
+                    "character": 8
+                },
+                {
+                    "line": 298,
+                    "character": 9
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "TextReplace": [
         {
             "findType": "string",
@@ -16657,6 +18010,98 @@
             "origIndex": 1
         }
     ],
+    "USRBG": [
+        {
+            "findType": "string",
+            "find": ":\"SHOULD_LOAD\");",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i(?:\\?)?.getPreviewBanner\\(\\i,\\i,\\i\\)(?=.{0,100}\"COMPLETE\")",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.patchBannerUrl(arguments[0])||$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 65,
+                    "character": 12
+                },
+                {
+                    "line": 70,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "\"data-selenium-video-tile\":",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=function\\((\\i),\\i\\)\\{)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "Object.assign($1.style=$1.style||{},$self.getVoiceBackgroundStyles($1));"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 73,
+                    "character": 12
+                },
+                {
+                    "line": 79,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "\"VideoBackground-web\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "backgroundColor:.{0,25},\\{style:(?=\\i\\?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&$self.userHasBackground(arguments[0]?.userId)?null:"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 82,
+                    "character": 12
+                },
+                {
+                    "line": 87,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        }
+    ],
     "Unindent": [
         {
             "findType": "string",
@@ -16825,6 +18270,51 @@
     ],
     "UnsuppressEmbeds": [],
     "UselessInfo": [],
+    "UserAreaAPI": [
+        {
+            "findType": "string",
+            "find": ".WIDGETS_RTC_UPSELL_COACHMARK),",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=className:(\\i)\\.\\i,style:\\i,)children:\\[",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:[...$self.renderButtons(arguments[0],$1),"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\{ref:\\i,)style:(\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "style:{...$1,minWidth:0}"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 23,
+                    "character": 12
+                },
+                {
+                    "line": 34,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "UserMessagesPronouns": [
         {
             "findType": "string",
@@ -16887,6 +18377,64 @@
             "origIndex": 1
         }
     ],
+    "UserSettingsAPI": [
+        {
+            "findType": "string",
+            "find": ",updateSetting:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\.updateAsync\\(.+?(?=,useSetting:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&,userSettingsAPIGroup:arguments[0],userSettingsAPIName:arguments[1]"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "updateSetting:.{0,100}SELECTIVELY_SYNCED_USER_SETTINGS_UPDATE",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "userSettingsAPIGroup:arguments[0].userSettingsAPIGroup,userSettingsAPIName:arguments[0].userSettingsAPIName,$&"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "updateSetting:.{0,60}USER_SETTINGS_OVERRIDE_CLEAR",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "userSettingsAPIGroup:arguments[0].userSettingsAPIGroup,userSettingsAPIName:arguments[0].userSettingsAPIName,$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 48,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "UserVoiceShow": [
         {
             "findType": "string",
@@ -16917,98 +18465,6 @@
                 }
             ],
             "origIndex": 0
-        }
-    ],
-    "USRBG": [
-        {
-            "findType": "string",
-            "find": ":\"SHOULD_LOAD\");",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\\i(?:\\?)?.getPreviewBanner\\(\\i,\\i,\\i\\)(?=.{0,100}\"COMPLETE\")",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.patchBannerUrl(arguments[0])||$&"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 65,
-                    "character": 12
-                },
-                {
-                    "line": 70,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "\"data-selenium-video-tile\":",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=function\\((\\i),\\i\\)\\{)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "Object.assign($1.style=$1.style||{},$self.getVoiceBackgroundStyles($1));"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 73,
-                    "character": 12
-                },
-                {
-                    "line": 79,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": "\"VideoBackground-web\"",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "backgroundColor:.{0,25},\\{style:(?=\\i\\?)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&$self.userHasBackground(arguments[0]?.userId)?null:"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 82,
-                    "character": 12
-                },
-                {
-                    "line": 87,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
         }
     ],
     "ValidReply": [
@@ -17146,68 +18602,6 @@
                 }
             ],
             "origIndex": 1
-        }
-    ],
-    "VoiceChatDoubleClick": [
-        {
-            "findType": "string",
-            "find": "className:\"channelMention\",children",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "onClick:(\\i)(?=,.{0,30}className:\"channelMention\".+?(\\i)\\.inContent)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(_, onClick, props) => \"\"\n    + `onClick:(vcDoubleClickEvt)=>$self.shouldRunOnClick(vcDoubleClickEvt,${props})&&${onClick}()`;\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 53,
-                    "character": 12
-                },
-                {
-                    "line": 58,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": ",[\"embedded_background\"]",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?=children)(?<=selectVoiceChannel\\((\\i)\\.id\\).{0,100})",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "onClick:$self.goToChannel.bind(null,$1),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 62,
-                    "character": 12
-                },
-                {
-                    "line": 68,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
         }
     ],
     "VcNarrator": [],
@@ -17397,6 +18791,68 @@
         }
     ],
     "VoiceChannelLog": [],
+    "VoiceChatDoubleClick": [
+        {
+            "findType": "string",
+            "find": "className:\"channelMention\",children",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "onClick:(\\i)(?=,.{0,30}className:\"channelMention\".+?(\\i)\\.inContent)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(_, onClick, props) => \"\"\n    + `onClick:(vcDoubleClickEvt)=>$self.shouldRunOnClick(vcDoubleClickEvt,${props})&&${onClick}()`;\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 53,
+                    "character": 12
+                },
+                {
+                    "line": 58,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": ",[\"embedded_background\"]",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?=children)(?<=selectVoiceChannel\\((\\i)\\.id\\).{0,100})",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "onClick:$self.goToChannel.bind(null,$1),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 62,
+                    "character": 12
+                },
+                {
+                    "line": 68,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        }
+    ],
     "VoiceChatUtilities": [],
     "VoiceDownload": [
         {
@@ -18061,6 +19517,7 @@
         }
     ],
     "WebKeybinds": [],
+    "WebRichPresence (arRPC)": [],
     "WebScreenShareFixes": [
         {
             "findType": "string",
@@ -18300,1463 +19757,6 @@
                 {
                     "line": 27,
                     "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "AudioPlayerAPI": [
-        {
-            "findType": "string",
-            "find": "could not play audio",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(let \\i=class.{0,900}?new Audio;\\i.src=)((\\i\\(\\d+\\))(?:\\(`\\.\\/\\$\\{|.{0,50}concat\\())this.name((?:\\}\\.mp3`|,\".mp3\"\\))\\))",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$3;$1this.type!==$self.AudioType.DISCORD?this.audio:$2this.audio$4"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=constructor\\((\\i,\\i,\\i,\\i)).{0,200}outputChannel=\\i",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ",options){$self.buildPlayer(this,$1,options);"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(\\i.pause\\(\\),(\\i).src=\"\".{0,20}?null)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$2.onerror=()=>{},$1"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=(\\i).onloadeddata=\\(\\)=>{)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1.playbackRate=this._speed,"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(onerror=\\()(\\)=>)(\\i\\(Error\\(\"[^\"]+\"\\)\\)),",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1error$2{this.onError?.(error);$3;},"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=onended=\\(\\)=>)(.{0,40}?),",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "{$self.stopAudio(this);this.onEnded?.();},"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(stop\\()(\\){)this.destroyAudio\\(\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1restart$2$self.stopAudio(this,restart);"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "let \\i=new Audio\\((\\(0,\\i.\\i\\)\\(\\i\\)).{0,35}?play\\(\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.playAudio($1)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 21,
-                    "character": 12
-                },
-                {
-                    "line": 68,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "UPDATE_OPEN_ON_STARTUP",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=discodo\",\\i)(\\);return )\\i.volume=1,",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ",1$1"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": ",(this._connectedSound.volume)=1",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ";"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 76,
-                    "character": 12
-                },
-                {
-                    "line": 89,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
-    "BadgeAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::PROFILE_USER_BADGES}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "alt:\" \",\"aria-hidden\":!0,src:.{0,50}(\\i).iconSrc",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "...$1.props,$&"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=forceOpen:.{0,40}?\\i\\((\\i)\\.id\\).{0,100}?)children:",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "children:$1.component?$self.renderBadgeComponent({...$1}) :"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "href:(\\i)\\.link",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "...$self.getBadgeMouseEventHandlers($1),$&"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 144,
-                    "character": 12
-                },
-                {
-                    "line": 159,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "getLegacyUsername(){",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "getBadges\\(\\)\\{.{0,100}?return\\[",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&...$self.getBadges(this),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 162,
-                    "character": 12
-                },
-                {
-                    "line": 166,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
-    "ChatInputButtonAPI": [
-        {
-            "findType": "string",
-            "find": "\"sticker\")",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "0===(\\i)\\.length(?=.{0,25}?\\(0,\\i\\.jsxs?\\)\\(.{0,75}?children:\\1)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "(Plexcord.Api.ChatButtons._injectButtons($1,arguments[0]),$&)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 18,
-                    "character": 12
-                },
-                {
-                    "line": 22,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "CommandsAPI": [
-        {
-            "findType": "string",
-            "find": ",\"tenor\"",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=\\w=)(\\w)(\\.filter\\(.{0,60}tenor)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "Plexcord.Api.Commands._init($1)$2"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 31,
-                    "character": 12
-                },
-                {
-                    "line": 42,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "Unexpected value for option",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": ",(\\i)\\.execute\\((\\i),(\\i)\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(_, cmd, args, ctx) => `,Plexcord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`;\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 46,
-                    "character": 12
-                },
-                {
-                    "line": 51,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": "#{intl::COMMANDS_OPTIONAL_COUNT}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "children:(?=\\i\\?\\?\\i\\?\\.name)(?<=command:(\\i),.+?)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "children:$1.plugin??"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 55,
-                    "character": 12
-                },
-                {
-                    "line": 61,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        }
-    ],
-    "ContextMenuAPI": [
-        {
-            "findType": "string",
-            "find": "♫ (つ｡◕‿‿◕｡)つ ♪",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?=let{navId:)(?<=function \\i\\((\\i)\\).+?)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1=Plexcord.Api.ContextMenu._usePatchContextMenu($1);"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 31,
-                    "character": 12
-                },
-                {
-                    "line": 35,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "navId:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "navId:(?=.+?([,}].*?\\)))",
-                            "flags": "g"
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, rest, ...args) => {\n    if (rest.match(/}=.+/))\n        return m;\n    const src = args[1]?.slice(Math.max(0, +args[0] - 2000), +args[0]);\n    if (src && Math.max(src.lastIndexOf(\"PureComponent{\"), src.lastIndexOf(\"Component{\")) > src.lastIndexOf(\"function\"))\n        return m;\n    return `contextMenuAPIArguments:typeof arguments!=='undefined'?arguments:[],${m}`;\n};\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 38,
-                    "character": 12
-                },
-                {
-                    "line": 51,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
-    "DynamicImageModalAPI": [
-        {
-            "findType": "string",
-            "find": ".renderLinkComponent",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=\\i=)(null!=\\i&&0!==\\i)&&(null!=\\i&&0!==\\i)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "($1)||($2)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 19,
-                    "character": 12
-                },
-                {
-                    "line": 24,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "HeaderBarAPI": [
-        {
-            "findType": "string",
-            "find": "?\"BACK_FORWARD_NAVIGATION\":",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "canShowReminder:.+?className:(\\i).*?\\}\\),",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$& Plexcord.Api.HeaderBar._addHeaderBarButtons(),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 17,
-                    "character": 12
-                },
-                {
-                    "line": 21,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "Missing channel in Channel.renderHeaderToolbar",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=renderHeaderToolbar\"\\);let (\\i)=\\[\\];)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "Plexcord.Api.HeaderBar._addChannelToolbarButtons($1);"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 24,
-                    "character": 12
-                },
-                {
-                    "line": 28,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
-    "MemberListDecoratorsAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::GUILD_OWNER}),children:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "children:\\[(?=.{0,300},lostPermissionTooltipText:)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "children:[Plexcord.Api.MemberListDecorators.__getDecorators(arguments[0],'guild'),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 33,
-                    "character": 12
-                },
-                {
-                    "line": 39,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "PrivateChannel.renderAvatar",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "decorators:(\\i\\.isSystemDM\\(\\)\\?.{0,100}:null)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "decorators:[Plexcord.Api.MemberListDecorators.__getDecorators(arguments[0],'dm'),$1]"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 42,
-                    "character": 12
-                },
-                {
-                    "line": 46,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": "\"AvatarWithText\"",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=className:.{0,10}),\\{.{0,10}\\}\\)(?=,children:)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ")+\" pc-member-list-decorators-display-names\""
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=className:\\i\\.\\i)(?=,children:\\i\\}\\))",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "+\" pc-member-list-decorators-display-names\""
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 50,
-                    "character": 12
-                },
-                {
-                    "line": 60,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        }
-    ],
-    "MenuItemDemanglerAPI": [
-        {
-            "findType": "string",
-            "find": "Menu API only allows Items",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "function.{0,80}type===(\\i\\.\\i)\\).{0,50}navigable:.+?Menu API",
-                            "flags": "s"
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, mod) => {\n    const nameAssignments = [];\n    // if (t.type === m.MenuItem)\n    const typeCheckRe = canonicalizeMatch(/\\(\\i\\.type===(\\i\\.\\i)\\)/g);\n    // push({type:\"item\"})\n    const pushTypeRe = /type:\"(\\w+)\"/g;\n    let typeMatch;\n    // for each if (t.type === ...)\n    while ((typeMatch = typeCheckRe.exec(m)) !== null) {\n        // extract the current menu item\n        const item = typeMatch[1];\n        // Set the starting index of the second regex to that of the first to start\n        // matching from after the if\n        pushTypeRe.lastIndex = typeCheckRe.lastIndex;\n        // extract the first type: \"...\"\n        const type = pushTypeRe.exec(m)?.[1];\n        if (type && type in nameMap) {\n            const name = nameMap[type];\n            nameAssignments.push(`Object.defineProperty(${item},\"name\",{value:\"${name}\"})`);\n        }\n    }\n    if (nameAssignments.length < 6) {\n        console.warn(\"[MenuItemDemanglerAPI] Expected to at least remap 6 items, only remapped\", nameAssignments.length);\n    }\n    // Merge all our redefines with the actual module\n    return `${nameAssignments.join(\";\")};${m}`;\n};\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 34,
-                    "character": 12
-                },
-                {
-                    "line": 67,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "MessageAccessoriesAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::REMOVE_ATTACHMENT_BODY}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "children:(\\[[^\\]]{0,100}?this.renderSuppressConfirmModal[^\\]]{0,100}?\\])",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "children:Plexcord.Api.MessageAccessories._modifyAccessories($1,this.props)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 34,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "MessageDecorationsAPI": [
-        {
-            "findType": "string",
-            "find": "\"Message Username\"",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "#{intl::GUILD_COMMUNICATION_DISABLED_BOTTOM_SHEET_TITLE}.+?renderPopout:.+?(?=\\])",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&,Plexcord.Api.MessageDecorations.__addDecorationsToMessage(arguments[0])"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 33,
-                    "character": 12
-                },
-                {
-                    "line": 37,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "MessageEventsAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::EDIT_TEXTAREA_HELP}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=,channel:\\i\\}\\)\\.then\\().+?(?=\\i\\.content!==this\\.props\\.message\\.content&&\\i\\((.+?)\\)\\})",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(match, args) => \"\" +\n    `async ${match}` +\n    `if(await Plexcord.Api.MessageEvents._handlePreEdit(${args}))` +\n    \"return Promise.resolve({shouldClear:false,shouldRefocus:true});\";\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 37,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ".handleSendMessage,onResize:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "let (\\i)=\\i\\.\\i\\.parse\\((\\i),.+?\\.getSendMessageOptions\\(\\{.+?\\}\\)?;(?=.+?(\\i)\\.flags=)(?<=\\)\\(({.+?})\\)\\.then.+?)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, parsedMessage, channel, replyOptions, extra) => m +\n    `if(await Plexcord.Api.MessageEvents._handlePreSend(${channel}.id,${parsedMessage},${extra},${replyOptions}))` +\n    \"return{shouldClear:false,shouldRefocus:true};\";\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 40,
-                    "character": 12
-                },
-                {
-                    "line": 47,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": "(\"interactionUsernameProfile",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "let\\{id:\\i}=(\\i),{id:\\i}=(\\i);return \\i\\.useCallback\\((\\i)=>\\{",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, message, channel, event) => `const pcMsg=${message},pcChan=${channel};${m}Plexcord.Api.MessageEvents._handleClick(pcMsg,pcChan,${event});`;\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 50,
-                    "character": 12
-                },
-                {
-                    "line": 55,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        }
-    ],
-    "MessagePopoverAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::MESSAGE_UTILITIES_A11Y_LABEL}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=\\]\\}\\)),(.{0,40}togglePopout:.+?\\}\\))\\]\\}\\):null,(?<=\\((\\i\\.\\i),\\{label:.+?:null,(\\i)\\?\\(0,\\i\\.jsxs?\\)\\(\\i\\.Fragment.+?message:(\\i).+?)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(_, ReactButton, ButtonComponent, showReactButton, message) => \"\" +\n    `]}):null,Plexcord.Api.MessagePopover._buildPopoverElements(${ButtonComponent},${message}),${showReactButton}?${ReactButton}:null,`;\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 35,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "MessageUpdaterAPI": [
-        {
-            "findType": "string",
-            "find": "}renderStickersAccessories(",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=this.props,\\i,\\[)\"message\",",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ""
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 31,
-                    "character": 12
-                },
-                {
-                    "line": 35,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "NicknameIconsAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::USER_PROFILE_PRONOUNS}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=shouldUnderlineOnHover:null.{0,150})children:(\\i)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "children:[...Plexcord.Api.NicknameIcons._renderIcons({userId:arguments[0].user?.id}),$1]"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 18,
-                    "character": 12
-                },
-                {
-                    "line": 22,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "NoticesAPI": [
-        {
-            "findType": "string",
-            "find": "\"NoticeStore\"",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=!1;)\\i=null;(?=.{0,80}getPremiumSubscription\\(\\))",
-                            "flags": "g"
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "if(Plexcord.Api.Notices.currentNotice)return false;$&"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=,NOTICE_DISMISS:function\\(\\i\\){)return null!=(\\i)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=function (\\i)\\(\\i\\){)return null!=(\\i)(?=.+?NOTICE_DISMISS:\\1)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, _, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 31,
-                    "character": 12
-                },
-                {
-                    "line": 47,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "ServerListAPI": [
-        {
-            "findType": "string",
-            "find": "#{intl::DISCODO_DISABLED}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=#{intl::DISCODO_DISABLED}.+?return)(\\(.{0,150}?tutorialId:\"friends-list\".+?}\\))(?=}function)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "[$1].concat(Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.Above))"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 34,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ".setGuildsTree(",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=#{intl::SERVERS}\\),gap:\"xs\",children:)\\i\\.map\\(.{0,50}\\.length\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.In).concat($&)"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "lastTargetNode.{0,25}\\?null:\\i,",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&...Plexcord.Api.ServerList.renderAll(Plexcord.Api.ServerList.ServerListRenderPosition.Below),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 37,
-                    "character": 12
-                },
-                {
-                    "line": 47,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
-    "UserAreaAPI": [
-        {
-            "findType": "string",
-            "find": ".WIDGETS_RTC_UPSELL_COACHMARK),",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=className:(\\i)\\.\\i,style:\\i,)children:\\[",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "children:[...$self.renderButtons(arguments[0],$1),"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=\\{ref:\\i,)style:(\\i)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "style:{...$1,minWidth:0}"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 23,
-                    "character": 12
-                },
-                {
-                    "line": 34,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "UserSettingsAPI": [
-        {
-            "findType": "string",
-            "find": ",updateSetting:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\\.updateAsync\\(.+?(?=,useSetting:)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&,userSettingsAPIGroup:arguments[0],userSettingsAPIName:arguments[1]"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "updateSetting:.{0,100}SELECTIVELY_SYNCED_USER_SETTINGS_UPDATE",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "userSettingsAPIGroup:arguments[0].userSettingsAPIGroup,userSettingsAPIName:arguments[0].userSettingsAPIName,$&"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "updateSetting:.{0,60}USER_SETTINGS_OVERRIDE_CLEAR",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "userSettingsAPIGroup:arguments[0].userSettingsAPIGroup,userSettingsAPIName:arguments[0].userSettingsAPIName,$&"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 30,
-                    "character": 12
-                },
-                {
-                    "line": 48,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
-    "NoTrack": [
-        {
-            "findType": "string",
-            "find": "AnalyticsActionHandlers.handle",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "^.+$",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "()=>{}"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 45,
-                    "character": 12
-                },
-                {
-                    "line": 50,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ".METRICS_V2",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "this\\._intervalId=",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "this._intervalId=void 0&&"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?:increment|distribution)\\(\\i(?:,\\i)?\\){",
-                            "flags": "g"
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&return;"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 53,
-                    "character": 12
-                },
-                {
-                    "line": 63,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": ".BetterDiscord||null!=",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?=let \\i=window;)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "return false;"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 66,
-                    "character": 12
-                },
-                {
-                    "line": 71,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        }
-    ],
-    "Settings": [
-        {
-            "findType": "string",
-            "find": "#{intl::COPY_VERSION}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\\.RELEASE_CHANNEL",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&.replace(/^./, c => c.toUpperCase())"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\"text-xxs\\/normal\".{0,300}?(?=null!=(\\i)&&(.{0,20}\\i\\.Text.{0,200}?,children:).{0,15}?(\"span\"),({className:\\i\\.\\i,children:\\[\"Build Override: \",\\1\\.id\\]\\})\\)\\}\\))",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, _buildOverride, makeRow, component, props) => {\n    props = props.replace(/children:\\[.+\\]/, \"\");\n    return `${m},$self.makeInfoElements(${component},${props}).map(e=>${makeRow}e})),`;\n};\n"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "\"text-xs\\/normal\".{0,300}?\\[\\(0,\\i\\.jsxs?\\)\\((.{1,10}),(\\{[^{}}]+\\{.{0,20}className:\\i.\\i,.+?\\})\\),\" \"",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, component, props) => {\n    props = props.replace(/children:\\[.+\\]/, \"\");\n    return `${m},$self.makeInfoElements(${component},${props})`;\n};\n"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "copyValue:\\i\\.join\\(\" \"\\)",
-                            "flags": "g"
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$& + $self.getInfoString()"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 135,
-                    "character": 12
-                },
-                {
-                    "line": 159,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "#{intl::USER_SETTINGS_ACTIONS_MENU_LABEL}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "null!=\\(\\i=Object.values\\(\\i\\.\\i\\).{0,50}?&&(?=\\(0,\\i\\.openUserSettings\\)\\(\\i,\\{section:\\i)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": ""
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 162,
-                    "character": 12
-                },
-                {
-                    "line": 166,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": ".buildLayout().map",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(\\i)\\.buildLayout\\(\\)(?=\\.map)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.buildLayout($1)"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 169,
-                    "character": 12
-                },
-                {
-                    "line": 173,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        },
-        {
-            "findType": "string",
-            "find": "getWebUserSettingFromSection",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "new Map\\(\\[(?=\\[.{0,10}\\.ACCOUNT,.{0,10}\\.ACCOUNT_PANEL)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "new Map([...$self.getSettingsSectionMappings(),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 176,
-                    "character": 12
-                },
-                {
-                    "line": 180,
-                    "character": 13
-                }
-            ],
-            "origIndex": 3
-        }
-    ],
-    "SupportHelper": [
-        {
-            "findType": "string",
-            "find": "#{intl::BEGINNING_DM}",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "#{intl::BEGINNING_DM},{.+?}\\),(?=.{0,300}(\\i)\\.isMultiUserDM)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$& $self.renderContributorDmWarningCard({ channel: $1 }),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 294,
-                    "character": 8
-                },
-                {
-                    "line": 298,
-                    "character": 9
                 }
             ],
             "origIndex": 0
