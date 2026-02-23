@@ -5345,8 +5345,505 @@
             "origIndex": 0
         }
     ],
+    "DiscordDevBanner": [
+        {
+            "findType": "string",
+            "find": "\"isHideDevBanner\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "string",
+                        "value": "\"staging\"===window.GLOBAL_ENV.RELEASE_CHANNEL"
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "true"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "children:\\[.*?\\{\\}\\)\\]",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "children:$self.makeDevBanner()"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 22,
+                    "character": 12
+                },
+                {
+                    "line": 32,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "DontFilterMe": [],
     "DontRoundMyTimestamps": [],
+    "DragFavoriteEmotes": [
+        {
+            "findType": "string",
+            "find": "#{intl::EMOJI_FAVORITE_TOOLTIP}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(ref:\\i,children:)(\\(0,\\i.jsx\\)\\(\\i.\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1arguments[0]?.collected?.isDragging?$self.dragItem():$2"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\[(\\i\\.\\i)\\](?=.{0,5}\\[\\i\\?\\?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "[arguments[0].collected.isDragging?\"\":$1]"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(\\[\\i,\\i\\]=\\i\\.useState\\(\"\"\\))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1,[collected,drag]=$self.drag(arguments[0])"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(onFocus:.{0,50}\\(\\i,{ref:)(\\i),",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1arguments[0]?.descriptor?.category===\"FAVORITES\"?drag:$2,collected:collected,"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(key:\\i,ref:\\i)(?=\\},\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1,style:{position:\"relative\"}"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(delay:200,children:)(\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1[$2,$self.wrapper(arguments[0]?.descriptor)]"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(delay:200,children:.{0,100}\\}\\):)(\\i)\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1[$2,$self.wrapper(arguments[0]?.descriptor)])"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 40,
+                    "character": 12
+                },
+                {
+                    "line": 70,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "Dragify": [
+        {
+            "findType": "string",
+            "find": "location:\"VoiceUser\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=previewIsOpen:.{0,100})\"data-dnd-name\":(\\i)\\.name,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&\"data-dragify-user\":!0,\"data-user-id\":arguments[0].user?.id,draggable:!0,onDragStart:e=>$self.onUserDragStart(e,arguments[0].user),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 177,
+                    "character": 12
+                },
+                {
+                    "line": 181,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "tutorialId:\"voice-conversations\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=this.getTooltipText\\(\\),.{0,100})iconClassName:",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),$&"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=getModeClass\\(\\),.{0,50})\"data-dnd-name\":(\\i)\\.name,children:\\[",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 184,
+                    "character": 12
+                },
+                {
+                    "line": 196,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "handleClickChat",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=getModeClass\\(\\),.{0,50})\"data-dnd-name\":(\\i)\\.name,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&draggable:!0,onDragStart:t=>$self.onChannelDragStart(t,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 200,
+                    "character": 12
+                },
+                {
+                    "line": 204,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        },
+        {
+            "findType": "string",
+            "find": "__invalid_threadMainContent",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "className:\\i\\.\\i,onClick:\\i,\"aria-label\":(?=.{0,100}__invalid_threadMainContent)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e),$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 208,
+                    "character": 12
+                },
+                {
+                    "line": 212,
+                    "character": 13
+                }
+            ],
+            "origIndex": 3
+        },
+        {
+            "findType": "string",
+            "find": "shouldShowThreadsPopout",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=getClassName\\(\\).{0,50})\"data-dnd-name\":(\\i)\\.name,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 218,
+                    "character": 12
+                },
+                {
+                    "line": 222,
+                    "character": 13
+                }
+            ],
+            "origIndex": 4
+        },
+        {
+            "findType": "string",
+            "find": "POPOUT)},children:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=getUser\\(\\i\\.ownerId\\).{0,100})className:\\i\\.\\i,onClick:\\i=>\\{\\(0,\\i\\.\\i\\)\\((\\i),",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:arguments[0]?.thread?.id,guild_id:arguments[0]?.thread?.guild_id}),$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 226,
+                    "character": 12
+                },
+                {
+                    "line": 230,
+                    "character": 13
+                }
+            ],
+            "origIndex": 5
+        },
+        {
+            "findType": "string",
+            "find": ".MEMBER_USER})]",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=useRawTargetDimensions.{0,250})onContextMenu:\\i,(?=onMouseEnter:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&draggable:!0,onDragStart:e=>$self.onUserDragStart(e,{id:arguments[0].user?.id}),\"data-dragify-user\":!0,\"data-user-id\":arguments[0].user?.id,"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 234,
+                    "character": 12
+                },
+                {
+                    "line": 238,
+                    "character": 13
+                }
+            ],
+            "origIndex": 6
+        },
+        {
+            "findType": "string",
+            "find": "]=\"BADGES\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?=\"data-username-has-gradient\")",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "draggable:!0,onDragStart:e=>$self.onUserDragStart(e,arguments[0].author),\"data-dragify-user\":!0,\"data-user-id\":arguments[0].author.id,"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 242,
+                    "character": 12
+                },
+                {
+                    "line": 246,
+                    "character": 13
+                }
+            ],
+            "origIndex": 7
+        },
+        {
+            "findType": "string",
+            "find": ".VOICE_CHANNEL_TILE,children:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\.VOICE_USER,.{0,250})className:\\i\\.\\i,onDoubleClick:\\i,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "draggable:!0,onDragStart:e=>$self.onUserDragStart(e,{id:arguments[0].participantUserId}),\"data-dragify-user\":!0,\"data-user-id\":arguments[0].participantUserId,$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 250,
+                    "character": 12
+                },
+                {
+                    "line": 254,
+                    "character": 13
+                }
+            ],
+            "origIndex": 8
+        },
+        {
+            "findType": "string",
+            "find": "PrivateChannel.renderAvatar: Invalid prop configuration - no user or channel",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\.CHANNEL\\(\\i\\.\\i,\\i\\.\\i\\),(?=.{0,150}\\.isMultiUserDM\\(\\))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&draggable:!0,onDragStart:e=>$self.onDmDragStart(e,arguments[0].channel),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 258,
+                    "character": 12
+                },
+                {
+                    "line": 262,
+                    "character": 13
+                }
+            ],
+            "origIndex": 9
+        },
+        {
+            "findType": "string",
+            "find": "[aria-owns=folder-items-",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\"data-dnd-name\":(\\i)\\.name,(?=\"data-drop-hovering\".{0,100}formatToPlainString\\()",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&draggable:!0,onDragStart:e=>$self.onGuildDragStart(e,$1.id),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 265,
+                    "character": 12
+                },
+                {
+                    "line": 269,
+                    "character": 13
+                }
+            ],
+            "origIndex": 10
+        }
+    ],
     "DynamicImageModalAPI": [
         {
             "findType": "string",
@@ -5379,51 +5876,8 @@
             "origIndex": 0
         }
     ],
-    "ExpandedUserTags": [
-        {
-            "findType": "string",
-            "find": ".STAFF_ONLY_DM:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=type:(\\i).*?\\.BOT:.{0,25})default:(\\i)=",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "default:$2=$self.getTagText($self.localTags[$1]);"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=type:(\\i).*?)\\.BOT:(?=default:)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&return null;"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 45,
-                    "character": 12
-                },
-                {
-                    "line": 56,
-                    "character": 14
-                }
-            ],
-            "origIndex": 0
-        }
-    ],
+    "ElementHighlighter": [],
+    "ExitSounds": [],
     "Experiments": [
         {
             "findType": "string",
@@ -5790,11 +6244,11 @@
             ],
             "range": [
                 {
-                    "line": 198,
+                    "line": 204,
                     "character": 12
                 },
                 {
-                    "line": 203,
+                    "line": 209,
                     "character": 13
                 }
             ],
@@ -5872,11 +6326,11 @@
             ],
             "range": [
                 {
-                    "line": 206,
+                    "line": 212,
                     "character": 12
                 },
                 {
-                    "line": 235,
+                    "line": 241,
                     "character": 13
                 }
             ],
@@ -5902,11 +6356,11 @@
             ],
             "range": [
                 {
-                    "line": 239,
+                    "line": 245,
                     "character": 12
                 },
                 {
-                    "line": 243,
+                    "line": 249,
                     "character": 13
                 }
             ],
@@ -5932,11 +6386,11 @@
             ],
             "range": [
                 {
-                    "line": 247,
+                    "line": 253,
                     "character": 12
                 },
                 {
-                    "line": 252,
+                    "line": 258,
                     "character": 13
                 }
             ],
@@ -5962,11 +6416,11 @@
             ],
             "range": [
                 {
-                    "line": 256,
+                    "line": 262,
                     "character": 12
                 },
                 {
-                    "line": 261,
+                    "line": 267,
                     "character": 13
                 }
             ],
@@ -6005,11 +6459,11 @@
             ],
             "range": [
                 {
-                    "line": 264,
+                    "line": 270,
                     "character": 12
                 },
                 {
-                    "line": 276,
+                    "line": 282,
                     "character": 13
                 }
             ],
@@ -6035,11 +6489,11 @@
             ],
             "range": [
                 {
-                    "line": 280,
+                    "line": 286,
                     "character": 12
                 },
                 {
-                    "line": 284,
+                    "line": 290,
                     "character": 13
                 }
             ],
@@ -6065,11 +6519,11 @@
             ],
             "range": [
                 {
-                    "line": 288,
+                    "line": 294,
                     "character": 12
                 },
                 {
-                    "line": 294,
+                    "line": 300,
                     "character": 13
                 }
             ],
@@ -6108,11 +6562,11 @@
             ],
             "range": [
                 {
-                    "line": 297,
+                    "line": 303,
                     "character": 12
                 },
                 {
-                    "line": 311,
+                    "line": 317,
                     "character": 13
                 }
             ],
@@ -6164,11 +6618,11 @@
             ],
             "range": [
                 {
-                    "line": 314,
+                    "line": 320,
                     "character": 12
                 },
                 {
-                    "line": 334,
+                    "line": 340,
                     "character": 13
                 }
             ],
@@ -6207,11 +6661,11 @@
             ],
             "range": [
                 {
-                    "line": 337,
+                    "line": 343,
                     "character": 12
                 },
                 {
-                    "line": 350,
+                    "line": 356,
                     "character": 13
                 }
             ],
@@ -6237,11 +6691,11 @@
             ],
             "range": [
                 {
-                    "line": 353,
+                    "line": 359,
                     "character": 12
                 },
                 {
-                    "line": 359,
+                    "line": 365,
                     "character": 13
                 }
             ],
@@ -6267,11 +6721,11 @@
             ],
             "range": [
                 {
-                    "line": 362,
+                    "line": 368,
                     "character": 12
                 },
                 {
-                    "line": 368,
+                    "line": 374,
                     "character": 13
                 }
             ],
@@ -6297,11 +6751,11 @@
             ],
             "range": [
                 {
-                    "line": 372,
+                    "line": 378,
                     "character": 12
                 },
                 {
-                    "line": 376,
+                    "line": 382,
                     "character": 13
                 }
             ],
@@ -6327,11 +6781,11 @@
             ],
             "range": [
                 {
-                    "line": 380,
+                    "line": 386,
                     "character": 12
                 },
                 {
-                    "line": 384,
+                    "line": 390,
                     "character": 13
                 }
             ],
@@ -6625,6 +7079,161 @@
             "origIndex": 0
         }
     ],
+    "FavouriteAnything": [
+        {
+            "findType": "string",
+            "find": "static isAnimated",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "static isAnimated\\((\\i)\\)\\{",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "static isAnimated($1,override){if(!override)return true;"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=this\\.props\\.renderAccessory\\(\\):)null",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.Accessory({...this.props,url:this.props.proxyUrl,video:true})"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "getSrc\\(\\i\\)\\{.*?let \\i=",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&!this.constructor.isAnimated(this.props,true)||"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "string",
+                        "value": "return this.props.shouldRenderAccessory?"
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&!this.constructor.isAnimated(this.props,true)||"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 52,
+                    "character": 12
+                },
+                {
+                    "line": 77,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "#{intl::SUPPRESS_ALL_EMBEDS}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "string",
+                        "value": "render()"
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&{return $self.renderEmbed.call(this)}__render()"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 81,
+                    "character": 12
+                },
+                {
+                    "line": 85,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "renderComponentAccessories",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i=>\\(\\)=>\\{.{200,300}?null\\}",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "props=>()=>$self.Accessory({...props,video:false})"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 89,
+                    "character": 12
+                },
+                {
+                    "line": 93,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
+        },
+        {
+            "findType": "regex",
+            "find": "/disableArrowKeySeek:\\i\\}\\)\\}/",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "src:\\i(?=,\\.\\.\\.\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&,proxyUrl:this.props.src"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 97,
+                    "character": 12
+                },
+                {
+                    "line": 101,
+                    "character": 13
+                }
+            ],
+            "origIndex": 3
+        }
+    ],
     "FileDownloadButton": [
         {
             "findType": "string",
@@ -6706,7 +7315,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&var _vcSrc=$self.getSrc(this.props);if(_vcSrc)return _vcSrc;"
+                        "value": "$&var _pcSrc=$self.getSrc(this.props,arguments[1]);if(_pcSrc)return _pcSrc;"
                     }
                 }
             ],
@@ -6759,6 +7368,68 @@
             "origIndex": 0
         }
     ],
+    "ForwardAnywhere": [
+        {
+            "findType": "string",
+            "find": "#{intl::MESSAGE_FORWARDING_NSFW_NOT_ALLOWED}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(\\{if\\().{0,50}(\\)return.{0,25}#{intl::MESSAGE_FORWARDING_NSFW_NOT_ALLOWED})",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$1false$2"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 34,
+                    "character": 12
+                },
+                {
+                    "line": 38,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "#{intl::MESSAGE_ACTION_FORWARD_TO}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=let (\\i)=.{0,25}rejected.{0,25}\\);)(?=.{0,25}message:(\\i))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if ($1) return $self.sendForward($1,$2);"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 41,
+                    "character": 12
+                },
+                {
+                    "line": 45,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "Freaky": [],
     "FrequentQuickSwitcher": [
         {
@@ -6792,7 +7463,72 @@
             "origIndex": 0
         }
     ],
+    "FriendCloud": [],
+    "FriendCodes": [
+        {
+            "findType": "string",
+            "find": "#{intl::ADD_FRIEND})}),(",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\"header\",.{0,30}children:\\[.*?\\{\\}\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&,$self.FriendCodesPanel"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 19,
+                    "character": 12
+                },
+                {
+                    "line": 24,
+                    "character": 25
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "FriendInvites": [],
+    "FriendTags": [
+        {
+            "findType": "string",
+            "find": "#{intl::QUICKSWITCHER_PLACEHOLDER}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "let{selectedIndex:\\i,results:\\i}",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if(this.state.query.includes(\"&\")){ this.props.results = $self.queryFriendTags(this.state.query); }$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 222,
+                    "character": 12
+                },
+                {
+                    "line": 226,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "FriendsSince": [
         {
             "findType": "string",
@@ -10315,6 +11051,51 @@
                 }
             ],
             "origIndex": 3
+        }
+    ],
+    "MoreUserTags": [
+        {
+            "findType": "string",
+            "find": ".STAFF_ONLY_DM:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=type:(\\i).*?\\.BOT:.{0,25})default:(\\i)=",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "default:$2=$self.getTagText($self.localTags[$1]);"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=type:(\\i).*?)\\.BOT:(?=default:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&return null;"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 45,
+                    "character": 12
+                },
+                {
+                    "line": 56,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
         }
     ],
     "Morse": [],
