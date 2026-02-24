@@ -7719,6 +7719,38 @@
         }
     ],
     "GameActivityToggle": [],
+    "Ghosted": [
+        {
+            "findType": "string",
+            "find": "PrivateChannel.renderAvatar",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\]:\\i\\|\\|\\i.{0,50}children:\\[",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&$self.renderBoo(arguments[0]),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 160,
+                    "character": 12
+                },
+                {
+                    "line": 164,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "GifCollections": [
         {
             "findType": "string",
@@ -7875,17 +7907,18 @@
             ],
             "range": [
                 {
-                    "line": 31,
+                    "line": 33,
                     "character": 8
                 },
                 {
-                    "line": 35,
+                    "line": 37,
                     "character": 9
                 }
             ],
             "origIndex": 0
         }
     ],
+    "GifRoulette": [],
     "GitHubRepos": [
         {
             "findType": "regex",
@@ -7907,45 +7940,15 @@
             ],
             "range": [
                 {
-                    "line": 92,
+                    "line": 93,
                     "character": 12
                 },
                 {
-                    "line": 96,
+                    "line": 97,
                     "character": 13
                 }
             ],
             "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ",applicationRoleConnection:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "user:(\\i).{0,15}displayProfile:(\\i).*?application\\.id\\)\\)\\}\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&,$self.ProfilePopoutComponent(arguments[0]),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 99,
-                    "character": 12
-                },
-                {
-                    "line": 103,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
         },
         {
             "findType": "string",
@@ -7967,15 +7970,15 @@
             ],
             "range": [
                 {
-                    "line": 106,
+                    "line": 101,
                     "character": 12
                 },
                 {
-                    "line": 111,
+                    "line": 106,
                     "character": 13
                 }
             ],
-            "origIndex": 2
+            "origIndex": 1
         },
         {
             "findType": "string",
@@ -7997,15 +8000,15 @@
             ],
             "range": [
                 {
-                    "line": 115,
+                    "line": 110,
                     "character": 12
                 },
                 {
-                    "line": 120,
+                    "line": 115,
                     "character": 13
                 }
             ],
-            "origIndex": 3
+            "origIndex": 2
         },
         {
             "findType": "string",
@@ -8027,15 +8030,15 @@
             ],
             "range": [
                 {
-                    "line": 124,
+                    "line": 119,
                     "character": 12
                 },
                 {
-                    "line": 128,
+                    "line": 123,
                     "character": 13
                 }
             ],
-            "origIndex": 4
+            "origIndex": 3
         }
     ],
     "GoogleThat": [],
@@ -8072,6 +8075,38 @@
         }
     ],
     "GuildPickerDumper": [],
+    "GuildTagSettings": [
+        {
+            "findType": "string",
+            "find": "GuildTagAvailableCoachmark",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "return.{0,100}shouldShow",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "return null;$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 42,
+                    "character": 12
+                },
+                {
+                    "line": 47,
+                    "character": 65
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "HeaderBarAPI": [
         {
             "findType": "string",
@@ -8308,11 +8343,11 @@
             ],
             "range": [
                 {
-                    "line": 36,
+                    "line": 34,
                     "character": 12
                 },
                 {
-                    "line": 49,
+                    "line": 47,
                     "character": 23
                 }
             ],
@@ -8352,6 +8387,8 @@
         }
     ],
     "IRememberYou": [],
+    "IconViewer": [],
+    "IdleAutoRestart": [],
     "IgnoreActivities": [
         {
             "findType": "string",
@@ -9403,98 +9440,6 @@
             "origIndex": 1
         }
     ],
-    "LimitMiddleClickPaste": [
-        {
-            "findType": "string",
-            "find": "document.addEventListener(\"paste\",",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=paste\",(\\i)=>{)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "if($1.target.tagName===\"BUTTON\"||$self.isPastingDisabled(false)){$1.preventDefault?.();$1.stopPropagation?.();return;};"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 86,
-                    "character": 12
-                },
-                {
-                    "line": 90,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ",origin:\"clipboard\"});",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=handlePaste=(\\i)=>{)(?=let)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "if($self.isPastingDisabled(true)){$1.preventDefault?.();$1.stopPropagation?.();return;}"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 94,
-                    "character": 12
-                },
-                {
-                    "line": 98,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": "props.handlePastedText&&",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=clipboardData\\);)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "if($self.isPastingDisabled(true)){arguments[1].preventDefault?.();arguments[1].stopPropagation?.();return;};"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 102,
-                    "character": 12
-                },
-                {
-                    "line": 106,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        }
-    ],
     "ListenBrainzRPC": [],
     "LoadingQuotes": [
         {
@@ -9530,11 +9475,11 @@
             ],
             "range": [
                 {
-                    "line": 71,
+                    "line": 72,
                     "character": 12
                 },
                 {
-                    "line": 82,
+                    "line": 83,
                     "character": 13
                 }
             ],
@@ -9853,11 +9798,11 @@
             ],
             "range": [
                 {
-                    "line": 53,
+                    "line": 56,
                     "character": 8
                 },
                 {
-                    "line": 57,
+                    "line": 60,
                     "character": 9
                 }
             ],
@@ -9883,11 +9828,11 @@
             ],
             "range": [
                 {
-                    "line": 60,
+                    "line": 63,
                     "character": 8
                 },
                 {
-                    "line": 64,
+                    "line": 67,
                     "character": 9
                 }
             ],
@@ -9913,11 +9858,11 @@
             ],
             "range": [
                 {
-                    "line": 68,
+                    "line": 71,
                     "character": 8
                 },
                 {
-                    "line": 72,
+                    "line": 75,
                     "character": 9
                 }
             ],
@@ -9989,6 +9934,7 @@
             "origIndex": 0
         }
     ],
+    "MessageBurst": [],
     "MessageClickActions": [],
     "MessageColors": [
         {
@@ -10825,6 +10771,39 @@
             "origIndex": 5
         }
     ],
+    "MessageNotifier": [],
+    "MessagePeek": [
+        {
+            "findType": "string",
+            "find": "PrivateChannel.renderAvatar",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": ",subText:(\\i)\\.isSystemDM\\(\\).{0,500}:null,(?=name:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ",subText:$self.getSubText(arguments[0]),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 236,
+                    "character": 12
+                },
+                {
+                    "line": 240,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "MessagePopoverAPI": [
         {
             "findType": "string",
@@ -10888,6 +10867,99 @@
                 }
             ],
             "origIndex": 0
+        }
+    ],
+    "MicLoopbackTester": [],
+    "MiddleClickTweaks": [
+        {
+            "findType": "string",
+            "find": "document.addEventListener(\"paste\",",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=paste\",(\\i)=>{)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if($1.target.tagName===\"BUTTON\"||$self.isPastingDisabled(false)){$1.preventDefault?.();$1.stopPropagation?.();return;};"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 129,
+                    "character": 12
+                },
+                {
+                    "line": 133,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": ",origin:\"clipboard\"});",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=handlePaste=(\\i)=>{)(?=let)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if($self.isPastingDisabled(true)){$1.preventDefault?.();$1.stopPropagation?.();return;}"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 137,
+                    "character": 12
+                },
+                {
+                    "line": 141,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        },
+        {
+            "findType": "string",
+            "find": "props.handlePastedText&&",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=clipboardData\\);)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "if($self.isPastingDisabled(true)){arguments[1].preventDefault?.();arguments[1].stopPropagation?.();return;};"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 145,
+                    "character": 12
+                },
+                {
+                    "line": 149,
+                    "character": 13
+                }
+            ],
+            "origIndex": 2
         }
     ],
     "MoreCommands": [],
@@ -11375,6 +11447,68 @@
             "origIndex": 2
         }
     ],
+    "NeverPausePreviews": [
+        {
+            "findType": "string",
+            "find": "streamerPaused()",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "streamerPaused\\(\\)\\{",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&return false;"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 23,
+                    "character": 12
+                },
+                {
+                    "line": 27,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "StreamTile",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i\\.\\i\\.isFocused\\(\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "true"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 30,
+                    "character": 12
+                },
+                {
+                    "line": 34,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "NewGuildSettings": [
         {
             "findType": "string",
@@ -11396,11 +11530,11 @@
             ],
             "range": [
                 {
-                    "line": 142,
+                    "line": 167,
                     "character": 12
                 },
                 {
-                    "line": 146,
+                    "line": 171,
                     "character": 13
                 }
             ],
@@ -11426,11 +11560,11 @@
             ],
             "range": [
                 {
-                    "line": 149,
+                    "line": 174,
                     "character": 12
                 },
                 {
-                    "line": 153,
+                    "line": 178,
                     "character": 13
                 }
             ],
@@ -11863,11 +11997,11 @@
             ],
             "range": [
                 {
-                    "line": 31,
+                    "line": 30,
                     "character": 12
                 },
                 {
-                    "line": 35,
+                    "line": 34,
                     "character": 13
                 }
             ],
@@ -11893,11 +12027,11 @@
             ],
             "range": [
                 {
-                    "line": 38,
+                    "line": 37,
                     "character": 12
                 },
                 {
-                    "line": 43,
+                    "line": 42,
                     "character": 13
                 }
             ],
@@ -12208,6 +12342,38 @@
                 },
                 {
                     "line": 90,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "NoRoleHeaders": [
+        {
+            "findType": "string",
+            "find": "._areActivitiesExperimentallyHidden=(",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "return \\i===\\i\\.\\i\\.UNKNOWN",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "return null;$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 17,
+                    "character": 12
+                },
+                {
+                    "line": 21,
                     "character": 13
                 }
             ],
@@ -13149,7 +13315,7 @@
         },
         {
             "findType": "string",
-            "find": ".getFlattenedGuildIds()]",
+            "find": "=()=>!1,ensureChatIsVisible:",
             "replacement": [
                 {
                     "match": {
