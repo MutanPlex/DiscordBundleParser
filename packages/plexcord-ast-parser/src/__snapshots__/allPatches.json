@@ -11604,36 +11604,68 @@
             "origIndex": 0
         }
     ],
-    "NoBlockedMessages": [
+    "NoAppsAllowed": [
         {
             "findType": "string",
-            "find": ".__invalid_blocked,",
+            "find": "\"#{intl::APP_TAG::hash}\":",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "let{expanded:\\i,[^}]*?collapsedReason[^}]*}",
+                            "pattern": "(#{intl::APP_TAG::hash}\":\\[\").*?(\"\\])",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "if($self.shouldHide(arguments[0]))return null;$&"
+                        "value": "$1BOT$2"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 57,
+                    "line": 17,
                     "character": 12
                 },
                 {
-                    "line": 63,
+                    "line": 21,
                     "character": 13
                 }
             ],
             "origIndex": 0
+        }
+    ],
+    "NoBlockedMessages": [
+        {
+            "findType": "string",
+            "find": "`forum-post-action-bar-",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\\);)(let \\i=null,\\i=\\[\\],\\i=(\\i))",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$2=$self.filterStream($2);$1"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 113,
+                    "character": 12
+                },
+                {
+                    "line": 119,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
         }
     ],
     "NoBulletPoints": [],
@@ -13633,7 +13665,70 @@
         }
     ],
     "PlexcordToolbox": [],
+    "PolishWording": [],
     "PreviewMessage": [],
+    "ProfileSets": [
+        {
+            "findType": "string",
+            "find": "DefaultCustomizationSections: user cannot be undefined",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "return.{0,50}children:\\[(?<=\\.getLegacyUsername\\(\\).*?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&$self.renderPresetSection(\"main\"),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 38,
+                    "character": 12
+                },
+                {
+                    "line": 42,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "USER_SETTINGS_GUILD_PROFILE)",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "guildId:(\\i\\.id),onChange:(\\i)\\}\\)(?=.{0,25}profilePreviewTitle:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "guildId:$1,onChange:$2}),$self.renderPresetSection(\"server\",$1)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 45,
+                    "character": 12
+                },
+                {
+                    "line": 49,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "Questify": [
         {
             "findType": "string",
@@ -14891,7 +14986,41 @@
     "QuestionMarkReplacement": [],
     "QuickMention": [],
     "QuickReply": [],
+    "QuickThemeSwitcher": [],
     "Quoter": [],
+    "RPCEditor": [
+        {
+            "findType": "string",
+            "find": "\"LocalActivityStore\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i\\(\\i\\)\\{.{0,25}activity:(\\i).*?\\}=\\i;",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&$self.patchActivity($1);"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 81,
+                    "character": 12
+                },
+                {
+                    "line": 85,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "RPCStats": [],
     "RandomVoice": [],
     "ReactErrorDecoder": [
         {
@@ -14926,6 +15055,7 @@
         }
     ],
     "ReadAllNotificationsButton": [],
+    "RecentDMSwitcher": [],
     "RelationshipNotifier": [
         {
             "findType": "string",
@@ -15211,6 +15341,68 @@
             "origIndex": 1
         }
     ],
+    "RichMagnetLinks": [
+        {
+            "findType": "string",
+            "find": "AUTO_MODERATION_SYSTEM_MESSAGE_RULES:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "mention:\\{order:(\\i\\.\\i\\.order)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "magnet:$self.magnetLink($1),$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 20,
+                    "character": 12
+                },
+                {
+                    "line": 24,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "\"flattenMarkdown\"",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "mention:{type:",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "magnet:{type:\"inlineObject\"},$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 27,
+                    "character": 12
+                },
+                {
+                    "line": 31,
+                    "character": 13
+                }
+            ],
+            "origIndex": 1
+        }
+    ],
     "RoleColorEverywhere": [
         {
             "findType": "string",
@@ -15451,6 +15643,39 @@
                 }
             ],
             "origIndex": 7
+        }
+    ],
+    "SaveFavoriteGIFs": [],
+    "ScheduledMessages": [
+        {
+            "findType": "string",
+            "find": "}addReaction(",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "this\\.channel_id=(\\i)\\.channel_id,",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&this.scheduledMessageData=$1.scheduledMessageData,"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 114,
+                    "character": 12
+                },
+                {
+                    "line": 118,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
         }
     ],
     "SearchFix": [
@@ -16015,11 +16240,11 @@
             ],
             "range": [
                 {
-                    "line": 81,
+                    "line": 95,
                     "character": 12
                 },
                 {
-                    "line": 103,
+                    "line": 117,
                     "character": 13
                 }
             ],
@@ -16071,11 +16296,11 @@
             ],
             "range": [
                 {
-                    "line": 106,
+                    "line": 120,
                     "character": 12
                 },
                 {
-                    "line": 123,
+                    "line": 137,
                     "character": 13
                 }
             ],
@@ -16101,11 +16326,11 @@
             ],
             "range": [
                 {
-                    "line": 127,
+                    "line": 141,
                     "character": 12
                 },
                 {
-                    "line": 131,
+                    "line": 145,
                     "character": 13
                 }
             ],
@@ -16131,11 +16356,11 @@
             ],
             "range": [
                 {
-                    "line": 147,
+                    "line": 161,
                     "character": 12
                 },
                 {
-                    "line": 153,
+                    "line": 167,
                     "character": 13
                 }
             ],
@@ -16161,15 +16386,58 @@
             ],
             "range": [
                 {
-                    "line": 156,
+                    "line": 170,
                     "character": 12
                 },
                 {
-                    "line": 162,
+                    "line": 176,
                     "character": 13
                 }
             ],
             "origIndex": 5
+        },
+        {
+            "findType": "string",
+            "find": "UNREAD_IMPORTANT:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\.Children\\.count.+?:null(?<=,channel:(\\i).+?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, channel) => `${m},$self.isHiddenChannel(${channel})?$self.EyeRightIcon():null`;\n"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\.Children\\.count.+?:null(?<=,channel:(\\i).+?)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "function",
+                        "value": "\"use strict\";\n(m, channel) => `${m},$self.isHiddenChannel(${channel})?$self.LockRightIcon():null`;\n"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 179,
+                    "character": 12
+                },
+                {
+                    "line": 194,
+                    "character": 13
+                }
+            ],
+            "origIndex": 6
         },
         {
             "findType": "string",
@@ -16192,19 +16460,6 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\\.Children\\.count.+?:null(?<=,channel:(\\i).+?)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, channel) => `${m},$self.isHiddenChannel(${channel})?$self.HiddenChannelIcon():null`;\n"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
                             "pattern": "(?<=\\?\\i\\.\\i:\\i\\.\\i,)(.{0,150}?)if\\((\\i)(?:\\)return |\\?)(\\i\\.MUTED)",
                             "flags": ""
                         }
@@ -16217,15 +16472,15 @@
             ],
             "range": [
                 {
-                    "line": 165,
+                    "line": 197,
                     "character": 12
                 },
                 {
-                    "line": 183,
+                    "line": 210,
                     "character": 13
                 }
             ],
-            "origIndex": 6
+            "origIndex": 7
         },
         {
             "findType": "string",
@@ -16260,15 +16515,15 @@
             ],
             "range": [
                 {
-                    "line": 186,
+                    "line": 213,
                     "character": 12
                 },
                 {
-                    "line": 200,
+                    "line": 225,
                     "character": 13
                 }
             ],
-            "origIndex": 7
+            "origIndex": 8
         },
         {
             "findType": "string",
@@ -16290,15 +16545,15 @@
             ],
             "range": [
                 {
-                    "line": 204,
+                    "line": 229,
                     "character": 12
                 },
                 {
-                    "line": 208,
+                    "line": 233,
                     "character": 13
                 }
             ],
-            "origIndex": 8
+            "origIndex": 9
         },
         {
             "findType": "string",
@@ -16320,15 +16575,15 @@
             ],
             "range": [
                 {
-                    "line": 212,
+                    "line": 237,
                     "character": 12
                 },
                 {
-                    "line": 216,
+                    "line": 241,
                     "character": 13
                 }
             ],
-            "origIndex": 9
+            "origIndex": 10
         },
         {
             "findType": "string",
@@ -16350,15 +16605,15 @@
             ],
             "range": [
                 {
-                    "line": 220,
+                    "line": 245,
                     "character": 12
                 },
                 {
-                    "line": 224,
+                    "line": 249,
                     "character": 13
                 }
             ],
-            "origIndex": 10
+            "origIndex": 11
         },
         {
             "findType": "string",
@@ -16445,15 +16700,15 @@
             ],
             "range": [
                 {
-                    "line": 228,
+                    "line": 253,
                     "character": 12
                 },
                 {
-                    "line": 254,
+                    "line": 279,
                     "character": 13
                 }
             ],
-            "origIndex": 11
+            "origIndex": 12
         },
         {
             "findType": "string",
@@ -16475,15 +16730,15 @@
             ],
             "range": [
                 {
-                    "line": 258,
+                    "line": 283,
                     "character": 12
                 },
                 {
-                    "line": 262,
+                    "line": 287,
                     "character": 13
                 }
             ],
-            "origIndex": 12
+            "origIndex": 13
         },
         {
             "findType": "string",
@@ -16505,15 +16760,15 @@
             ],
             "range": [
                 {
-                    "line": 266,
+                    "line": 291,
                     "character": 12
                 },
                 {
-                    "line": 270,
+                    "line": 295,
                     "character": 13
                 }
             ],
-            "origIndex": 13
+            "origIndex": 14
         },
         {
             "findType": "string",
@@ -16535,15 +16790,15 @@
             ],
             "range": [
                 {
-                    "line": 274,
+                    "line": 299,
                     "character": 12
                 },
                 {
-                    "line": 278,
+                    "line": 303,
                     "character": 13
                 }
             ],
-            "origIndex": 14
+            "origIndex": 15
         },
         {
             "findType": "string",
@@ -16643,15 +16898,15 @@
             ],
             "range": [
                 {
-                    "line": 281,
+                    "line": 306,
                     "character": 12
                 },
                 {
-                    "line": 318,
+                    "line": 343,
                     "character": 13
                 }
             ],
-            "origIndex": 15
+            "origIndex": 16
         },
         {
             "findType": "string",
@@ -16699,15 +16954,15 @@
             ],
             "range": [
                 {
-                    "line": 321,
+                    "line": 346,
                     "character": 12
                 },
                 {
-                    "line": 340,
+                    "line": 365,
                     "character": 13
                 }
             ],
-            "origIndex": 16
+            "origIndex": 17
         },
         {
             "findType": "string",
@@ -16729,15 +16984,15 @@
             ],
             "range": [
                 {
-                    "line": 343,
+                    "line": 368,
                     "character": 12
                 },
                 {
-                    "line": 350,
+                    "line": 375,
                     "character": 13
                 }
             ],
-            "origIndex": 17
+            "origIndex": 18
         },
         {
             "findType": "string",
@@ -16798,15 +17053,15 @@
             ],
             "range": [
                 {
-                    "line": 353,
+                    "line": 378,
                     "character": 12
                 },
                 {
-                    "line": 375,
+                    "line": 400,
                     "character": 13
                 }
             ],
-            "origIndex": 18
+            "origIndex": 19
         },
         {
             "findType": "string",
@@ -16867,15 +17122,15 @@
             ],
             "range": [
                 {
-                    "line": 378,
+                    "line": 403,
                     "character": 12
                 },
                 {
-                    "line": 400,
+                    "line": 425,
                     "character": 13
                 }
             ],
-            "origIndex": 19
+            "origIndex": 20
         },
         {
             "findType": "string",
@@ -16910,15 +17165,15 @@
             ],
             "range": [
                 {
-                    "line": 403,
+                    "line": 428,
                     "character": 12
                 },
                 {
-                    "line": 415,
+                    "line": 440,
                     "character": 13
                 }
             ],
-            "origIndex": 20
+            "origIndex": 21
         },
         {
             "findType": "string",
@@ -16953,15 +17208,15 @@
             ],
             "range": [
                 {
-                    "line": 419,
+                    "line": 444,
                     "character": 12
                 },
                 {
-                    "line": 431,
+                    "line": 456,
                     "character": 13
                 }
             ],
-            "origIndex": 21
+            "origIndex": 22
         },
         {
             "findType": "string",
@@ -16983,15 +17238,15 @@
             ],
             "range": [
                 {
-                    "line": 434,
+                    "line": 459,
                     "character": 12
                 },
                 {
-                    "line": 439,
+                    "line": 464,
                     "character": 14
                 }
             ],
-            "origIndex": 22
+            "origIndex": 23
         },
         {
             "findType": "string",
@@ -17013,15 +17268,15 @@
             ],
             "range": [
                 {
-                    "line": 442,
+                    "line": 467,
                     "character": 12
                 },
                 {
-                    "line": 447,
+                    "line": 472,
                     "character": 13
                 }
             ],
-            "origIndex": 23
+            "origIndex": 24
         },
         {
             "findType": "string",
@@ -17056,15 +17311,15 @@
             ],
             "range": [
                 {
-                    "line": 450,
+                    "line": 475,
                     "character": 12
                 },
                 {
-                    "line": 462,
+                    "line": 487,
                     "character": 13
                 }
             ],
-            "origIndex": 24
+            "origIndex": 25
         },
         {
             "findType": "string",
@@ -17086,15 +17341,15 @@
             ],
             "range": [
                 {
-                    "line": 465,
+                    "line": 490,
                     "character": 12
                 },
                 {
-                    "line": 470,
+                    "line": 495,
                     "character": 13
                 }
             ],
-            "origIndex": 25
+            "origIndex": 26
         },
         {
             "findType": "string",
@@ -17116,15 +17371,15 @@
             ],
             "range": [
                 {
-                    "line": 473,
+                    "line": 498,
                     "character": 12
                 },
                 {
-                    "line": 478,
+                    "line": 503,
                     "character": 13
                 }
             ],
-            "origIndex": 26
+            "origIndex": 27
         }
     ],
     "ShowHiddenThings": [
@@ -17815,6 +18070,70 @@
             "origIndex": 0
         }
     ],
+    "ShowResourceChannels": [
+        {
+            "findType": "string",
+            "find": ".GUILD_DIRECTORY:null",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i\\.hideResourceChannels&&",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "false&&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 17,
+                    "character": 8
+                },
+                {
+                    "line": 21,
+                    "character": 9
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "ShowSongName": [
+        {
+            "findType": "string",
+            "find": ".join(\", \");return{text:",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=.join\\(\", \"\\);return\\{text:)\\i",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "arguments[0]?.details??$&"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 17,
+                    "character": 8
+                },
+                {
+                    "line": 21,
+                    "character": 9
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "ShowTimeoutDuration": [
         {
             "findType": "string",
@@ -18012,7 +18331,8 @@
             "origIndex": 2
         }
     ],
-    "SortFriends": [
+    "Snowfall": [],
+    "SortFriendsRequests": [
         {
             "findType": "string",
             "find": "getRelationshipCounts(){",
@@ -18067,7 +18387,7 @@
                     "character": 12
                 },
                 {
-                    "line": 75,
+                    "line": 76,
                     "character": 13
                 }
             ],
@@ -18093,11 +18413,11 @@
             ],
             "range": [
                 {
-                    "line": 78,
+                    "line": 79,
                     "character": 12
                 },
                 {
-                    "line": 83,
+                    "line": 84,
                     "character": 13
                 }
             ],
