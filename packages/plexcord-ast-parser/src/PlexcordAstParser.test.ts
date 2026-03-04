@@ -9,7 +9,7 @@ import { PlexcordAstParser } from "./PlexcordAstParser";
 
 const __dirname = import.meta.dirname;
 const PLEXCORD_DIR = join(__dirname, "__test__", ".plexcord-source");
-const PLEXCORD_REV = "b1d91c33872a9cf993a8b4746971f2676b0ba34f";
+const PLEXCORD_REV = "92a5c35607f38012d7544d0a3e5bc11f2c35de9c";
 
 function parserFor(path: string): PlexcordAstParser {
     path = join(__dirname, "__test__", path);
