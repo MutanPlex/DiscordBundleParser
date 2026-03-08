@@ -184,7 +184,6 @@ exports[`PlexcordAstParser > getPluginName > parses all plugin names correctly 1
   "MessageLogger",
   "MessageLoggerEnhanced",
   "MessageNotifier",
-  "MessagePeek",
   "MessagePopoverAPI",
   "MessageTags",
   "MessageUpdaterAPI",
