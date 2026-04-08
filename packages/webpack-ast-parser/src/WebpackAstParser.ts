@@ -597,7 +597,7 @@ export class WebpackAstParser extends AstParser {
      * given
      * ```js
      * var mod = n(123456);
-     * ```,
+     * ```
      * @argument dec the variable info for that mod
      * @see {@link getVariableInitializer} which can than be passed into {@link vars|vars.get}
      * @returns `123456`
