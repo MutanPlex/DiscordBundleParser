@@ -101,7 +101,7 @@ describe("AstParser", function () {
 });
 
 describe("AstParser - textDocument copied tests", function () {
-    const assert = require("node:assert") as typeof import("assert");
+    const assert = require("node:assert") as typeof import("node:assert");
 
     function newDocument(str: string) {
         return new AstParser(str);

@@ -568,11 +568,12 @@ const StyleRules: Partial<IStyleRules> = {
         "error",
         {
             after: true,
-            before: false,
+            // Keep spaces around `=>` in function types; control `:` via overrides.
+            before: true,
             overrides: {
-                arrow: {
+                colon: {
                     after: true,
-                    before: true,
+                    before: false,
                 },
             },
         },

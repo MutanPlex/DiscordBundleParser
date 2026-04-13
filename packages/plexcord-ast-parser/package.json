@@ -1,6 +1,6 @@
 {
   "name": "@plexcord-companion/plexcord-ast-parser",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "",
   "author": {
     "name": "MutanPlex",
@@ -19,7 +19,7 @@
   },
   "keywords": [],
   "license": "LGPL-3.0-or-later",
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.33.0",
   "dependencies": {
     "@plexcord-companion/ast-parser": "workspace:*",
     "@plexcord-companion/shared": "workspace:*"

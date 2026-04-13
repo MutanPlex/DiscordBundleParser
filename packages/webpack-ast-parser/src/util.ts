@@ -127,11 +127,11 @@ export function formatModule(moduleContents: string, moduleId: string | number |
     return `// Webpack Module ${moduleId} \n${isFind ? `//OPEN FULL MODULE: ${moduleId}\n` : ""}//EXTRACED WEPBACK MODULE ${moduleId}\n 0,\n${moduleContents}`;
 }
 
-export function TAssert<T>(thing: any): asserts thing is T {
+export function TAssert<T>(_thing: any): asserts _thing is T {
 }
 
-export function assertNotHover<T>(thing: ExportMap<T>[keyof ExportMap<T>]):
-    asserts thing is Exclude<ExportMap<T>[keyof ExportMap<T>], ExportMap<T>[typeof WebpackAstParser.SYM_HOVER]> {
+export function assertNotHover<T>(_thing: ExportMap<T>[keyof ExportMap<T>]):
+    asserts _thing is Exclude<ExportMap<T>[keyof ExportMap<T>], ExportMap<T>[typeof WebpackAstParser.SYM_HOVER]> {
 
 }
 

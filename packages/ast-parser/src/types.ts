@@ -14,7 +14,7 @@ export type CBAssertion<U = undefined, N = never> = <
     R extends Node = AssertedType<F, Node>,
 >(
     node: Node | N,
-    func: F extends (n: Node) => n is R ? F : never
+    func: F extends (n: Node) => n is R ? F : never,
 ) => R | U;
 
 export type Import = {
