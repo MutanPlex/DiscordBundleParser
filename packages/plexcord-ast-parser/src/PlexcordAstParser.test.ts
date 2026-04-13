@@ -47,11 +47,9 @@ describe("PlexcordAstParser", async function () {
     });
     describe("getPatches()", function () {
         it.skipIf(IS_WINDOWS)("gets the patches for all plugins", async function () {
-            const patches = Object.fromEntries(
-                pluginParsers
-                    .map((parser) => [parser.getPluginName() ?? assert.fail("Plugin name is missing"), parser.getPatches()] as const)
-                    .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
-            );
+            const patches = Object.fromEntries(pluginParsers
+                .map((parser) => [parser.getPluginName() ?? assert.fail("Plugin name is missing"), parser.getPatches()] as const)
+                .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
 
             await expect(JSON.stringify(patches, null, 4))
                 .toMatchFileSnapshot(join(__dirname, "__snapshots__", "allPatches.json"));
