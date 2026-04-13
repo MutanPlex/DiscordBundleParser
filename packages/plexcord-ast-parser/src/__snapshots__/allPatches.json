@@ -2,13 +2,13 @@
     "AccountPanelServerProfile": [
         {
             "findType": "string",
-            "find": ".WIDGETS_RTC_UPSELL_COACHMARK)",
+            "find": "handleOpenSettingsContextMenu=",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(\\.AVATAR,children:.+?renderPopout:\\((\\i),\\i\\)=>){(.+?)}(?=,position)(?<=currentUser:(\\i).+?)",
+                            "pattern": "(\\.AVATAR,children:.+?renderPopout:(\\i)=>){(.+?)}(?=,position)(?<=currentUser:(\\i).+?)",
                             "flags": ""
                         }
                     },
@@ -188,13 +188,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "animate:\\i,loop:(?:!0===\\i(?:&&)?){2}",
+                            "pattern": "animate:\\i,loop:",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "animate:true,loop:true"
+                        "value": "animate:true,loop:true,_loop:"
                     }
                 }
             ],
@@ -739,7 +739,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=forceOpen:.{0,40}?\\i\\((\\i)\\.id\\).{0,100}?)children:",
+                            "pattern": "(?<=forceOpen:.{0,40}?ariaHidden:!0,)children:(?=.{0,50}?(\\i)\\.id)",
                             "flags": ""
                         }
                     },
@@ -955,7 +955,38 @@
             "origIndex": 1
         }
     ],
-    "BetterAudioPlayer": [],
+    "BetterAudioPlayer": [
+        {
+            "findType": "string",
+            "find": "}renderPlayIcon(){",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "this\\.renderAudio\\(\\):this\\.renderVideo\\(\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&,$self.renderVisualizer(this)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 291,
+                    "character": 12
+                },
+                {
+                    "line": 295,
+                    "character": 14
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
     "BetterBanReasons": [
         {
             "findType": "string",
@@ -1233,11 +1264,11 @@
             ],
             "range": [
                 {
-                    "line": 271,
+                    "line": 275,
                     "character": 12
                 },
                 {
-                    "line": 310,
+                    "line": 314,
                     "character": 13
                 }
             ],
@@ -1263,11 +1294,11 @@
             ],
             "range": [
                 {
-                    "line": 313,
+                    "line": 317,
                     "character": 12
                 },
                 {
-                    "line": 318,
+                    "line": 322,
                     "character": 13
                 }
             ],
@@ -1306,11 +1337,11 @@
             ],
             "range": [
                 {
-                    "line": 322,
+                    "line": 326,
                     "character": 12
                 },
                 {
-                    "line": 338,
+                    "line": 342,
                     "character": 13
                 }
             ],
@@ -1388,11 +1419,11 @@
             ],
             "range": [
                 {
-                    "line": 341,
+                    "line": 345,
                     "character": 12
                 },
                 {
-                    "line": 376,
+                    "line": 380,
                     "character": 13
                 }
             ],
@@ -1444,11 +1475,11 @@
             ],
             "range": [
                 {
-                    "line": 379,
+                    "line": 383,
                     "character": 12
                 },
                 {
-                    "line": 393,
+                    "line": 397,
                     "character": 13
                 }
             ],
@@ -1487,11 +1518,11 @@
             ],
             "range": [
                 {
-                    "line": 396,
+                    "line": 400,
                     "character": 12
                 },
                 {
-                    "line": 414,
+                    "line": 418,
                     "character": 13
                 }
             ],
@@ -1517,11 +1548,11 @@
             ],
             "range": [
                 {
-                    "line": 417,
+                    "line": 421,
                     "character": 12
                 },
                 {
-                    "line": 423,
+                    "line": 427,
                     "character": 13
                 }
             ],
@@ -1561,13 +1592,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "drop\\(\\i\\)\\{(?=.{0,25}!==\\i\\.\\i\\.FOLDER)",
+                            "pattern": "(\\i),(\\i)\\)\\{let (\\i)=arguments.*?,(\\i)=arguments.{0,250}drop\\(\\i\\)\\{(?=.{0,25}!==\\i\\.\\i\\.FOLDER)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&if($self.handleFolderDrop(arguments[0],arguments[1],arguments[2],arguments[3]))return;"
+                        "value": "$&if($self.handleFolderDrop($1,$2,$3,$4))return;"
                     }
                 },
                 {
@@ -1586,11 +1617,11 @@
             ],
             "range": [
                 {
-                    "line": 426,
+                    "line": 430,
                     "character": 12
                 },
                 {
-                    "line": 445,
+                    "line": 449,
                     "character": 13
                 }
             ],
@@ -1616,11 +1647,11 @@
             ],
             "range": [
                 {
-                    "line": 448,
+                    "line": 452,
                     "character": 12
                 },
                 {
-                    "line": 452,
+                    "line": 456,
                     "character": 13
                 }
             ],
@@ -1840,7 +1871,7 @@
         },
         {
             "findType": "string",
-            "find": "onlineCount})})]",
+            "find": "isBannerVisible:!1})},",
             "replacement": [
                 {
                     "match": {
@@ -2171,7 +2202,7 @@
     "BetterSessions": [
         {
             "findType": "string",
-            "find": "#{intl::AUTH_SESSIONS_SESSION_LOG_OUT}",
+            "find": "#{intl::AUTH_SESSIONS_OTHERS_LOG_OUT_SELECTED_ACTION}",
             "replacement": [
                 {
                     "match": {
@@ -2203,13 +2234,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "children:\\[(?=.{0,125}?width:\"32\")(?<=,icon:(\\i)\\}.+?)",
+                            "pattern": "(?<=Icon:(\\i).{0,250}className:\\i\\.\\i,children:\\[)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "children:[$self.renderIcon({...arguments[0],DeviceIcon:$1}),false&&"
+                        "value": "$self.renderIcon({...arguments[0],DeviceIcon:$1}),false&&"
                     }
                 }
             ],
@@ -2424,13 +2455,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(\\i)=(.{0,20}openUserSettings\\)\\(\\i\\)\\));",
+                            "pattern": "children:\\[(\\i),(?<=\\1=.{0,30}\\.openUserSettings.+?)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1=$self.transformSettingsElements($2);"
+                        "value": "children:[$self.transformSettingsEntries($1),"
                     }
                 }
             ],
@@ -2919,23 +2950,23 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(textValue:.{0,50}channelId:\\i\\.id\\}\\)),\\i",
+                            "pattern": "(?<=textValue:(\\i),editorHeight:\\i,channelId:\\i\\.id\\}\\)),\\i",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1,$self.getCharCounter(arguments[0].textValue)"
+                        "value": ",$self.renderCharCounter({text:$1})"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 32,
+                    "line": 43,
                     "character": 12
                 },
                 {
-                    "line": 36,
+                    "line": 49,
                     "character": 13
                 }
             ],
@@ -2949,7 +2980,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "return \\i\\?\\i\\(\\):\\i\\(\\)",
+                            "pattern": "return \\i\\?\\i\\(\\):\\i\\(\\)(?<=#{intl::PREMIUM_MESSAGE_LENGTH_UPSELL_TOOLTIP_WITHOUT_LINK}.{0,200}?)",
                             "flags": ""
                         }
                     },
@@ -2961,11 +2992,11 @@
             ],
             "range": [
                 {
-                    "line": 39,
+                    "line": 52,
                     "character": 12
                 },
                 {
-                    "line": 43,
+                    "line": 56,
                     "character": 13
                 }
             ],
@@ -3207,7 +3238,7 @@
         },
         {
             "findType": "string",
-            "find": "._areActivitiesExperimentallyHidden=(",
+            "find": "this.updateMaxContentFeedRowSeen()",
             "replacement": [
                 {
                     "match": {
@@ -3221,24 +3252,7 @@
                         "type": "string",
                         "value": "$&if($self.shouldHideUser($1.id, $2.id)) return null; "
                     }
-                }
-            ],
-            "range": [
-                {
-                    "line": 184,
-                    "character": 12
                 },
-                {
-                    "line": 188,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
-        },
-        {
-            "findType": "string",
-            "find": "._areActivitiesExperimentallyHidden=(",
-            "replacement": [
                 {
                     "match": {
                         "type": "regex",
@@ -3255,15 +3269,15 @@
             ],
             "range": [
                 {
-                    "line": 192,
+                    "line": 184,
                     "character": 12
                 },
                 {
-                    "line": 197,
-                    "character": 58
+                    "line": 196,
+                    "character": 13
                 }
             ],
-            "origIndex": 3
+            "origIndex": 2
         },
         {
             "findType": "string",
@@ -3285,15 +3299,15 @@
             ],
             "range": [
                 {
-                    "line": 201,
+                    "line": 200,
                     "character": 12
                 },
                 {
-                    "line": 206,
+                    "line": 205,
                     "character": 63
                 }
             ],
-            "origIndex": 4
+            "origIndex": 3
         },
         {
             "findType": "string",
@@ -3315,15 +3329,15 @@
             ],
             "range": [
                 {
-                    "line": 210,
+                    "line": 209,
                     "character": 12
                 },
                 {
-                    "line": 216,
+                    "line": 215,
                     "character": 13
                 }
             ],
-            "origIndex": 5
+            "origIndex": 4
         },
         {
             "findType": "string",
@@ -3345,15 +3359,15 @@
             ],
             "range": [
                 {
-                    "line": 220,
+                    "line": 219,
                     "character": 12
                 },
                 {
-                    "line": 225,
+                    "line": 224,
                     "character": 13
                 }
             ],
-            "origIndex": 6
+            "origIndex": 5
         },
         {
             "findType": "string",
@@ -3375,15 +3389,15 @@
             ],
             "range": [
                 {
-                    "line": 231,
+                    "line": 230,
                     "character": 12
                 },
                 {
-                    "line": 235,
+                    "line": 234,
                     "character": 13
                 }
             ],
-            "origIndex": 7
+            "origIndex": 6
         },
         {
             "findType": "string",
@@ -3405,15 +3419,15 @@
             ],
             "range": [
                 {
-                    "line": 239,
+                    "line": 238,
                     "character": 12
                 },
                 {
-                    "line": 243,
+                    "line": 242,
                     "character": 13
                 }
             ],
-            "origIndex": 8
+            "origIndex": 7
         },
         {
             "findType": "string",
@@ -3435,15 +3449,15 @@
             ],
             "range": [
                 {
-                    "line": 247,
+                    "line": 246,
                     "character": 12
                 },
                 {
-                    "line": 251,
+                    "line": 250,
                     "character": 13
                 }
             ],
-            "origIndex": 9
+            "origIndex": 8
         }
     ],
     "ClientTheme": [],
@@ -4253,13 +4267,26 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "fileName:\\i,fileSize:\\i}\\),(?=.{0,75}?setLanguage:)(?<=fileContents:(\\i),bytesLeft:(\\i).+?)",
-                            "flags": "g"
+                            "pattern": "fileContents:(\\i),bytesLeft:(\\i)\\}\\):null,",
+                            "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
                         "value": "$&$self.addCopyButton({fileContents:$1,bytesLeft:$2}),"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "align:\"\\i\"\\}\\),(?=\\(0,\\i\\.jsx\\)\\(\\i,\\{wordWrap:\\i,setWordWrap:\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&$self.addCopyButton(arguments[0]),"
                     }
                 }
             ],
@@ -4269,7 +4296,7 @@
                     "character": 12
                 },
                 {
-                    "line": 34,
+                    "line": 42,
                     "character": 13
                 }
             ],
@@ -4333,11 +4360,11 @@
             ],
             "range": [
                 {
-                    "line": 73,
+                    "line": 72,
                     "character": 12
                 },
                 {
-                    "line": 77,
+                    "line": 76,
                     "character": 13
                 }
             ],
@@ -4831,7 +4858,7 @@
         },
         {
             "findType": "string",
-            "find": "bannerAdjustment,noBorderRadius",
+            "find": "bannerAdjustment,isHovering",
             "replacement": [
                 {
                     "match": {
@@ -4891,7 +4918,7 @@
         },
         {
             "findType": "string",
-            "find": ".DISPLAY_NAME_STYLES_COACHMARK),",
+            "find": ".DISPLAY_NAME_STYLES_COACHMARK)",
             "replacement": [
                 {
                     "match": {
@@ -5381,7 +5408,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<==)\\i=>{let{children.{20,200}isSelected:\\i=!1.{0,5}\\}=\\i",
+                            "pattern": "(?<==)\\i=>{let{children.{20,200}isSelected:\\i.{0,5}\\}=\\i",
                             "flags": ""
                         }
                     },
@@ -5487,7 +5514,7 @@
         },
         {
             "findType": "string",
-            "find": ".DISPLAY_NAME_STYLES_COACHMARK),",
+            "find": ".DISPLAY_NAME_STYLES_COACHMARK)",
             "replacement": [
                 {
                     "match": {
@@ -5828,29 +5855,29 @@
     "Dragify": [
         {
             "findType": "string",
-            "find": "location:\"VoiceUser\"",
+            "find": "\"system:click_outside\",\"user:escape\"",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=previewIsOpen:.{0,100})\"data-dnd-name\":(\\i)\\.name,",
+                            "pattern": "(?<=GuildChannelUserContextMenu.{0,150})\"data-dnd-name\":\\i",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&\"data-dragify-user\":!0,\"data-user-id\":arguments[0].user?.id,draggable:!0,onDragStart:e=>$self.onUserDragStart(e,arguments[0].user),"
+                        "value": "\"data-dragify-user\":!0,\"data-user-id\":arguments[0].user?.id,draggable:!0,onDragStart:e=>$self.onUserDragStart(e,arguments[0].user),$&"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 177,
+                    "line": 165,
                     "character": 12
                 },
                 {
-                    "line": 181,
+                    "line": 169,
                     "character": 13
                 }
             ],
@@ -5877,7 +5904,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=getModeClass\\(\\),.{0,50})\"data-dnd-name\":(\\i)\\.name,children:\\[",
+                            "pattern": "(?<=getModeClass\\(\\),.{0,50})\"data-dnd-name\":.{0,25},children:\\[",
                             "flags": ""
                         }
                     },
@@ -5889,11 +5916,11 @@
             ],
             "range": [
                 {
-                    "line": 184,
+                    "line": 172,
                     "character": 12
                 },
                 {
-                    "line": 196,
+                    "line": 184,
                     "character": 13
                 }
             ],
@@ -5907,23 +5934,23 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=getModeClass\\(\\),.{0,50})\"data-dnd-name\":(\\i)\\.name,",
+                            "pattern": "(?<=getModeClass\\(\\),.{0,50})\"data-dnd-name\":.{0,25},children:\\[",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&draggable:!0,onDragStart:t=>$self.onChannelDragStart(t,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),"
+                        "value": "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),$&"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 200,
+                    "line": 188,
                     "character": 12
                 },
                 {
-                    "line": 204,
+                    "line": 192,
                     "character": 13
                 }
             ],
@@ -5949,11 +5976,11 @@
             ],
             "range": [
                 {
-                    "line": 208,
+                    "line": 196,
                     "character": 12
                 },
                 {
-                    "line": 212,
+                    "line": 200,
                     "character": 13
                 }
             ],
@@ -5967,23 +5994,23 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=getClassName\\(\\).{0,50})\"data-dnd-name\":(\\i)\\.name,",
+                            "pattern": "(?<=getClassName\\(\\).{0,50})\"data-dnd-name\":.{0,25},onMouseEnter:",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),"
+                        "value": "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),$&"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 218,
+                    "line": 206,
                     "character": 12
                 },
                 {
-                    "line": 222,
+                    "line": 210,
                     "character": 13
                 }
             ],
@@ -6009,11 +6036,11 @@
             ],
             "range": [
                 {
-                    "line": 226,
+                    "line": 214,
                     "character": 12
                 },
                 {
-                    "line": 230,
+                    "line": 218,
                     "character": 13
                 }
             ],
@@ -6039,11 +6066,11 @@
             ],
             "range": [
                 {
-                    "line": 234,
+                    "line": 222,
                     "character": 12
                 },
                 {
-                    "line": 238,
+                    "line": 226,
                     "character": 13
                 }
             ],
@@ -6069,11 +6096,11 @@
             ],
             "range": [
                 {
-                    "line": 242,
+                    "line": 230,
                     "character": 12
                 },
                 {
-                    "line": 246,
+                    "line": 234,
                     "character": 13
                 }
             ],
@@ -6099,11 +6126,11 @@
             ],
             "range": [
                 {
-                    "line": 250,
+                    "line": 238,
                     "character": 12
                 },
                 {
-                    "line": 254,
+                    "line": 242,
                     "character": 13
                 }
             ],
@@ -6129,11 +6156,11 @@
             ],
             "range": [
                 {
-                    "line": 258,
+                    "line": 246,
                     "character": 12
                 },
                 {
-                    "line": 262,
+                    "line": 250,
                     "character": 13
                 }
             ],
@@ -6147,7 +6174,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\"data-dnd-name\":(\\i)\\.name,(?=\"data-drop-hovering\".{0,100}formatToPlainString\\()",
+                            "pattern": "\"data-dnd-name\":(\\i)\\.name,(?=\"data-drop-hovering\".{0,300}\"aria-selected\":\\i\\}\\)\\}\\))",
                             "flags": ""
                         }
                     },
@@ -6159,11 +6186,11 @@
             ],
             "range": [
                 {
-                    "line": 265,
+                    "line": 253,
                     "character": 12
                 },
                 {
-                    "line": 269,
+                    "line": 257,
                     "character": 13
                 }
             ],
@@ -6191,11 +6218,11 @@
             ],
             "range": [
                 {
-                    "line": 19,
+                    "line": 18,
                     "character": 12
                 },
                 {
-                    "line": 24,
+                    "line": 23,
                     "character": 13
                 }
             ],
@@ -6273,13 +6300,26 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=children:\\[)(?=\\(0,\\i\\.jsx?\\)\\(\\i\\.\\i,{placeholder:\"Search experiments\")",
+                            "pattern": "(?<=children:\\[)(?=null!=.{0,150}\"Installation ID:)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
                         "value": "$self.WarningCard(),"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=,marginBottom:16)(?=\\},children:\\[)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ",flexDirection:\"row\",alignItems:\"center\""
                     }
                 }
             ],
@@ -6289,7 +6329,7 @@
                     "character": 12
                 },
                 {
-                    "line": 83,
+                    "line": 89,
                     "character": 13
                 }
             ],
@@ -6315,11 +6355,11 @@
             ],
             "range": [
                 {
-                    "line": 87,
+                    "line": 93,
                     "character": 12
                 },
                 {
-                    "line": 92,
+                    "line": 98,
                     "character": 58
                 }
             ],
@@ -6345,11 +6385,11 @@
             ],
             "range": [
                 {
-                    "line": 97,
+                    "line": 103,
                     "character": 12
                 },
                 {
-                    "line": 101,
+                    "line": 107,
                     "character": 13
                 }
             ],
@@ -6363,7 +6403,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\\i\\??\\.isStaff\\(\\)",
+                            "pattern": "\\i\\?\\.isStaff\\(\\)",
                             "flags": ""
                         }
                     },
@@ -6388,11 +6428,11 @@
             ],
             "range": [
                 {
-                    "line": 105,
+                    "line": 111,
                     "character": 12
                 },
                 {
-                    "line": 117,
+                    "line": 122,
                     "character": 13
                 }
             ],
@@ -6418,11 +6458,11 @@
             ],
             "range": [
                 {
-                    "line": 121,
+                    "line": 126,
                     "character": 12
                 },
                 {
-                    "line": 125,
+                    "line": 130,
                     "character": 13
                 }
             ],
@@ -6448,11 +6488,11 @@
             ],
             "range": [
                 {
-                    "line": 131,
+                    "line": 136,
                     "character": 12
                 },
                 {
-                    "line": 135,
+                    "line": 140,
                     "character": 13
                 }
             ],
@@ -6478,11 +6518,11 @@
             ],
             "range": [
                 {
-                    "line": 139,
+                    "line": 144,
                     "character": 12
                 },
                 {
-                    "line": 143,
+                    "line": 148,
                     "character": 13
                 }
             ],
@@ -6508,11 +6548,11 @@
             ],
             "range": [
                 {
-                    "line": 146,
+                    "line": 151,
                     "character": 12
                 },
                 {
-                    "line": 153,
+                    "line": 158,
                     "character": 13
                 }
             ],
@@ -7378,73 +7418,7 @@
     "FavouriteAnything": [
         {
             "findType": "string",
-            "find": "static isAnimated",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "static isAnimated\\((\\i)\\)\\{",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "static isAnimated($1,override){if(!override)return true;"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=this\\.props\\.renderAccessory\\(\\):)null",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$self.Accessory({...this.props,url:this.props.proxyUrl,video:true})"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "getSrc\\(\\i\\)\\{.*?let \\i=",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&!this.constructor.isAnimated(this.props,true)||"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "string",
-                        "value": "return this.props.shouldRenderAccessory?"
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&!this.constructor.isAnimated(this.props,true)||"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 52,
-                    "character": 12
-                },
-                {
-                    "line": 77,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": "#{intl::SUPPRESS_ALL_EMBEDS}",
+            "find": "this.renderInlineMediaEmbed",
             "replacement": [
                 {
                     "match": {
@@ -7455,15 +7429,58 @@
                         "type": "string",
                         "value": "$&{return $self.renderEmbed.call(this)}__render()"
                     }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\.images\\.map\\((\\i)=>(this.renderImage\\(\\{[^}]{50,100}\\}\\))\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ".images.map(($1,index)=>$self.renderEmbedMosaicItem($2,index))"
+                    }
                 }
             ],
             "range": [
                 {
-                    "line": 81,
+                    "line": 34,
                     "character": 12
                 },
                 {
-                    "line": 85,
+                    "line": 46,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        },
+        {
+            "findType": "string",
+            "find": "#{intl::MEDIA_MOSAIC_ALT_TEXT_POPOUT_TITLE}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "renderAdjacentContent:(\\i)",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&=$self.renderEmbedAccessory"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 50,
+                    "character": 12
+                },
+                {
+                    "line": 54,
                     "character": 13
                 }
             ],
@@ -7471,63 +7488,143 @@
         },
         {
             "findType": "string",
-            "find": "renderComponentAccessories",
+            "find": "[\"VIDEO\",\"CLIP\",\"AUDIO\"]",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\\i=>\\(\\)=>\\{.{200,300}?null\\}",
+                            "pattern": "(?<=children:)(\\i)=>(\\i\\(\\1\\))\\}\\):(\\i\\(\\))",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "props=>()=>$self.Accessory({...props,video:false})"
+                        "value": "$1=>$self.renderAttachment($2,arguments[0])}):$self.renderAttachment($3,arguments[0])"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "string",
+                        "value": "=[];"
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "=[$self.renderAttachmentAccessory()];"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 89,
+                    "line": 58,
                     "character": 12
                 },
                 {
-                    "line": 93,
+                    "line": 70,
                     "character": 13
                 }
             ],
             "origIndex": 2
         },
         {
-            "findType": "regex",
-            "find": "/disableArrowKeySeek:\\i\\}\\)\\}/",
+            "findType": "string",
+            "find": "#{intl::EXPRESSION_PICKER_CATEGORIES_A11Y_LABEL}",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "src:\\i(?=,\\.\\.\\.\\i)",
+                            "pattern": "\\(0,\\i\\.jsx\\)\\((\\i),[^}]{20,40}?\"aria-selected\":(\\i)[^}]{50,100}?#{intl::EXPRESSION_PICKER_GIF}\\)\\}\\)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&,proxyUrl:this.props.src"
+                        "value": "$self.renderTabs($1,$2)"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\{onSelectGIF:(\\i),[^}]{20,40}\\}\\):null,(?=(\\i)===)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&$self.renderFilePicker($2,$1),"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 97,
+                    "line": 74,
                     "character": 12
                 },
                 {
-                    "line": 101,
+                    "line": 86,
                     "character": 13
                 }
             ],
             "origIndex": 3
+        },
+        {
+            "findType": "string",
+            "find": ".sortBy(\"order\").reverse().value()",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "string",
+                        "value": ".sortBy(\"order\").reverse()"
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&.filter($self.filterGifs)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 90,
+                    "character": 12
+                },
+                {
+                    "line": 94,
+                    "character": 13
+                }
+            ],
+            "origIndex": 4
+        },
+        {
+            "findType": "string",
+            "find": "#{intl::GIF_TOOLTIP_REMOVE_FROM_FAVORITES}",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\(0,(\\i\\.\\i)\\)\\((\\{[^}].{40,60}?\\})\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$self.interceptAddToFavourites($2).then($1)"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 98,
+                    "character": 12
+                },
+                {
+                    "line": 103,
+                    "character": 13
+                }
+            ],
+            "origIndex": 5
         }
     ],
     "FileDownloadButton": [
@@ -8003,11 +8100,11 @@
             ],
             "range": [
                 {
-                    "line": 33,
+                    "line": 22,
                     "character": 12
                 },
                 {
-                    "line": 37,
+                    "line": 26,
                     "character": 13
                 }
             ],
@@ -8036,11 +8133,11 @@
             ],
             "range": [
                 {
-                    "line": 160,
+                    "line": 173,
                     "character": 12
                 },
                 {
-                    "line": 164,
+                    "line": 177,
                     "character": 13
                 }
             ],
@@ -8081,12 +8178,12 @@
             ],
             "range": [
                 {
-                    "line": 327,
-                    "character": 12
+                    "line": 40,
+                    "character": 24
                 },
                 {
-                    "line": 337,
-                    "character": 13
+                    "line": 50,
+                    "character": 26
                 }
             ],
             "origIndex": 0
@@ -8111,12 +8208,12 @@
             ],
             "range": [
                 {
-                    "line": 340,
-                    "character": 12
+                    "line": 53,
+                    "character": 24
                 },
                 {
-                    "line": 344,
-                    "character": 13
+                    "line": 57,
+                    "character": 26
                 }
             ],
             "origIndex": 1
@@ -8141,12 +8238,12 @@
             ],
             "range": [
                 {
-                    "line": 347,
-                    "character": 12
+                    "line": 60,
+                    "character": 24
                 },
                 {
-                    "line": 353,
-                    "character": 13
+                    "line": 64,
+                    "character": 26
                 }
             ],
             "origIndex": 2
@@ -8171,12 +8268,12 @@
             ],
             "range": [
                 {
-                    "line": 356,
-                    "character": 12
+                    "line": 67,
+                    "character": 24
                 },
                 {
-                    "line": 360,
-                    "character": 13
+                    "line": 71,
+                    "character": 26
                 }
             ],
             "origIndex": 3
@@ -8217,66 +8314,6 @@
     "GifRoulette": [],
     "GitHubRepos": [
         {
-            "findType": "regex",
-            "find": "/onOpenUserProfileModal:\\i\\}\\),\\i/",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "userId:\\i\\.id,guild:\\i.{0,15}\\}\\).{0,100}(?=\\])",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&,$self.ProfilePopoutComponent(arguments[0])"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 93,
-                    "character": 12
-                },
-                {
-                    "line": 97,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ".MODAL_V2,onClose:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "displayProfile:(\\i).*?connections:\\i.{0,25}\\i.\\i\\}\\)\\}\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&,$self.ProfilePopoutComponent({ user: arguments[0].user, displayProfile: $1 }),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 101,
-                    "character": 12
-                },
-                {
-                    "line": 106,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        },
-        {
             "findType": "string",
             "find": "#{intl::USER_PROFILE_ACTIVITY}",
             "replacement": [
@@ -8296,15 +8333,15 @@
             ],
             "range": [
                 {
-                    "line": 110,
+                    "line": 47,
                     "character": 12
                 },
                 {
-                    "line": 115,
+                    "line": 51,
                     "character": 13
                 }
             ],
-            "origIndex": 2
+            "origIndex": 0
         },
         {
             "findType": "string",
@@ -8320,21 +8357,21 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1===\"GITHUB\"?$self.ProfileRepositoriesTab(arguments[0]):$&"
+                        "value": "$1===\"GITHUB\"?$self.renderProfileRepositoriesTab(arguments[0]):$&"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 119,
+                    "line": 55,
                     "character": 12
                 },
                 {
-                    "line": 123,
+                    "line": 59,
                     "character": 13
                 }
             ],
-            "origIndex": 3
+            "origIndex": 1
         }
     ],
     "GoogleThat": [],
@@ -8392,11 +8429,11 @@
             ],
             "range": [
                 {
-                    "line": 42,
+                    "line": 29,
                     "character": 12
                 },
                 {
-                    "line": 47,
+                    "line": 34,
                     "character": 65
                 }
             ],
@@ -8412,13 +8449,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "canShowReminder:.+?className:(\\i).*?\\}\\),",
+                            "pattern": "\\i&&\\(0,\\i\\.jsxs?\\)\\(\\i\\.\\i,\\{\\.{3}\"RECENTS\"===\\i\\?\\i:\\{\\}\\}\\)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$& Plexcord.Api.HeaderBar._addHeaderBarButtons(),"
+                        "value": "Plexcord.Api.HeaderBar._addHeaderBarButtons(),$&"
                     }
                 }
             ],
@@ -8564,11 +8601,11 @@
             ],
             "range": [
                 {
-                    "line": 110,
+                    "line": 109,
                     "character": 12
                 },
                 {
-                    "line": 120,
+                    "line": 119,
                     "character": 13
                 }
             ],
@@ -8594,11 +8631,11 @@
             ],
             "range": [
                 {
-                    "line": 123,
+                    "line": 122,
                     "character": 12
                 },
                 {
-                    "line": 127,
+                    "line": 126,
                     "character": 14
                 }
             ],
@@ -8640,11 +8677,11 @@
             ],
             "range": [
                 {
-                    "line": 34,
+                    "line": 36,
                     "character": 12
                 },
                 {
-                    "line": 47,
+                    "line": 49,
                     "character": 23
                 }
             ],
@@ -8925,11 +8962,11 @@
             ],
             "range": [
                 {
-                    "line": 334,
+                    "line": 333,
                     "character": 12
                 },
                 {
-                    "line": 344,
+                    "line": 343,
                     "character": 13
                 }
             ],
@@ -8955,11 +8992,11 @@
             ],
             "range": [
                 {
-                    "line": 348,
+                    "line": 347,
                     "character": 12
                 },
                 {
-                    "line": 352,
+                    "line": 351,
                     "character": 13
                 }
             ],
@@ -9024,11 +9061,11 @@
             ],
             "range": [
                 {
-                    "line": 355,
+                    "line": 354,
                     "character": 12
                 },
                 {
-                    "line": 373,
+                    "line": 372,
                     "character": 13
                 }
             ],
@@ -9057,11 +9094,11 @@
             ],
             "range": [
                 {
-                    "line": 38,
+                    "line": 35,
                     "character": 12
                 },
                 {
-                    "line": 42,
+                    "line": 39,
                     "character": 14
                 }
             ],
@@ -9087,11 +9124,11 @@
             ],
             "range": [
                 {
-                    "line": 46,
+                    "line": 43,
                     "character": 12
                 },
                 {
-                    "line": 50,
+                    "line": 47,
                     "character": 14
                 }
             ],
@@ -9117,11 +9154,11 @@
             ],
             "range": [
                 {
-                    "line": 54,
+                    "line": 51,
                     "character": 12
                 },
                 {
-                    "line": 58,
+                    "line": 55,
                     "character": 13
                 }
             ],
@@ -9147,11 +9184,11 @@
             ],
             "range": [
                 {
-                    "line": 62,
+                    "line": 59,
                     "character": 12
                 },
                 {
-                    "line": 66,
+                    "line": 63,
                     "character": 14
                 }
             ],
@@ -9177,11 +9214,11 @@
             ],
             "range": [
                 {
-                    "line": 70,
+                    "line": 67,
                     "character": 12
                 },
                 {
-                    "line": 75,
+                    "line": 72,
                     "character": 14
                 }
             ],
@@ -9207,11 +9244,11 @@
             ],
             "range": [
                 {
-                    "line": 79,
+                    "line": 76,
                     "character": 12
                 },
                 {
-                    "line": 84,
+                    "line": 81,
                     "character": 13
                 }
             ],
@@ -9237,11 +9274,11 @@
             ],
             "range": [
                 {
-                    "line": 89,
+                    "line": 86,
                     "character": 12
                 },
                 {
-                    "line": 93,
+                    "line": 90,
                     "character": 13
                 }
             ],
@@ -9267,11 +9304,11 @@
             ],
             "range": [
                 {
-                    "line": 96,
+                    "line": 93,
                     "character": 12
                 },
                 {
-                    "line": 100,
+                    "line": 97,
                     "character": 14
                 }
             ],
@@ -9297,11 +9334,11 @@
             ],
             "range": [
                 {
-                    "line": 103,
+                    "line": 100,
                     "character": 12
                 },
                 {
-                    "line": 107,
+                    "line": 104,
                     "character": 14
                 }
             ],
@@ -9330,11 +9367,11 @@
             ],
             "range": [
                 {
-                    "line": 94,
+                    "line": 99,
                     "character": 12
                 },
                 {
-                    "line": 99,
+                    "line": 104,
                     "character": 14
                 }
             ],
@@ -9360,11 +9397,11 @@
             ],
             "range": [
                 {
-                    "line": 102,
+                    "line": 107,
                     "character": 12
                 },
                 {
-                    "line": 107,
+                    "line": 112,
                     "character": 13
                 }
             ],
@@ -10328,7 +10365,7 @@
     "MessageDecorationsAPI": [
         {
             "findType": "string",
-            "find": "\"Message Username\"",
+            "find": "#{intl::GUILD_COMMUNICATION_DISABLED_ICON_TOOLTIP_BODY}",
             "replacement": [
                 {
                     "match": {
@@ -10596,11 +10633,11 @@
             ],
             "range": [
                 {
-                    "line": 675,
+                    "line": 688,
                     "character": 12
                 },
                 {
-                    "line": 714,
+                    "line": 727,
                     "character": 14
                 }
             ],
@@ -10626,11 +10663,11 @@
             ],
             "range": [
                 {
-                    "line": 735,
+                    "line": 748,
                     "character": 12
                 },
                 {
-                    "line": 770,
+                    "line": 783,
                     "character": 14
                 }
             ],
@@ -10656,11 +10693,11 @@
             ],
             "range": [
                 {
-                    "line": 775,
+                    "line": 788,
                     "character": 12
                 },
                 {
-                    "line": 781,
+                    "line": 794,
                     "character": 13
                 }
             ],
@@ -10686,11 +10723,11 @@
             ],
             "range": [
                 {
-                    "line": 786,
+                    "line": 799,
                     "character": 12
                 },
                 {
-                    "line": 794,
+                    "line": 807,
                     "character": 14
                 }
             ],
@@ -10716,11 +10753,11 @@
             ],
             "range": [
                 {
-                    "line": 799,
+                    "line": 812,
                     "character": 12
                 },
                 {
-                    "line": 804,
+                    "line": 817,
                     "character": 13
                 }
             ],
@@ -10746,11 +10783,11 @@
             ],
             "range": [
                 {
-                    "line": 808,
+                    "line": 821,
                     "character": 12
                 },
                 {
-                    "line": 813,
+                    "line": 826,
                     "character": 13
                 }
             ],
@@ -10789,11 +10826,11 @@
             ],
             "range": [
                 {
-                    "line": 818,
+                    "line": 831,
                     "character": 12
                 },
                 {
-                    "line": 828,
+                    "line": 841,
                     "character": 13
                 }
             ],
@@ -10819,11 +10856,11 @@
             ],
             "range": [
                 {
-                    "line": 833,
+                    "line": 846,
                     "character": 12
                 },
                 {
-                    "line": 840,
+                    "line": 853,
                     "character": 14
                 }
             ],
@@ -10849,11 +10886,11 @@
             ],
             "range": [
                 {
-                    "line": 844,
+                    "line": 857,
                     "character": 12
                 },
                 {
-                    "line": 849,
+                    "line": 862,
                     "character": 60
                 }
             ],
@@ -10892,11 +10929,11 @@
             ],
             "range": [
                 {
-                    "line": 853,
+                    "line": 866,
                     "character": 12
                 },
                 {
-                    "line": 864,
+                    "line": 877,
                     "character": 60
                 }
             ],
@@ -11440,7 +11477,7 @@
     "MusicControls": [
         {
             "findType": "string",
-            "find": ".DISPLAY_NAME_STYLES_COACHMARK),",
+            "find": ".DISPLAY_NAME_STYLES_COACHMARK)",
             "replacement": [
                 {
                     "match": {
@@ -11458,11 +11495,11 @@
             ],
             "range": [
                 {
-                    "line": 56,
+                    "line": 41,
                     "character": 12
                 },
                 {
-                    "line": 62,
+                    "line": 47,
                     "character": 14
                 }
             ],
@@ -11501,11 +11538,11 @@
             ],
             "range": [
                 {
-                    "line": 65,
+                    "line": 50,
                     "character": 12
                 },
                 {
-                    "line": 76,
+                    "line": 61,
                     "character": 14
                 }
             ],
@@ -11544,11 +11581,11 @@
             ],
             "range": [
                 {
-                    "line": 79,
+                    "line": 64,
                     "character": 12
                 },
                 {
-                    "line": 90,
+                    "line": 75,
                     "character": 13
                 }
             ],
@@ -11795,11 +11832,11 @@
             ],
             "range": [
                 {
-                    "line": 167,
+                    "line": 166,
                     "character": 12
                 },
                 {
-                    "line": 171,
+                    "line": 170,
                     "character": 13
                 }
             ],
@@ -11825,11 +11862,11 @@
             ],
             "range": [
                 {
-                    "line": 174,
+                    "line": 173,
                     "character": 12
                 },
                 {
-                    "line": 178,
+                    "line": 177,
                     "character": 13
                 }
             ],
@@ -11975,7 +12012,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "if\\(null!=\\i&&\"0.0.0\"===\\i\\.remoteApp\\.getVersion\\(\\)\\)",
+                            "pattern": "if\\(null!=\\i&&\"0.0.0\"===\\i\\.app\\.getVersion\\(\\)\\)",
                             "flags": ""
                         }
                     },
@@ -12276,7 +12313,7 @@
     "NoMosaic": [
         {
             "findType": "string",
-            "find": "=>\"IMAGE\"===",
+            "find": "\"PLAINTEXT_PREVIEW\":\"OTHER\"",
             "replacement": [
                 {
                     "match": {
@@ -12706,7 +12743,7 @@
     "NoRoleHeaders": [
         {
             "findType": "string",
-            "find": "._areActivitiesExperimentallyHidden=(",
+            "find": "this.updateMaxContentFeedRowSeen()",
             "replacement": [
                 {
                     "match": {
@@ -13043,19 +13080,6 @@
                         "type": "function",
                         "value": "\"use strict\";\n(m, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
                     }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(?<=function (\\i)\\(\\i\\){)return null!=(\\i)(?=.+?NOTICE_DISMISS:\\1)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, _, notice) => `if(${notice}?.id==\"PlexcordNotice\")return(${notice}=null,Plexcord.Api.Notices.nextNotice(),true);${m}`;\n"
-                    }
                 }
             ],
             "range": [
@@ -13064,7 +13088,7 @@
                     "character": 12
                 },
                 {
-                    "line": 47,
+                    "line": 41,
                     "character": 13
                 }
             ],
@@ -13335,11 +13359,11 @@
             ],
             "range": [
                 {
-                    "line": 53,
+                    "line": 52,
                     "character": 12
                 },
                 {
-                    "line": 64,
+                    "line": 63,
                     "character": 13
                 }
             ],
@@ -13714,7 +13738,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&,$self.PinnedIcon(arguments[0].message)"
+                        "value": "$&,$self.renderPinIcon(arguments[0].message)"
                     }
                 }
             ],
@@ -13904,13 +13928,26 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(\\[IDENTIFY\\].*let.{0,5}=\\{.*properties:)(.*),presence",
+                            "pattern": "window._ws=null,null!=\\i",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1{...$2,...$self.getPlatform(true)},presence"
+                        "value": "false"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\"GatewaySocket\"\\)\\}\\),properties:)(\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "{...$1,...$self.getPlatform(true)}"
                     }
                 }
             ],
@@ -13920,7 +13957,42 @@
                     "character": 12
                 },
                 {
-                    "line": 71,
+                    "line": 77,
+                    "character": 13
+                }
+            ],
+            "origIndex": 0
+        }
+    ],
+    "PlexcordToolbox": [],
+    "PolishWording": [],
+    "PreviewMessage": [],
+    "ProfileCollectionsAPI": [
+        {
+            "findType": "regex",
+            "find": "/\\.POPOUT,onClose:\\i}\\),nicknameIcons:.+?\\.isProvisional/",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "user:\\i,widgets:.{0,100}?\\}\\),",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "$&Plexcord.Api.ProfileCollections.renderProfileCollections(arguments[0]),"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 17,
+                    "character": 12
+                },
+                {
+                    "line": 21,
                     "character": 13
                 }
             ],
@@ -13928,68 +14000,65 @@
         },
         {
             "findType": "string",
-            "find": "#{intl::POPOUT_STAY_ON_TOP}),icon:",
+            "find": "\"UserProfileAccountPopout\"",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=CallTile.{0,15}\\.memo\\((\\i)=>\\{)",
+                            "pattern": "user:\\i,widgets:.{0,100}}\\),",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1.platform = $self.getPlatform(false, $1?.participantUserId)?.vcIcon || $1?.platform;"
+                        "value": "$&Plexcord.Api.ProfileCollections.renderProfileCollections(arguments[0]),"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 74,
+                    "line": 24,
                     "character": 12
                 },
                 {
-                    "line": 78,
-                    "character": 13
+                    "line": 28,
+                    "character": 14
                 }
             ],
             "origIndex": 1
         },
         {
             "findType": "string",
-            "find": "(\"AppSkeleton\");",
+            "find": ".SIDEBAR,disableToolbar:",
             "replacement": [
                 {
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=\\.isPlatformEmbedded.{0,50}\\i\\)\\)\\}.{0,30})\\i\\?\\i\\.\\i\\.set\\(.{0,10}:",
+                            "pattern": "user:(\\i),widgets:.{0,100}?\\}\\),",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": ""
+                        "value": "$&Plexcord.Api.ProfileCollections.renderProfileCollections({...arguments[0],isSideBar:true}),"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 81,
+                    "line": 31,
                     "character": 12
                 },
                 {
-                    "line": 85,
+                    "line": 35,
                     "character": 13
                 }
             ],
             "origIndex": 2
         }
     ],
-    "PlexcordToolbox": [],
-    "PolishWording": [],
-    "PreviewMessage": [],
     "ProfileSets": [
         {
             "findType": "string",
@@ -14073,11 +14142,11 @@
             ],
             "range": [
                 {
-                    "line": 1208,
+                    "line": 1389,
                     "character": 12
                 },
                 {
-                    "line": 1212,
+                    "line": 1393,
                     "character": 13
                 }
             ],
@@ -14103,11 +14172,11 @@
             ],
             "range": [
                 {
-                    "line": 1216,
+                    "line": 1397,
                     "character": 12
                 },
                 {
-                    "line": 1222,
+                    "line": 1403,
                     "character": 13
                 }
             ],
@@ -14133,11 +14202,11 @@
             ],
             "range": [
                 {
-                    "line": 1226,
+                    "line": 1407,
                     "character": 12
                 },
                 {
-                    "line": 1232,
+                    "line": 1413,
                     "character": 13
                 }
             ],
@@ -14151,7 +14220,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=resetSortingFiltering\\(\\)},\\[\\]\\);)",
+                            "pattern": "(?<=scrollToQuest\\(\\i\\)\\}\\)\\},\\[\\]\\);)",
                             "flags": ""
                         }
                     },
@@ -14164,23 +14233,23 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=if\\(null!=\\i\\))return(.{0,60}?}\\))",
+                            "pattern": "(?<=return null;if\\(\\i)(\\).{0,30}?null!=\\i)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "if(!shouldHideSponsoredQuestBanner)return $1"
+                        "value": "&&!shouldHideSponsoredQuestBanner$1&&!shouldHideSponsoredQuestBanner"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 1236,
+                    "line": 1417,
                     "character": 12
                 },
                 {
-                    "line": 1247,
+                    "line": 1428,
                     "character": 13
                 }
             ],
@@ -14219,11 +14288,11 @@
             ],
             "range": [
                 {
-                    "line": 1252,
+                    "line": 1433,
                     "character": 12
                 },
                 {
-                    "line": 1263,
+                    "line": 1444,
                     "character": 13
                 }
             ],
@@ -14262,11 +14331,11 @@
             ],
             "range": [
                 {
-                    "line": 1267,
+                    "line": 1448,
                     "character": 12
                 },
                 {
-                    "line": 1278,
+                    "line": 1459,
                     "character": 13
                 }
             ],
@@ -14280,23 +14349,23 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?=if\\(null==(\\i)\\)return null;)(.{0,125}?quest:\\i}\\);return)",
+                            "pattern": "(?<=function\\(\\){let (\\i)=\\(0,\\i.\\i\\)\\(\\);)(return)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "const hidePopup=$self.shouldHideQuestPopup($1);$2!hidePopup&&"
+                        "value": "const hidePopup=$self.shouldHideQuestPopup($1);$2 hidePopup||"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 1283,
+                    "line": 1464,
                     "character": 12
                 },
                 {
-                    "line": 1287,
+                    "line": 1468,
                     "character": 13
                 }
             ],
@@ -14322,11 +14391,11 @@
             ],
             "range": [
                 {
-                    "line": 1291,
+                    "line": 1472,
                     "character": 12
                 },
                 {
-                    "line": 1295,
+                    "line": 1476,
                     "character": 13
                 }
             ],
@@ -14352,11 +14421,11 @@
             ],
             "range": [
                 {
-                    "line": 1300,
+                    "line": 1481,
                     "character": 12
                 },
                 {
-                    "line": 1304,
+                    "line": 1485,
                     "character": 13
                 }
             ],
@@ -14382,11 +14451,11 @@
             ],
             "range": [
                 {
-                    "line": 1309,
+                    "line": 1490,
                     "character": 12
                 },
                 {
-                    "line": 1313,
+                    "line": 1494,
                     "character": 13
                 }
             ],
@@ -14425,11 +14494,11 @@
             ],
             "range": [
                 {
-                    "line": 1317,
+                    "line": 1498,
                     "character": 12
                 },
                 {
-                    "line": 1328,
+                    "line": 1509,
                     "character": 13
                 }
             ],
@@ -14468,11 +14537,11 @@
             ],
             "range": [
                 {
-                    "line": 1332,
+                    "line": 1513,
                     "character": 12
                 },
                 {
-                    "line": 1345,
+                    "line": 1526,
                     "character": 13
                 }
             ],
@@ -14525,13 +14594,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(?<=\\.scrollIntoView\\()",
+                            "pattern": "(&&\\i.current\\?\\.scrollIntoView\\(\\))",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "{block:\"nearest\",inline:\"nearest\"}"
+                        "value": ""
                     }
                 },
                 {
@@ -14602,15 +14671,45 @@
             ],
             "range": [
                 {
-                    "line": 1353,
+                    "line": 1534,
                     "character": 12
                 },
                 {
-                    "line": 1402,
+                    "line": 1583,
                     "character": 13
                 }
             ],
             "origIndex": 12
+        },
+        {
+            "findType": "string",
+            "find": "\"data-mana-component\":\"combobox\",",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "\\i.current\\?\\.scrollIntoView\\({.{0,50}?}\\)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": ""
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 1587,
+                    "character": 12
+                },
+                {
+                    "line": 1591,
+                    "character": 13
+                }
+            ],
+            "origIndex": 13
         },
         {
             "findType": "string",
@@ -14645,15 +14744,15 @@
             ],
             "range": [
                 {
-                    "line": 1406,
+                    "line": 1595,
                     "character": 12
                 },
                 {
-                    "line": 1416,
+                    "line": 1605,
                     "character": 13
                 }
             ],
-            "origIndex": 13
+            "origIndex": 14
         },
         {
             "findType": "string",
@@ -14701,15 +14800,15 @@
             ],
             "range": [
                 {
-                    "line": 1420,
+                    "line": 1609,
                     "character": 12
                 },
                 {
-                    "line": 1440,
+                    "line": 1629,
                     "character": 13
                 }
             ],
-            "origIndex": 14
+            "origIndex": 15
         },
         {
             "findType": "string",
@@ -14757,15 +14856,15 @@
             ],
             "range": [
                 {
-                    "line": 1443,
+                    "line": 1632,
                     "character": 12
                 },
                 {
-                    "line": 1461,
+                    "line": 1650,
                     "character": 13
                 }
             ],
-            "origIndex": 15
+            "origIndex": 16
         },
         {
             "findType": "string",
@@ -14787,15 +14886,15 @@
             ],
             "range": [
                 {
-                    "line": 1465,
+                    "line": 1654,
                     "character": 12
                 },
                 {
-                    "line": 1472,
+                    "line": 1661,
                     "character": 13
                 }
             ],
-            "origIndex": 16
+            "origIndex": 17
         },
         {
             "findType": "string",
@@ -14817,15 +14916,15 @@
             ],
             "range": [
                 {
-                    "line": 1476,
+                    "line": 1665,
                     "character": 12
                 },
                 {
-                    "line": 1480,
+                    "line": 1669,
                     "character": 13
                 }
             ],
-            "origIndex": 17
+            "origIndex": 18
         },
         {
             "findType": "string",
@@ -14847,15 +14946,15 @@
             ],
             "range": [
                 {
-                    "line": 1484,
+                    "line": 1673,
                     "character": 12
                 },
                 {
-                    "line": 1488,
+                    "line": 1677,
                     "character": 14
                 }
             ],
-            "origIndex": 18
+            "origIndex": 19
         },
         {
             "findType": "string",
@@ -14916,15 +15015,15 @@
             ],
             "range": [
                 {
-                    "line": 1491,
+                    "line": 1680,
                     "character": 12
                 },
                 {
-                    "line": 1516,
+                    "line": 1705,
                     "character": 13
                 }
             ],
-            "origIndex": 19
+            "origIndex": 20
         },
         {
             "findType": "string",
@@ -14947,39 +15046,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(get\\(\\i\\)\\)\\?\\?)(\\i)",
+                            "pattern": "(get\\(\\i\\)\\)\\?\\?)(\\i,\\[\\i\\]\\),\\i=\\i.useCallback\\((\\i)=>{)(.{0,60}?useCallback\\((\\i)=>{)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1$self.getLastFilterChoices()??$2"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(onChange:)(\\i)(.{0,40}?selectedSortMethod)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1(value)=>{$self.settings.store.lastQuestPageSort=value;$2(value);}$3"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(onChange:)(\\i)(.{0,40}?selectedFilters)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1(value)=>{$self.settings.store.lastQuestPageFilters=value.reduce((acc,item)=>({...acc,[item.filter]:item}),{});$2(value);}$3"
+                        "value": "$1$self.getLastFilterChoices()??$2$self.setLastSortChoice($3);$4$self.setLastFilterChoices($5);"
                     }
                 },
                 {
@@ -14994,23 +15067,36 @@
                         "type": "string",
                         "value": "$self.setLastSortChoice($2),$self.setLastFilterChoices($3),$1"
                     }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=resetSortingFiltering:\\(\\)=>{\\i\\(\\),\\i\\()\\i.\\i.SUGGESTED",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "\"questify\""
+                    }
                 }
             ],
             "range": [
                 {
-                    "line": 1521,
+                    "line": 1710,
                     "character": 12
                 },
                 {
-                    "line": 1549,
+                    "line": 1732,
                     "character": 13
                 }
             ],
-            "origIndex": 20
+            "origIndex": 21
         },
         {
             "findType": "string",
-            "find": ",{rewardWithArticleHook:()",
+            "find": ".QUEST_HOME_TILE_HEADER_WATCH_VIDEO})},",
             "replacement": [
                 {
                     "match": {
@@ -15028,15 +15114,15 @@
             ],
             "range": [
                 {
-                    "line": 1555,
+                    "line": 1738,
                     "character": 12
                 },
                 {
-                    "line": 1559,
+                    "line": 1742,
                     "character": 13
                 }
             ],
-            "origIndex": 21
+            "origIndex": 22
         },
         {
             "findType": "string",
@@ -15052,7 +15138,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1!$self.processQuestForAutoComplete(arguments[0].quest)&&$2"
+                        "value": "$1!$self.processQuestForAutoComplete(arguments[0].quest,true)&&$2"
                     }
                 },
                 {
@@ -15065,7 +15151,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$self.getQuestUnacceptedButtonText(arguments[0].quest)??$1const startingAutoComplete=arguments[0].isVideoQuest?false:$self.processQuestForAutoComplete(arguments[0].quest);"
+                        "value": "$self.getQuestUnacceptedButtonText(arguments[0].quest)??$1const startingAutoComplete=arguments[0].isVideoQuest?false:$self.processQuestForAutoComplete(arguments[0].quest,true);"
                     }
                 },
                 {
@@ -15123,19 +15209,19 @@
             ],
             "range": [
                 {
-                    "line": 1565,
+                    "line": 1748,
                     "character": 12
                 },
                 {
-                    "line": 1600,
+                    "line": 1783,
                     "character": 13
                 }
             ],
-            "origIndex": 22
+            "origIndex": 23
         },
         {
             "findType": "string",
-            "find": "\"primary\",preClickCallback:",
+            "find": "WATCH_VIDEO?async()=>{await",
             "replacement": [
                 {
                     "match": {
@@ -15147,7 +15233,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "const questifyText=$self.getQuestUnacceptedButtonText(arguments[0].quest);"
+                        "value": "const questifyText=$self.getQuestUnacceptedButtonText(arguments[0].quest)??$self.getQuestAcceptedButtonText(arguments[0].quest);"
                     }
                 },
                 {
@@ -15160,7 +15246,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "!$self.processQuestForAutoComplete(arguments[0].quest)&&($1)"
+                        "value": "!$self.processQuestForAutoComplete(arguments[0].quest,true)&&($1)"
                     }
                 },
                 {
@@ -15179,19 +15265,75 @@
             ],
             "range": [
                 {
-                    "line": 1604,
+                    "line": 1787,
                     "character": 12
                 },
                 {
-                    "line": 1618,
+                    "line": 1801,
                     "character": 13
                 }
             ],
-            "origIndex": 23
+            "origIndex": 24
         },
         {
             "findType": "string",
-            "find": "CAPTCHA_FAILED:",
+            "find": ".ACCEPT_QUEST),",
+            "replacement": [
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?=let{quest:)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "const questifyText=$self.getQuestUnacceptedButtonText(arguments[0].quest)??$self.getQuestAcceptedButtonText(arguments[0].quest);"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=,text:)(\\i)",
+                            "flags": "g"
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "questifyText??$1"
+                    }
+                },
+                {
+                    "match": {
+                        "type": "regex",
+                        "value": {
+                            "pattern": "(?<=\"primary\",onClick:)(\\i)",
+                            "flags": ""
+                        }
+                    },
+                    "replace": {
+                        "type": "string",
+                        "value": "()=>{!$self.processQuestForAutoComplete(arguments[0].quest,true)&&$1}"
+                    }
+                }
+            ],
+            "range": [
+                {
+                    "line": 1805,
+                    "character": 12
+                },
+                {
+                    "line": 1819,
+                    "character": 13
+                }
+            ],
+            "origIndex": 25
+        },
+        {
+            "findType": "string",
+            "find": "questContentRowIndex});",
             "replacement": [
                 {
                     "match": {
@@ -15209,15 +15351,15 @@
             ],
             "range": [
                 {
-                    "line": 1622,
+                    "line": 1823,
                     "character": 12
                 },
                 {
-                    "line": 1626,
+                    "line": 1827,
                     "character": 13
                 }
             ],
-            "origIndex": 24
+            "origIndex": 26
         },
         {
             "findType": "string",
@@ -15233,7 +15375,7 @@
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$1(platform)=>{$self.processQuestForAutoComplete(arguments[0].quest),$2(platform)}$3"
+                        "value": "$1(platform)=>{$self.processQuestForAutoComplete(arguments[0].quest,true),$2(platform)}$3"
                     }
                 },
                 {
@@ -15265,15 +15407,15 @@
             ],
             "range": [
                 {
-                    "line": 1631,
+                    "line": 1832,
                     "character": 12
                 },
                 {
-                    "line": 1653,
+                    "line": 1854,
                     "character": 13
                 }
             ],
-            "origIndex": 25
+            "origIndex": 27
         },
         {
             "findType": "string",
@@ -15295,15 +15437,15 @@
             ],
             "range": [
                 {
-                    "line": 1659,
+                    "line": 1860,
                     "character": 12
                 },
                 {
-                    "line": 1663,
+                    "line": 1864,
                     "character": 13
                 }
             ],
-            "origIndex": 26
+            "origIndex": 28
         }
     ],
     "QuestionMarkReplacement": [],
@@ -15591,79 +15733,18 @@
             ],
             "range": [
                 {
-                    "line": 111,
+                    "line": 110,
                     "character": 12
                 },
                 {
-                    "line": 115,
+                    "line": 114,
                     "character": 13
                 }
             ],
             "origIndex": 0
         }
     ],
-    "ReviewDB": [
-        {
-            "findType": "string",
-            "find": ".POPOUT,user:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "children:\\[(?=[^[]+?shouldShowTooltip:)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&$self.BiteSizeReviewsButton({user:arguments[0].user}),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 82,
-                    "character": 12
-                },
-                {
-                    "line": 86,
-                    "character": 13
-                }
-            ],
-            "origIndex": 0
-        },
-        {
-            "findType": "string",
-            "find": ".SIDEBAR,disableToolbar:",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "children:\\[(?=[^[]+?\\.SIDEBAR}\\),\\i\\.bot)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&$self.BiteSizeReviewsButton({user:arguments[0].user}),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 89,
-                    "character": 12
-                },
-                {
-                    "line": 93,
-                    "character": 13
-                }
-            ],
-            "origIndex": 1
-        }
-    ],
+    "ReviewDB": [],
     "RichMagnetLinks": [
         {
             "findType": "string",
@@ -15885,7 +15966,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "tag:\"strong\",variant:\"text-md\\/(?:medium|normal)\"(?<=onContextMenu:.{0,15}\\((\\i),(\\i),\\i\\).+?)",
+                            "pattern": "tag:\"strong\",variant:\"text-md\\/medium\"(?<=onContextMenu:.{0,15}\\((\\i),(\\i),\\i\\).+?)",
                             "flags": ""
                         }
                     },
@@ -15901,7 +15982,7 @@
                     "character": 12
                 },
                 {
-                    "line": 155,
+                    "line": 154,
                     "character": 57
                 }
             ],
@@ -15927,11 +16008,11 @@
             ],
             "range": [
                 {
-                    "line": 159,
+                    "line": 158,
                     "character": 12
                 },
                 {
-                    "line": 164,
+                    "line": 163,
                     "character": 55
                 }
             ],
@@ -15957,11 +16038,11 @@
             ],
             "range": [
                 {
-                    "line": 168,
+                    "line": 167,
                     "character": 12
                 },
                 {
-                    "line": 173,
+                    "line": 172,
                     "character": 61
                 }
             ],
@@ -16224,19 +16305,6 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\"text-xs\\/normal\".{0,300}?\\[\\(0,\\i\\.jsxs?\\)\\((.{1,10}),(\\{[^{}}]+\\{.{0,20}className:\\i.\\i,.+?\\})\\),\" \"",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(m, component, props) => {\n    props = props.replace(/children:\\[.+\\]/, \"\");\n    return `${m},$self.makeInfoElements(${component},${props})`;\n};\n"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
                             "pattern": "copyValue:\\i\\.join\\(\" \"\\)",
                             "flags": "g"
                         }
@@ -16249,11 +16317,11 @@
             ],
             "range": [
                 {
-                    "line": 135,
+                    "line": 123,
                     "character": 12
                 },
                 {
-                    "line": 159,
+                    "line": 140,
                     "character": 13
                 }
             ],
@@ -16279,45 +16347,15 @@
             ],
             "range": [
                 {
-                    "line": 162,
+                    "line": 143,
                     "character": 12
                 },
                 {
-                    "line": 166,
+                    "line": 147,
                     "character": 13
                 }
             ],
             "origIndex": 1
-        },
-        {
-            "findType": "string",
-            "find": "getWebUserSettingFromSection",
-            "replacement": [
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "new Map\\(\\[(?=\\[.{0,10}\\.ACCOUNT,.{0,10}\\.ACCOUNT_PANEL)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "new Map([...$self.getSettingsSectionMappings(),"
-                    }
-                }
-            ],
-            "range": [
-                {
-                    "line": 169,
-                    "character": 12
-                },
-                {
-                    "line": 173,
-                    "character": 13
-                }
-            ],
-            "origIndex": 2
         }
     ],
     "ShikiCodeblocks": [
@@ -17696,11 +17734,11 @@
             ],
             "range": [
                 {
-                    "line": 59,
+                    "line": 58,
                     "character": 12
                 },
                 {
-                    "line": 64,
+                    "line": 63,
                     "character": 14
                 }
             ],
@@ -17726,11 +17764,11 @@
             ],
             "range": [
                 {
-                    "line": 67,
+                    "line": 66,
                     "character": 12
                 },
                 {
-                    "line": 72,
+                    "line": 71,
                     "character": 14
                 }
             ],
@@ -17756,11 +17794,11 @@
             ],
             "range": [
                 {
-                    "line": 75,
+                    "line": 74,
                     "character": 12
                 },
                 {
-                    "line": 80,
+                    "line": 79,
                     "character": 13
                 }
             ],
@@ -17786,11 +17824,11 @@
             ],
             "range": [
                 {
-                    "line": 84,
+                    "line": 83,
                     "character": 12
                 },
                 {
-                    "line": 89,
+                    "line": 88,
                     "character": 13
                 }
             ],
@@ -17816,11 +17854,11 @@
             ],
             "range": [
                 {
-                    "line": 93,
+                    "line": 92,
                     "character": 12
                 },
                 {
-                    "line": 98,
+                    "line": 97,
                     "character": 13
                 }
             ],
@@ -18468,13 +18506,13 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "channel_renderer\"\\);",
+                            "pattern": "if\\(null!=.{0,50}ROLE_SUBSCRIPTIONS",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "$&const pc_SidebarChat=$self.renderSidebar();"
+                        "value": "const pc_SidebarChat=$self.renderSidebar();$&"
                     }
                 },
                 {
@@ -18494,7 +18532,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(case \\i\\.\\i.+?return)(.+?);(?=.+?params\\.messageId)(?<=channel_renderer\".+?)",
+                            "pattern": "(case \\i\\.\\i.+?return)(.+?);(?=.+?params\\.messageId)(?<=guild_products\".+?)",
                             "flags": "g"
                         }
                     },
@@ -19008,11 +19046,11 @@
             ],
             "range": [
                 {
-                    "line": 71,
+                    "line": 70,
                     "character": 12
                 },
                 {
-                    "line": 75,
+                    "line": 74,
                     "character": 14
                 }
             ],
@@ -19098,19 +19136,6 @@
                         "type": "function",
                         "value": "\"use strict\";\n(_, rest, playingCount) => `${rest}!$self.shouldPlayBurstReaction(${playingCount})`;\n"
                     }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "((\\i)=5.+?)if\\((.{0,20}?)>=\\2\\)return;",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "function",
-                        "value": "\"use strict\";\n(_, rest, playingCount) => `${rest}if(!$self.shouldPlayBurstReaction(${playingCount}))return;`;\n"
-                    }
                 }
             ],
             "range": [
@@ -19119,7 +19144,7 @@
                     "character": 12
                 },
                 {
-                    "line": 60,
+                    "line": 54,
                     "character": 13
                 }
             ],
@@ -19145,11 +19170,11 @@
             ],
             "range": [
                 {
-                    "line": 63,
+                    "line": 57,
                     "character": 12
                 },
                 {
-                    "line": 67,
+                    "line": 61,
                     "character": 13
                 }
             ],
@@ -19209,11 +19234,11 @@
             ],
             "range": [
                 {
-                    "line": 270,
+                    "line": 316,
                     "character": 12
                 },
                 {
-                    "line": 274,
+                    "line": 320,
                     "character": 13
                 }
             ],
@@ -19375,7 +19400,7 @@
         },
         {
             "findType": "string",
-            "find": "\"Message Username\"",
+            "find": "#{intl::GUILD_COMMUNICATION_DISABLED_ICON_TOOLTIP_BODY}",
             "replacement": [
                 {
                     "match": {
@@ -19698,7 +19723,7 @@
     "UnlimitedAccounts": [
         {
             "findType": "string",
-            "find": "pushSyncToken:null",
+            "find": "pushSyncToken:null}),",
             "replacement": [
                 {
                     "match": {
@@ -19760,21 +19785,8 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "(\\i.length<)5",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$1$self.getMaxAccounts()"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
-                            "pattern": "(\\i.length>=)5",
-                            "flags": ""
+                            "pattern": "(\\i.length(<|>=))5",
+                            "flags": "g"
                         }
                     },
                     "replace": {
@@ -19789,7 +19801,7 @@
                     "character": 12
                 },
                 {
-                    "line": 69,
+                    "line": 65,
                     "character": 13
                 }
             ],
@@ -19833,7 +19845,7 @@
     "UserAreaAPI": [
         {
             "findType": "string",
-            "find": ".DISPLAY_NAME_STYLES_COACHMARK),",
+            "find": ".DISPLAY_NAME_STYLES_COACHMARK)",
             "replacement": [
                 {
                     "match": {
@@ -20066,19 +20078,6 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "constructor\\(\\)\\{\\i\\(this,\"_channelCaches\",new Map\\)",
-                            "flags": ""
-                        }
-                    },
-                    "replace": {
-                        "type": "string",
-                        "value": "$&;$self.setReplyStore(this);"
-                    }
-                },
-                {
-                    "match": {
-                        "type": "regex",
-                        "value": {
                             "pattern": "_channelCaches=new Map;",
                             "flags": ""
                         }
@@ -20095,7 +20094,7 @@
                     "character": 12
                 },
                 {
-                    "line": 60,
+                    "line": 55,
                     "character": 13
                 }
             ],
@@ -20123,11 +20122,11 @@
             ],
             "range": [
                 {
-                    "line": 183,
+                    "line": 182,
                     "character": 12
                 },
                 {
-                    "line": 189,
+                    "line": 188,
                     "character": 13
                 }
             ],
@@ -20153,11 +20152,11 @@
             ],
             "range": [
                 {
-                    "line": 192,
+                    "line": 191,
                     "character": 12
                 },
                 {
-                    "line": 196,
+                    "line": 195,
                     "character": 13
                 }
             ],
@@ -20186,11 +20185,11 @@
             ],
             "range": [
                 {
-                    "line": 201,
+                    "line": 200,
                     "character": 12
                 },
                 {
-                    "line": 205,
+                    "line": 204,
                     "character": 13
                 }
             ],
@@ -20216,11 +20215,11 @@
             ],
             "range": [
                 {
-                    "line": 209,
+                    "line": 208,
                     "character": 12
                 },
                 {
-                    "line": 213,
+                    "line": 212,
                     "character": 13
                 }
             ],
@@ -20246,11 +20245,11 @@
             ],
             "range": [
                 {
-                    "line": 217,
+                    "line": 216,
                     "character": 12
                 },
                 {
-                    "line": 222,
+                    "line": 221,
                     "character": 13
                 }
             ],
@@ -20276,11 +20275,11 @@
             ],
             "range": [
                 {
-                    "line": 226,
+                    "line": 225,
                     "character": 12
                 },
                 {
-                    "line": 230,
+                    "line": 229,
                     "character": 13
                 }
             ],
@@ -20306,11 +20305,11 @@
             ],
             "range": [
                 {
-                    "line": 234,
+                    "line": 233,
                     "character": 12
                 },
                 {
-                    "line": 238,
+                    "line": 237,
                     "character": 13
                 }
             ],
@@ -20327,7 +20326,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\\[\\i\\.\\i\\]:\\i\\}\\),children:\\[",
+                            "pattern": "\\}\\),children:\\[(?=.{0,200}\\.VOICE_CHANNEL_GAME_ACTIVITY_INDICATOR_VIEWED)",
                             "flags": ""
                         }
                     },
@@ -21294,23 +21293,23 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "jsx\\)\\((\\i\\.\\i),{mask:",
+                            "pattern": "\\((\\i\\.\\i)(?=,{mask:\\i\\.\\i\\.Masks\\.STATUS_SCREENSHARE)",
                             "flags": ""
                         }
                     },
                     "replace": {
                         "type": "string",
-                        "value": "jsx)($self.component({OriginalComponent:$1}),{mask:"
+                        "value": "($self.component({OriginalComponent:$1})"
                     }
                 }
             ],
             "range": [
                 {
-                    "line": 83,
+                    "line": 92,
                     "character": 12
                 },
                 {
-                    "line": 87,
+                    "line": 96,
                     "character": 13
                 }
             ],
@@ -21324,7 +21323,7 @@
                     "match": {
                         "type": "regex",
                         "value": {
-                            "pattern": "\"div\"(?=.{0,50}this.renderActions)",
+                            "pattern": "\"div\"(?=.{0,40}?,this.renderActions\\(\\))",
                             "flags": ""
                         }
                     },
@@ -21336,11 +21335,11 @@
             ],
             "range": [
                 {
-                    "line": 90,
+                    "line": 99,
                     "character": 12
                 },
                 {
-                    "line": 94,
+                    "line": 103,
                     "character": 13
                 }
             ],

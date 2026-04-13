@@ -247,6 +247,7 @@ exports[`PlexcordAstParser > getPluginName > parses all plugin names correctly 1
   "PlexcordToolbox",
   "PolishWording",
   "PreviewMessage",
+  "ProfileCollectionsAPI",
   "ProfileSets",
   "Questify",
   "QuestionMarkReplacement",
