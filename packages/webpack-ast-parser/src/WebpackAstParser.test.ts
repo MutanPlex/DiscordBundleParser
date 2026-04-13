@@ -552,25 +552,25 @@ describe("WebpackAstParser", function () {
     describe("hover text parsing", function () {
         it("finds hover text 1", function () {
             const parser = new WebpackAstParser(getFile("webpack/stores/store1.js"));
-            const hover = parser.findHoverText(["Z"]);
+            const hover = parser.getHoverText(["Z"]);
 
             expect(hover).to.equal("EnablePublicGuildUpsellNoticeStore");
         });
         it("finds hover text 2", function () {
             const parser = new WebpackAstParser(getFile("webpack/stores/store2.js"));
-            const hover = parser.findHoverText(["default"]);
+            const hover = parser.getHoverText(["default"]);
 
             expect(hover).to.equal("UserStore");
         });
         it("finds hover text 3", function () {
             const parser = new WebpackAstParser(getFile("webpack/stores/store3.js"));
-            const hover = parser.findHoverText(["Z"]);
+            const hover = parser.getHoverText(["Z"]);
 
             expect(hover).to.equal("GuildStore");
         });
         it("finds hover text 4", function () {
             const parser = new WebpackAstParser(getFile("webpack/stores/getter.js"));
-            const hover = parser.findHoverText(["Z"]);
+            const hover = parser.getHoverText(["Z"]);
 
             expect(hover).to.equal("SoundboardOverlayStore");
         });
@@ -658,7 +658,7 @@ describe("WebpackAstParser", function () {
                     return fullPath && relative(__dirname, fullPath)
                         .replaceAll("\\", "/");
                 },
-                getModuleParser(requestor, id, _latest) {
+                getModuleParser(_requestor, id, _latest) {
                     if (!modulesOnDisk[String(id)]) {
                         throw new Error(`Module ${id} not found on disk`);
                     }
@@ -701,11 +701,15 @@ describe("WebpackAstParser", function () {
         });
 
         function makeLineRange(file: string | number, y1, x1: number, len = 1) {
+            const moduleId = file;
+
             file = `${file}.js`;
+
             return {
                 locationType: "file_path",
                 filePath: posix.join("__test__", ".modules", file),
                 range: new Range(y1, x1, y1, x1 + len),
+                moduleId: String(moduleId),
             } satisfies Reference;
         }
         describe("re-export handling", function () {
@@ -948,6 +952,12 @@ describe("WebpackAstParser", function () {
                     .toMatchSnapshot();
                 expect(hover2)
                     .toMatchSnapshot();
+            });
+            describe("for entire module", () => {
+                it.todo("works 1", async () => {
+                    // const parser = new WebpackAstParser(getFile(".modules/111111.js"));
+                    // const hover = await parser.generateAllHoverText();
+                });
             });
         });
     });
