@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`PlexcordAstParser > getPluginName > parses all plugin names correctly 1`] = `
-[
+[ 
   "AccountPanelServerProfile",
   "AltKrispSwitch",
   "AlwaysAnimate",
