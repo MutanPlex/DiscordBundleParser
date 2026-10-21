@@ -70,13 +70,12 @@ function waitForProcess(process: ChildProcess): Promise<void> {
 }
 
 async function ensurePlexcordDownloaded() {
-    if (await exists(PLEXCORD_DIR) && await isDirectory(PLEXCORD_DIR)) {
-        return;
+    if (!(await exists(PLEXCORD_DIR) && await isDirectory(PLEXCORD_DIR))) {
+        await waitForProcess(exec(`git clone https://github.com/MutanPlex/Plexcord.git ${PLEXCORD_DIR}`));
     }
 
-
-    await waitForProcess(exec(`git clone https://github.com/MutanPlex/Plexcord.git ${PLEXCORD_DIR}`));
-    await waitForProcess(exec(`git checkout --detach ${PLEXCORD_REV}`, {
+    // always checkout, so a cached clone can't silently test against an old PLEXCORD_REV
+    await waitForProcess(exec(`git checkout --detach ${PLEXCORD_REV} || (git fetch origin && git checkout --detach ${PLEXCORD_REV})`, {
         cwd: PLEXCORD_DIR,
     }));
 }
